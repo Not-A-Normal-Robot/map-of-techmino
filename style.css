@@ -39,14 +39,6 @@ nav.navbar{
     border-bottom: 1px solid gray;
     font-size: 20px;
 }
-a.navlink{
-    background-color: transparent;
-    color: lime;
-    padding: 3px;
-    border-radius: 5px;
-    transition: 200ms;
-}
-a.navlink:hover{ background-color: rgba(0,255,0,0.3) }
 
 /* -------- Content -------- */
 .inner{
@@ -70,8 +62,6 @@ p{
 }
 
 a{
-    font-size: 20px;
-    font-style: normal;
     background-color: transparent;
     color: lime;
     padding: 3px;
@@ -79,7 +69,6 @@ a{
     transition: 200ms;
 }
 a:hover{ background-color: rgba(0,255,0,0.3) }
-
 a.return-404{
     font-size: 40px;
     background-color: transparent;
@@ -89,3 +78,9 @@ a.return-404{
     transition: 200ms;
 }
 a:hover{ background-color: rgba(0,255,0,0.3) }
+
+section.map{
+    height: 700px;
+    padding: 0 50px;
+    border: 1px solid white;
+}
