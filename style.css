@@ -79,8 +79,8 @@ a.return-404{
 }
 a:hover{ background-color: rgba(0,255,0,0.3) }
 
-section.map{
+canvas#map{
+    width: 100%;
     height: 700px;
-    padding: 0 50px;
     border: 1px solid white;
 }

@@ -1,9 +1,8 @@
-const canvas = document.getElementById("bg");
+const bgCanvas = document.getElementById("bg");
+const bgContext = bgCanvas.getContext("2d");
 
-const context = canvas.getContext("2d");
-
-let width  = canvas.offsetWidth;
-let height = canvas.offsetHeight;
+let width  = bgCanvas.offsetWidth;
+let height = bgCanvas.offsetHeight;
 
 let lastTimestamp = performance.now();
 let stars = [];
@@ -11,6 +10,12 @@ let stars = [];
 function random(min, max){ return Math.random() * (min - max) + max }
 
 function resize(){
+    width = bgCanvas.offsetWidth;
+    height = bgCanvas.offsetHeight;
+
+    bgCanvas.width = width;
+    bgCanvas.height = height;
+
     let starCount = Math.floor(width * height * 6e-4)
     stars = new Array(starCount);
 
@@ -30,15 +35,7 @@ function draw(timestamp){
     let dt = timestamp - lastTimestamp;
     lastTimestamp = timestamp;
 
-    // check resize
-    if(width !== canvas.offsetWidth || height !== canvas.offsetHeight || isNaN(stars[1].x)){
-        width = canvas.offsetWidth;
-        height = canvas.offsetHeight;
-
-        canvas.width = width;
-        canvas.height = height;
-        resize();
-    }
+    if(width !== bgCanvas.offsetWidth || height !== bgCanvas.offsetHeight) resize();
 
     // move stars
     for (let i = 0; i < stars.length; i++) {
@@ -48,14 +45,14 @@ function draw(timestamp){
     }
 
     // draw stars
-    context.clearRect(0, 0, width, height);
-    context.fillStyle = "#FFFFFFAF"
+    bgContext.clearRect(0, 0, width, height);
+    bgContext.fillStyle = "#FFFFFFAF"
     for (let i = 0; i < stars.length; i++) {
         const star = stars[i];
-        context.fillRect(star.x, star.y, star.size, star.size);
+        bgContext.fillRect(star.x, star.y, star.size, star.size);
     }
     requestAnimationFrame(draw);
 }
 
 resize();
-draw();
+draw(performance.now());
