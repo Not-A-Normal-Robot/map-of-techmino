@@ -40,7 +40,11 @@ function drawMap(timestamp){
     let dt = timestamp - prevTimestamp;
     prevTimestamp = timestamp;
 
-    mapContext.scale()
+    mapCanvas.width = mapCanvas.offsetWidth;
+    mapCanvas.height = mapCanvas.offsetHeight;
+
+    mapContext.translate(camX, camY);
+    mapContext.scale(camZoom, camZoom);
     for (let i = 0; i < map.length; i++) {
         const node = map[i];
         

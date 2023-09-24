@@ -25,8 +25,8 @@ function resize(){
             size: size,
             x: random(-10, width + 10),
             y: random(-10, height + 10),
-            dx: random(-0.005, 0.005) * size,
-            dy: random(-0.005, 0.005) * size
+            dx: random(-0.001, 0.001) * size,
+            dy: random(-0.001, 0.001) * size
         }
     }
 }
@@ -40,8 +40,10 @@ function draw(timestamp){
     // move stars
     for (let i = 0; i < stars.length; i++) {
         const star = stars[i];
-        star.x += (star.dx * dt / 10) % (width  + 10)
-        star.y += (star.dy * dt / 10) % (height + 10)
+        star.x += (star.dx * dt)
+        star.y += (star.dy * dt)
+        star.x %= width  + 10
+        star.y %= height + 10
     }
 
     // draw stars
