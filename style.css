@@ -24,13 +24,23 @@ canvas#bg{
 /* -------- Header -------- */
 header{
     background-color: darkslateblue;
-    padding: 5px 20px;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
-h1.header{
-    font-size:40px;
-    margin-bottom: 0px;
+header > h1{
+    font-size: 1.5rem;
 }
-h4.header{ margin-top: 10px }
+header a {
+    color: white;
+    text-decoration: none;
+}
+header div.bg-toggle{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
 /* -------- Navbar -------- */
 nav.navbar{
@@ -47,38 +57,94 @@ nav.navbar{
     border: 1px solid white;
 }
 .title{ text-align: center }
-.title-large{
-    text-align: center;
-    font-size: 50px;
-    margin-bottom: 50px;
-}
 
 section.content{
     padding: 0 50px 50px;
 }
 p{
     text-wrap: wrap;
-    font-size: 20px;
 }
 
-a{
+a {
     background-color: transparent;
     color: lime;
     padding: 3px;
     border-radius: 5px;
     transition: 200ms;
 }
-a:hover{ background-color: rgba(0,255,0,0.3) }
-a.return-404{
-    font-size: 40px;
-    background-color: transparent;
+a:not(header a):hover
+{
+    background-color: rgba(0,255,0,0.3)
+}
+
+/* -------- FAQ -------- */
+.question {
+    border: 1px solid lime;
+    border-radius: 0.4rem;
+    transition: 200ms;
+    margin-bottom: 1rem;
+}
+.question-header {
+    width: 100%;
+    height: min-content;
+    padding: 0.5rem 1rem;
+    background-color: rgba(0,100,0,0.5);
+    border: 0 none transparent;
     color: lime;
-    padding: 10px;
-    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+}
+.expanded .question-header {
+    border-bottom: 1px solid lime;
+}
+.question-icon-container {
+    flex-shrink: 0;
+    padding: 0.5rem;
+    margin-right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    align-self: center;
+    background-color: rgba(0,200,0,0.4);
+    border: 1px solid lime;
+    border-radius: 0.2rem;
+}
+.question-icon {
     transition: 200ms;
 }
-a:hover{ background-color: rgba(0,255,0,0.3) }
+.expanded .question-icon {
+    transform: rotate(180deg);
+}
+.question-title {
+    font-size: 1.25rem;
+    flex-grow: 1;
+    text-align: left;
+}
 
+.answer {
+    font-size: 1.25rem;
+    padding: 0.5rem 1rem;
+    background-color: rgba(0,100,0,0.15);
+    border: 0 none transparent;
+    color: white;
+    display: none;
+}
+.expanded .answer {
+    display: block;
+}
+.expanded .answer img {
+    max-width: 100%;
+    height: auto;
+    margin: 0.5rem 0;
+}
+
+.answer-source {
+    font-size: 1rem;
+    text-align: right;
+    color: rgba(255,255,255,0.9);
+}
+
+/* -------- Map -------- */
 canvas#map{
     width: 100%;
     height: 700px;

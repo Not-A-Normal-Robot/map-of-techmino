@@ -1,6 +1,22 @@
 const bgCanvas = document.getElementById("bg");
 const bgContext = bgCanvas.getContext("2d");
 
+let bgEnabled = localStorage.getItem('bgEnabled');
+if(bgEnabled === null) {
+    bgEnabled = "true";
+    localStorage.setItem('bgEnabled', bgEnabled);
+}
+bgEnabled = bgEnabled === "true";
+
+const bgToggle = document.getElementById("bg-toggle");
+if(bgToggle !== null) {
+    bgToggle.checked = bgEnabled;
+    bgToggle.addEventListener('change', () => {
+        bgEnabled = bgToggle.checked;
+        localStorage.setItem('bgEnabled', bgEnabled);
+    });
+}
+
 let width  = bgCanvas.offsetWidth;
 let height = bgCanvas.offsetHeight;
 
@@ -37,6 +53,12 @@ function draw(timestamp){
 
     if(width !== bgCanvas.offsetWidth || height !== bgCanvas.offsetHeight) resize();
 
+    bgContext.clearRect(0, 0, width, height);
+
+    if(!bgEnabled) {
+        return requestAnimationFrame(draw);
+    }
+    
     // move stars
     for (let i = 0; i < stars.length; i++) {
         const star = stars[i];
@@ -47,7 +69,6 @@ function draw(timestamp){
     }
 
     // draw stars
-    bgContext.clearRect(0, 0, width, height);
     bgContext.fillStyle = "#FFFFFFAF"
     for (let i = 0; i < stars.length; i++) {
         const star = stars[i];
