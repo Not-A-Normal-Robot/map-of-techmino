@@ -15,7 +15,6 @@ if(faqSection === undefined){
 
 function addFAQEntries(faqObject) {
     faqObject.forEach(entry => {
-        console.debug("Adding FAQ entry: ", entry.question); // DEBUG
         faqSection.innerHTML += faqHTML(entry);
     });
 
