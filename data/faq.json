@@ -98,9 +98,9 @@
         "author": "User670 (edited by NOT_A_ROBOT)"
     },
     {
-        "question": "What are the voice packs' languages?",
+        "question": "Who are the voice actors for the voice packs? What are the voice languages?",
         "answerHTML":
-            "<ul><li><b>Miya</b>: Japanese (Tetris terms), English (others)</li><li><b>Mono</b>: English (Tetris terms), Japanese (others)</li><li><b>Xiaoya</b>: English (Tetris terms), Mandarin Chinese (others)</li><li><b>Flore</b>: (I don't play with voices enabled, can someone check this?)</li><li><b>Miku</b>: Japanese</li><li><b>Zundamon</b>: Japanese</li></ul>",
+            "<ul><li><a href=\"https://space.bilibili.com/846180\">Miya</a> is a virtual live streamer who used to play a lot of block stacking games. Voice language: Japanese (line clears); Japanese, Chinese and Cat (others)</li><li>Mono is an artist, however her online profile had been wiped clean. Voice language: Japanese</li><li>Xiaoya is a fellow block stacker player. She introduces herself as \"Xia Xiaoya, a brand new type of duck.\" Voice language: English (line clears); Chinese (others)</li><li><a href=\"https://space.bilibili.com/1223403016\">flore</a> is a fellow block stacker player, featured in <a href=\"https://github.com/User670/temp/blob/master/those_who_play_tetris.md\">this article</a>. Voice language: English (line clears), various languages (others)</li><li><a href=\"https://en.wikipedia.org/wiki/Hatsune_Miku\">Miku</a> is a voice bank for the Japanese voice synthesizer Vocaloid. Voice language: Japanese</li><li><a href=\"https://vocalsynth.fandom.com/wiki/Zundamon\">Zundamon</a> is a voice bank for various voice synthesizer programs. Voice language: Japanese</li></ul><p>While MrZ does not have a voice pack, there used to be a \"Welcome to Tech\" voice clip that was recorded by MrZ himself.</p>",
         "author": "User670 (edited by NOT_A_ROBOT)"
     },
     {
@@ -151,13 +151,13 @@
         "author": "C29H25N3O5"
     },
     {
-        "question": "Why can I only access Sprint and Marathon from the Main Menu? (simplistic mode)",
+        "question": "My main menu only has big buttons for Sprint and Marathon. (simplistic mode)",
         "answerHTML":
             "<p>You probably have enabled “Simplistic Mode.” In this mode, only a few essentials modes and functions are available. Simply go to the settings and uncheck the “Simplistic Mode” to fix it.</p>",
         "author": "C29H25N3O5"
     },
     {
-        "question": "What do the 󰀕 icons mean?",
+        "question": "I see an icon that is like the \"thinking\" emoji, but with a Z tetromino. What is this?",
         "answerHTML":
             "<p>It means “Tetris”! Due to possible risk of receiving DMCAs from TTC, we have decided to replace all instances of the word “Tetris” in the game with 󰀕.</p>",
         "author": "C29H25N3O5 (edited by NOT_A_ROBOT)"
@@ -171,7 +171,7 @@
     {
         "question": "How can I play Techmino: Galaxy (the remake)?",
         "answerHTML":
-            "<p>Do understand that Galaxy is still rather early in development, and does not necessarily give the best experience.</p><p>The easiest way to obtain Techmino: Galaxy is through GitHub Actions.<br>(note: you need a GitHub account to download artifacts in GitHub Actions.)</p><ul><li>Go to <a href=\"https://github.com/26F-Studio/Techmino_Galaxy/actions\">https://github.com/26F-Studio/Techmino_Galaxy/actions</a></li><li>Select one workflow run from the list. A green tick mark means this run has successfully built all versions without errors. A red cross means there were some errors, but doesn't necessarily mean your version wasn't built successfully.</li><li>Scroll down to \"Artifacts\" and download your desired platform's version, or scroll further down to \"Post-build summary\" for links to mirrors to download from.</li></ul><p>Alternatively, obtain the source code and Love2D binary separately, and use the Love2D binary to open the source code. To do this, follow these instructions:</p><ol><li><a href=\"https://love2d.org/\">Get the latest version of LÖVE</a>.</li><li>Download the repo from GitHub (or just run a quick <code>git clone https://github.com/26F-Studio/Techmino_Galaxy.git</code> if you have Git installed).</li><li>Check if the Zenitha folder is empty. If it is, clone <a href=\"https://github.com/26F-Studio/Zenitha\">Zenitha</a> and put everything inside the folder into Zenitha in Techmino_Galaxy.</li><li>Drag and drop the entire Techmino_Galaxy folder onto love.exe (or love.app, depending on your OS)</li></ol><p>Note: MrZ does not recommend talking about Techmino: Galaxy's contents, especially things that can still change a lot, in public places. Unless you have otherwise a good reason, might as well respect his recommendation. Thank you!</p>",
+            "<p>Do understand that Galaxy is still rather early in development, and does not necessarily give the best experience.</p><p>The easiest way to obtain Techmino: Galaxy is through GitHub Actions.<br>(note: you need a GitHub account to download artifacts in GitHub Actions.)</p><ul><li>Go to <a href=\"https://github.com/26F-Studio/Techmino_Galaxy/actions\">https://github.com/26F-Studio/Techmino_Galaxy/actions</a></li><li>Select one workflow run from the list. A green tick mark means this run has successfully built all versions without errors. A red cross means there were some errors, but doesn't necessarily mean your version wasn't built successfully.</li><li>Scroll down to \"Artifacts\" and download your desired platform's version, or scroll further down to \"Post-build summary\" for links to mirrors to download from.</li></ul><p>Alternatively, obtain the source code and Love2D binary separately, and use the Love2D binary to open the source code. To do this, follow these instructions:</p><ol><li><a href=\"https://love2d.org/\">Get the latest version of LÖVE</a>.</li><li>Download the repo from GitHub (or just run a quick <code>git clone https://github.com/26F-Studio/Techmino_Galaxy.git</code> if you have Git installed).</li><li>Check if the Zenitha folder is empty. If it is, clone <a href=\"https://github.com/26F-Studio/Zenitha\">Zenitha</a> and put everything inside the folder into Zenitha in Techmino_Galaxy.</li><li>Drag and drop the entire Techmino_Galaxy folder onto love.exe (or love.app, depending on your OS)</li></ol><p>Also, if you often update the game, consider following <a href=\"https://github.com/26F-Studio/Techmino_Galaxy/discussions/26\">this guide made by SweetSea</a>.</p><p>Note: MrZ does not recommend talking about Techmino: Galaxy's contents, especially things that can still change a lot, in public places. Unless you have otherwise a good reason, might as well respect his recommendation. Thank you!</p>",
         "author": "C29H25N3O5 (edited by NOT_A_ROBOT)"
     },
     {
