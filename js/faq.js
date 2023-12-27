@@ -12,6 +12,31 @@ if(faqSection === undefined){
           } else { addFAQEntries(faqObject); }
       });
 }
+const faqLastUpdatedElement = document.getElementById('last-updated');
+if(faqLastUpdatedElement !== undefined) {
+    // fetch github api to get date of last edit of faq.json
+    fetch('https://api.github.com/repos/techmino-hub/techmino-hub.github.io/commits?path=data/faq.json')
+      .then(response => response.json())
+    .then(json => {
+        const lastUpdated = new Date(json[0].commit.committer.date);
+        const currentDate = new Date();
+        const timeDifference = currentDate - lastUpdated;
+        let formattedDate;
+
+        if (timeDifference < 60 * 60 * 1000) {
+            const minutes = Math.floor(timeDifference / (60 * 1000));
+            formattedDate = `Last updated: ${minutes} minutes ago`;
+        } else if (timeDifference < 24 * 60 * 60 * 1000) {
+            const hours = Math.floor(timeDifference / (60 * 60 * 1000));
+            formattedDate = `Last updated: ${hours} hours ago`;
+        } else {
+            const days = Math.floor(timeDifference / (24 * 60 * 60 * 1000));
+            formattedDate = `Last updated: ${days} days ago`;
+        }
+
+        faqLastUpdatedElement.innerText = formattedDate;
+    });
+}
 
 function addFAQEntries(faqObject) {
     faqObject.forEach(entry => {
