@@ -15,7 +15,7 @@ jobs:
 
       - name: Generate FAQ HTML
         run: |
-          python .github/generate_faq_html.py
+          python .github/scripts/generate_faq_html.py
 
       - name: Commit updated FAQ HTML
         run: |
