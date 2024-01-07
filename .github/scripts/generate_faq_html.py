@@ -19,7 +19,7 @@ def faq_html(entry):
             <h2 class="question-title">{entry['question']}</h2>
         </button>
         <div class="answer">
-            {entry['answer']}
+            {entry['answerHTML']}
             <div class="answer-source">— {entry['answer']}</div>
         </div>
     </div>
