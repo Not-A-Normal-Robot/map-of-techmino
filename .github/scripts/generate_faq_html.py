@@ -1,7 +1,7 @@
 import json
 
 # Constants
-faq_json_location = "data/faq.json"
+faq_json_location = "faq.json"
 faq_html_template_location = "data/faq.html.template"
 template_insertion_location = "<INSERT_QUESTIONS>"
 
@@ -34,4 +34,4 @@ for entry in faq:
 
 html_template = html_template.replace(template_insertion_location, text_to_insert)
 
-open("data/faq.html", "w").write(html_template)
+open("faq.html", "w").write(html_template)
