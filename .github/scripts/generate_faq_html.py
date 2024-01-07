@@ -7,10 +7,6 @@ faq_html_output_location = "faq.html"
 template_insertion_location = "<INSERT_QUESTIONS>"
 
 def faq_html(entry):
-    if not entry.get("question") or not entry.get("answer"):
-        return ""
-
-    author = entry.get("author", "Unknown")
     return f"""
     <div class="question">
         <button class="question-header">
@@ -23,7 +19,7 @@ def faq_html(entry):
         </button>
         <div class="answer">
             {entry['answer']}
-            <div class="answer-source">— {author}</div>
+            <div class="answer-source">— {entry['answer']}</div>
         </div>
     </div>
     """

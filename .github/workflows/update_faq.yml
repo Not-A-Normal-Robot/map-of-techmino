@@ -5,6 +5,9 @@ on:
     paths:
       - 'data/faq.json'
 
+permissions:
+  contents: write
+
 jobs:
   update-faq:
     runs-on: ubuntu-latest
