@@ -20,7 +20,7 @@ def faq_html(entry):
         </button>
         <div class="answer">
             {entry['answerHTML']}
-            <div class="answer-source">— {entry['answer']}</div>
+            <div class="answer-source">— {entry['author']}</div>
         </div>
     </div>
     """
