@@ -7,7 +7,6 @@ faq_html_output_location = "faq.html"
 template_insertion_location = "<INSERT_QUESTIONS>"
 
 def faq_html(entry):
-    print(entry) # DEBUG
     return f"""
     <div class="question">
         <button class="question-header">
