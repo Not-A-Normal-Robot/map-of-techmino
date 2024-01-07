@@ -1,13 +1,15 @@
 import json
 
 # Constants
-faq_json_location = "faq.json"
+faq_json_location = "data/faq.json"
 faq_html_template_location = "data/faq.html.template"
+faq_html_output_location = "faq.html"
 template_insertion_location = "<INSERT_QUESTIONS>"
 
 def faq_html(entry):
-    question = entry.get("question", "Question is null or undefined")
-    answer = entry.get("answerHTML", "Answer is null or undefined")
+    if not entry.get("question") or not entry.get("answer"):
+        return ""
+
     author = entry.get("author", "Unknown")
     return f"""
     <div class="question">
@@ -17,10 +19,10 @@ def faq_html(entry):
                     <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
                 </svg>
             </div>
-            <h2 class="question-title">{question}</h2>
+            <h2 class="question-title">{entry['question']}</h2>
         </button>
         <div class="answer">
-            {answer}
+            {entry['answer']}
             <div class="answer-source">— {author}</div>
         </div>
     </div>
@@ -34,4 +36,4 @@ for entry in faq:
 
 html_template = html_template.replace(template_insertion_location, text_to_insert)
 
-open("faq.html", "w").write(html_template)
+open(faq_html_output_location, "w").write(html_template)
