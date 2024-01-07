@@ -6,6 +6,9 @@ faq_html_template_location = "data/faq.html.template"
 template_insertion_location = "<INSERT_QUESTIONS>"
 
 def faq_html(entry):
+    question = entry.get("question", "Question is null or undefined")
+    answer = entry.get("answerHTML", "Answer is null or undefined")
+    author = entry.get("author", "Unknown")
     return f"""
     <div class="question">
         <button class="question-header">
@@ -14,11 +17,11 @@ def faq_html(entry):
                     <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
                 </svg>
             </div>
-            <h2 class="question-title">{entry['question']}</h2>
+            <h2 class="question-title">{question}</h2>
         </button>
         <div class="answer">
-            {entry['answerHTML']}
-            <div class="answer-source">— {entry['author']}</div>
+            {answer}
+            <div class="answer-source">— {author}</div>
         </div>
     </div>
     """
