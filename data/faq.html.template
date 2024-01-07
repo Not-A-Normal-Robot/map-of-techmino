@@ -1,9 +1,14 @@
-<!--
-    !!! WARNING WARNING WARNING WARNING WARNING !!!
-    PLEASE DO NOT OVERWRITE faq.html!
-    It will get overwritten by GitHub Actions when someone edits /data/faq.json.
-    If you want to make changes, please edit /data/faq.html.template instead.
--->
+<!--------------------------------------------------------------------------------------------
+!!                                                                                          !!
+!!  !!! WARNING WARNING WARNING WARNING WARNING !!!                                         !!
+!!                                                                                          !!
+!!  PLEASE DO NOT OVERWRITE faq.html!                                                       !!
+!!  It will get overwritten by GitHub Actions when someone edits /data/faq.json.            !!
+!!  If you want to make changes to the page, please edit /data/faq.html.template instead.   !!
+!!                                                                                          !!
+---------------------------------------------------------------------------------------------->
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +53,8 @@
             <noscript><h1>This page requires JavaScript to function properly.</h1></noscript>
             
             <section class="faq">
+                <!-- Do not edit the below line! -->
+                <INSERT_QUESTIONS>
                 <!-- Sample question
                     <div class="question">
                         <button class="question-header">
