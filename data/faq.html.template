@@ -17,6 +17,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Techmino Hub - FAQ</title>
     <link rel="stylesheet" href="/style.css">
+    <noscript>
+        <style>
+            .answer {
+                display: block !important;
+            }
+        </style>
+    </noscript>
 </head>
 <body>
     <canvas id="bg"></canvas>
@@ -49,8 +56,6 @@
             </h4>
             <h5 class="title" id="last-updated"></h5>
             <br>
-
-            <noscript><h1>This page requires JavaScript to function properly.</h1></noscript>
             
             <section class="faq">
                 <!-- Do not edit the below line! -->

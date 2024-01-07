@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - 'data/faq.json'
+      - 'data/faq.html.template'
+      - '.github/scripts/generate_faq_html.py'
 
 permissions:
   contents: write
