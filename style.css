@@ -1,6 +1,7 @@
 /* -------- Fonts -------- */
 @font-face { font-family: "techmino-proportional"; src: url('fonts/proportional.otf') }
-@font-face { font-family: "techmino-monospace"   ; src: url('fonts/monospace.otf') }
+/* Currently unused, if you want to use it then uncomment the below line */
+/* @font-face { font-family: "techmino-monospace"   ; src: url('fonts/monospace.otf') } */
 
 /* -------- Body -------- */
 body{
@@ -19,6 +20,7 @@ canvas#bg{
     width: 100%;
     height: 200%;
     z-index: -1;
+    background-color: black;
 }
 
 /* -------- Header -------- */
@@ -147,6 +149,6 @@ a:not(header a):hover
 /* -------- Map -------- */
 canvas#map{
     width: 100%;
-    height: 700px;
+    height: calc(width * 9 / 16);
     border: 1px solid white;
 }

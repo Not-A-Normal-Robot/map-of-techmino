@@ -15,7 +15,7 @@ if(faqSection === undefined){
 const faqLastUpdatedElement = document.getElementById('last-updated');
 if(faqLastUpdatedElement !== undefined) {
     // fetch github api to get date of last edit of faq.json
-    fetch('https://api.github.com/repos/techmino-hub/techmino-hub.github.io/commits?path=data/faq.json')
+    fetch('https://api.github.com/repos/techmino-hub/techmino-hub.github.io/commits?path=faq.html')
       .then(response => response.json())
     .then(json => {
         const lastUpdated = new Date(json[0].commit.committer.date);
@@ -30,8 +30,11 @@ if(faqLastUpdatedElement !== undefined) {
             const hours = Math.floor(timeDifference / (60 * 60 * 1000));
             formattedDate = `Last updated: ${hours} hours ago`;
         } else {
-            const days = Math.floor(timeDifference / (24 * 60 * 60 * 1000));
-            formattedDate = `Last updated: ${days} days ago`;
+            // show date
+            const day = lastUpdated.getDate();
+            const month = lastUpdated.toLocaleString('default', { month: 'long' });
+            const year = lastUpdated.getFullYear();
+            formattedDate = `Last updated: ${month} ${day}, ${year}`;
         }
 
         faqLastUpdatedElement.innerText = formattedDate;
