@@ -1,0 +1,86 @@
+<!--------------------------------------------------------------------------------------------
+!!                                                                                          !!
+!!  !!! WARNING WARNING WARNING WARNING WARNING !!!                                         !!
+!!                                                                                          !!
+!!  PLEASE DO NOT OVERWRITE faq.html!                                                       !!
+!!  It will get overwritten by GitHub Actions when someone edits /data/faq.json.            !!
+!!  If you want to make changes to the page, please edit /data/faq.html.template instead.   !!
+!!                                                                                          !!
+---------------------------------------------------------------------------------------------->
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Techmino Hub - FAQ</title>
+    <link rel="stylesheet" href="/style.css">
+    <noscript>
+        <style>
+            .answer {
+                display: block !important;
+            }
+        </style>
+    </noscript>
+</head>
+<body>
+    <canvas id="bg"></canvas>
+
+    <div class="inner">
+        <header>
+            <h1>
+                <a href="/">Techmino Hub</a>
+            </h1>
+            <div class="bg-toggle">
+                <input type="checkbox" id="bg-toggle" checked>
+                <label for="bg-toggle">Display background</label>
+            </div>
+        </header>
+        <nav class="navbar">
+            <a class="navlink" href="/faq.html">FAQ</a> |
+            <a class="navlink" href="/map.html">Map</a> |
+            <a class="navlink" href="https://discord.gg/f9pUvkh">Discord</a>
+        </nav>
+        
+        <section class="content">
+            <h1 class="title">
+                Frequently Asked Questions
+            </h1>
+            <h4 class="title">
+                Sourced from Techmino's official Discord server. <br>
+                Click on a question to reveal the answer. <br>
+                Use Ctrl+F to search for a question. <br>
+                Or if you're on mobile, use your browser's "find in page" feature.
+            </h4>
+            <h5 class="title" id="last-updated"></h5>
+            <br>
+            
+            <section class="faq">
+                <!-- Do not edit the below line! -->
+                <INSERT_QUESTIONS>
+                <!-- Sample question
+                    <div class="question">
+                        <button class="question-header">
+                            <div class="question-icon-container">
+                                <svg class="question-icon" viewBox="0 0 24 24">
+                                    <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
+                                </svg>
+                            </div>
+                            <h2 class="question-title">Question</h2>
+                        </button>
+                        <div class="answer">
+                            <p>Answer</p>
+                            <div class="answer-source">— I made it up</div>
+                        </div>
+                    </div>
+                -->
+            </section>
+        </section>
+    </div>
+
+    <script src="/js/background.js"></script>
+    <script type="module" src="/js/faq.js"></script>
+</body>
+</html>

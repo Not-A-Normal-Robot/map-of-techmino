@@ -48,7 +48,8 @@
     {
         "question": "But I don't want to have to unlock all the modes!",
         "answerHTML":
-            "<p>There's a cheat code to unlock all the modes in the game. Here are the instructions: <ol><li>Go to the main menu.</li><li>Open the terminal by pressing on the Techmino logo 4 times.</li><li>Type in \"unlockall\" and follow the instructions.</li></ol></p>"
+            "<p>There's a cheat code to unlock all the modes in the game. Here are the instructions: <ol><li>Go to the main menu.</li><li>Open the terminal by pressing on the Techmino logo 4 times.</li><li>Type in \"unlockall\" and follow the instructions.</li></ol></p>",
+        "author": "NOT_A_ROBOT"
     },
     {
         "question": "Is this Guideline?",

@@ -1,17 +1,21 @@
 const faqSection = document.getElementsByClassName('faq')[0];
-if(faqSection === undefined){
-    console.error("Could not find FAQ section!");
-    alert("ERROR: Could not find the FAQ section. Is faq.js being loaded on the wrong page?");
-} else {
-    fetch('../data/faq.json')
-      .then(response => response.json())
-      .then(faqObject => {
-          if(faqSection === undefined){
-              console.error("Could not find FAQ section!");
-              alert("ERROR: Could not find the FAQ section. Is faq.js being loaded on the wrong page?");
-          } else { addFAQEntries(faqObject); }
-      });
-}
+
+// if(faqSection === undefined){
+//     console.error("Could not find FAQ section!");
+//     alert("ERROR: Could not find the FAQ section. Is faq.js being loaded on the wrong page?");
+// } else {
+//     fetch('../data/faq.json')
+//       .then(response => response.json())
+//       .then(faqObject => {
+//           if(faqSection === undefined){
+//               console.error("Could not find FAQ section!");
+//               alert("ERROR: Could not find the FAQ section. Is faq.js being loaded on the wrong page?");
+//           } else { addFAQEntries(faqObject); }
+//       });
+// }
+
+addButtonListeners();
+
 const faqLastUpdatedElement = document.getElementById('last-updated');
 if(faqLastUpdatedElement !== undefined) {
     // fetch github api to get date of last edit of faq.json
@@ -46,6 +50,10 @@ function addFAQEntries(faqObject) {
         faqSection.innerHTML += faqHTML(entry);
     });
 
+    addButtonListeners();
+}
+
+function addButtonListeners() {
     const questionHeaders = document.getElementsByClassName('question-header');
     for(let i = 0; i < questionHeaders.length; i++) {
         questionHeaders[i].addEventListener('click', () => {
