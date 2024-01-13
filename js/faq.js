@@ -1,24 +1,8 @@
-const faqSection = document.getElementsByClassName('faq')[0];
-
-// if(faqSection === undefined){
-//     console.error("Could not find FAQ section!");
-//     alert("ERROR: Could not find the FAQ section. Is faq.js being loaded on the wrong page?");
-// } else {
-//     fetch('../data/faq.json')
-//       .then(response => response.json())
-//       .then(faqObject => {
-//           if(faqSection === undefined){
-//               console.error("Could not find FAQ section!");
-//               alert("ERROR: Could not find the FAQ section. Is faq.js being loaded on the wrong page?");
-//           } else { addFAQEntries(faqObject); }
-//       });
-// }
-
 addButtonListeners();
 
 const faqLastUpdatedElement = document.getElementById('last-updated');
 if(faqLastUpdatedElement !== undefined) {
-    // fetch github api to get date of last edit of faq.json
+    // fetch github api to get date of last edit of FAQ
     fetch('https://api.github.com/repos/techmino-hub/techmino-hub.github.io/commits?path=faq.html')
       .then(response => response.json())
     .then(json => {
