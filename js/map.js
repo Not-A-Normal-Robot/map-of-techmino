@@ -37,6 +37,7 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
 
     function getMapModeCoords(x, y, r) {
         let scaleFactor = camZoom * mapCanvas.width / 1280;
+        // r *= 1.5;
         x += camX; y += camY;
         x -= r / 2; y -= r / 2;
         x *= scaleFactor; y *= scaleFactor; r *= scaleFactor;
@@ -51,6 +52,40 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
         return [x, y, r, r];
     }
 
+    function drawDiamond(x, y, size) {
+        let [x2, y2, r] = getMapModeCoords(x, y, size * 1.125);
+        x2 += r/2; y2 += r/2;
+        mapContext.beginPath();
+        mapContext.moveTo(x2 + r, y2);
+        mapContext.lineTo(x2, y2 + r);
+        mapContext.lineTo(x2 - r, y2);
+        mapContext.lineTo(x2, y2 - r);
+        mapContext.closePath();
+        mapContext.stroke();
+    }
+    function drawOctagon(x, y, size) { // TODO
+        let [x2, y2, r] = getMapModeCoords(x, y, size * 1.125);
+        const cos45 = Math.sqrt(2) / 2;
+        x2 += r/2; y2 += r/2;
+        mapContext.beginPath();
+        mapContext.moveTo(x2 + r, y2);
+        mapContext.lineTo(x2, y2 + r);
+        mapContext.lineTo(x2 - r, y2);
+        mapContext.lineTo(x2, y2 - r);
+        mapContext.closePath();
+        mapContext.stroke();
+    }
+    function drawModeShape(x, y, size, shape) {
+        switch(shape) {
+            case 1:
+                mapContext.strokeRect(...getMapModeCoords(x, y, size * 2));
+                break;
+            case 2:
+                drawDiamond(x, y, size);
+            case 3:
+                drawOctagon(x, y, size);
+        }
+    }
     function draw(_){
         // Pre-draw
         mapContext.clearRect(0, 0, mapCanvas.offsetWidth, mapCanvas.offsetHeight);
@@ -63,11 +98,13 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
         // Draw modes
         for(mode of Object.values(map.modes)){
             // TODO: replace with drawing modeicon
-            mapContext.fillStyle = "#FFFFFFFF";
-            mapContext.fillRect(...getMapModeCoords(mode.x, mode.y, mode.size));
+            mapContext.fillStyle = "#0000008F";
+            mapContext.strokeStyle = "#FFFFFFFF"
+            mapContext.lineWidth = 4 * camZoom;
+            drawModeShape(mode.x, mode.y, mode.size, mode.shape);
 
             // Draw connected mode lines
-            mapContext.strokeStyle = "#FFFFFFAF";
+            mapContext.strokeStyle = "#FFFFFF5F";
             mode.unlock?.forEach(otherModeName => {
                 const otherMode = map.modes[otherModeName];
                 mapContext.beginPath();
@@ -139,6 +176,7 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
     
         mapCanvas.addEventListener('wheel', function(event) {
             if (focused) {
+                event.preventDefault(); // disable scrolling
                 const dZoom = event.deltaY * -0.001;
                 zoomMapScroll(dZoom);
             }
