@@ -196,7 +196,7 @@
     {
         "question": "How can I perform O-Spins?",
         "answerHTML":
-            "<p>There are two kinds of O-spins: transformative O-spins and translational O-spins. Transformative O-spins are only possible with TRS, while translational O-spins are possible with TRS, BiRS, and ASC; so make sure you have the correct rotation system. <br> To perform a transformative O-spin, move the O block in an appropriate “hole,” then use the following rotations to do the trick:<br><pre><code>O → Z: LRL\nO → S: RLR\nO → J: LLR\nO → L: RRL\nO → T: LLL & RRR\nO → I: FFF</pre></code><br> Here is a useful GIF demonstrating this: <img src=\"/data/trs-tf-ospin.gif\"> <br> To perform a translational O-spin, you can use the fact that some rotation systems have kicks, and use that to put the O-piece in a hole. A notable oddity is BiRS, where you have to hold the correct arrow keys (move left/right/soft drop) to try to \"bias\" the kick in that direction, and then trying to rotate the O-piece. More info is available in the in-game Zictionary. Here's a demonstration of translational O-spins: <img src=\"/data/birs-tl-ospin.gif\"> <br> Quick note: you may hold the transformed O block, and it will stay as the transformed block. However, if you perform a spin using this “O block,” it still counts as an O-spin.</p>",
+            "<p>There are two kinds of O-spins: transformative O-spins and translational O-spins. Transformative O-spins are only possible with TRS, while translational O-spins are possible with TRS, BiRS, and ASC; so make sure you have the correct rotation system. <br> To perform a transformative O-spin, move the O block in an appropriate “hole,” then use the following rotations to do the trick:<br><pre><code>O → Z: LRL\nO → S: RLR\nO → J: LLR\nO → L: RRL\nO → T: LLL & RRR\nO → I: FFF</pre></code><br> Here is a useful GIF demonstrating this: <img src=\"/data/img/faq/trs-tf-ospin.gif\"> <br> To perform a translational O-spin, you can use the fact that some rotation systems have kicks, and use that to put the O-piece in a hole. A notable oddity is BiRS, where you have to hold the correct arrow keys (move left/right/soft drop) to try to \"bias\" the kick in that direction, and then trying to rotate the O-piece. More info is available in the in-game Zictionary. Here's a demonstration of translational O-spins: <img src=\"/data/img/faq/birs-tl-ospin.gif\"> <br> Quick note: you may hold the transformed O block, and it will stay as the transformed block. However, if you perform a spin using this “O block,” it still counts as an O-spin.</p>",
         "author": "C29H25N3O5 (edited by NOT_A_ROBOT)"
     },
     {
@@ -220,25 +220,25 @@
     {
         "question": "How can I transfer my data from one device to another?",
         "answerHTML":
-            "<p>Simply go to Statistics &gt; Data Management, and you will see these buttons. Then you can copy and paste the data using your clipboard. <img src=\"/data/data-management.png\"></p>",
+            "<p>Simply go to Statistics &gt; Data Management, and you will see these buttons. Then you can copy and paste the data using your clipboard. <img src=\"/data/img/faq/data-management.png\"></p>",
         "author": "C29H25N3O5"
     },
     {
         "question": "How do I make and import my own block skin?",
         "answerHTML":
-            "<p>This is an example block skin for your reference:<img src=\"/data/example-skin.png\"><br><ul><li>The block skin is a png file with a dimension of at least 240 × 90.</li><li>The image is divided into a 3 ×8 array of blocks, with each block having a dimension of 30× 30.</li></ul><br>To import your skin into the game:<br><ol><li>Make your block skin and export it into a png file.</li><li>Move you skin to <code>./media/image/skin/</code>.</li><li>Added the following code into <code>./main.lua</code> at around line 315, after <code>SKIN.load{</code> (replace <code>&lt;SKINNAME&gt;</code> with the filename of the skin):<br><code>{name=\"&lt;SKINNAME&gt;\",path='media/image/skin/<SKINNAME>.png'},</code></li><li>Start the game. You will find your skin appearing in the block skin list.</li></ol></p>",
+            "<p>This is an example block skin for your reference:<img src=\"/data/img/faq/example-skin.png\"><br><ul><li>The block skin is a png file with a dimension of at least 240 × 90.</li><li>The image is divided into a 3 ×8 array of blocks, with each block having a dimension of 30× 30.</li></ul><br>To import your skin into the game:<br><ol><li>Make your block skin and export it into a png file.</li><li>Move you skin to <code>./media/image/skin/</code>.</li><li>Added the following code into <code>./main.lua</code> at around line 315, after <code>SKIN.load{</code> (replace <code>&lt;SKINNAME&gt;</code> with the filename of the skin):<br><code>{name=\"&lt;SKINNAME&gt;\",path='media/image/skin/<SKINNAME>.png'},</code></li><li>Start the game. You will find your skin appearing in the block skin list.</li></ol></p>",
         "author": "C29H25N3O5 (edited by NOT_A_ROBOT)"
     },
     {
         "question": "Techmino Galaxy macOS error: Techmino_Galaxy.app cannot be opened because the developer cannot be verified.",
         "answerHTML":
-            "<img src=\"/data/mac-unverified-developer.png\"><br><p>This is because the Gatekeeper on macOS won’t let the user open any app that is not signed or notarized on default. However, there is an easy way to bypass this: control–click Techmino (Galaxy).app and select “Open” from the pop-up menu, then select “Open” from the window.</p>",
+            "<img src=\"/data/img/faq/mac-unverified-developer.png\"><br><p>This is because the Gatekeeper on macOS won’t let the user open any app that is not signed or notarized on default. However, there is an easy way to bypass this: control–click Techmino (Galaxy).app and select “Open” from the pop-up menu, then select “Open” from the window.</p>",
         "author": "C29H25N3O5"
     },
     {
         "question": "Techmino macOS error: Techmino.app will damage your computer. You should move it to the Trash.",
         "answerHTML":
-            "<img src=\"\"/data/macos-big-sur-alert-malicious-app.jpg><br><p>If you get this message instead, option-click Techmino (Galaxy).app, select “Get Info” from the menu, then check the “Override Malware Protection” checkbox. You should now be able to open it.<br>Techmino is not malware and will not damage your computer.<br>As far as we know, this issue only appears on the dev and snapshot versions that are not signed.</p>",
+            "<img src=\"\"/data/img/faq/macos-big-sur-alert-malicious-app.jpg><br><p>If you get this message instead, option-click Techmino (Galaxy).app, select “Get Info” from the menu, then check the “Override Malware Protection” checkbox. You should now be able to open it.<br>Techmino is not malware and will not damage your computer.<br>As far as we know, this issue only appears on the dev and snapshot versions that are not signed.</p>",
         "author": "C29H25N3O5"
     },
     {
@@ -278,12 +278,12 @@
     },
     {
         "question": "How should I calculate the attack in Techmino?",
-        "answerHTML": "<p>Please use this table as a reference: <img src=\"/data/techmino-attack-table.jpg\"></p>",
+        "answerHTML": "<p>Please use this table as a reference: <img src=\"/data/img/faq/techmino-attack-table.jpg\"></p>",
         "author": "C29H25N3O5"
     },
     {
         "question": "How is B2B2B calculated in Techmino?",
-        "answerHTML": "<p>Use this table to calculate B2B2B meter (on the left of the playfield):<br><img src=\"/data/b2b2b-calculator.png\"></p>",
+        "answerHTML": "<p>Use this table to calculate B2B2B meter (on the left of the playfield):<br><img src=\"/data/img/faq/b2b2b-calculator.png\"></p>",
         "author": "nekonaomii"
     },
     {
