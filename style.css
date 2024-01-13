@@ -149,6 +149,5 @@ a:not(header a):hover
 /* -------- Map -------- */
 canvas#map{
     width: 100%;
-    height: calc(width * 9 / 16);
     border: 1px solid white;
 }

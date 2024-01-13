@@ -2,7 +2,7 @@ import json
 
 # Constants
 faq_json_location = "data/faq.json"
-faq_html_template_location = "data/faq.html.template"
+faq_html_template_location = "data/faq-template.html"
 faq_html_output_location = "faq.html"
 template_insertion_location = "<INSERT_QUESTIONS>"
 

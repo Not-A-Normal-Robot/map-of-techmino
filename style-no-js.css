@@ -1,0 +1,9 @@
+header > div.bg-toggle {
+    display: none;
+}
+canvas#map{
+    display: none;
+}
+.answer {
+    display: block !important;
+}
