@@ -1,4 +1,3 @@
-let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after debugging
 {
     const mapCanvas = document.getElementById("map");
     const mapContext = mapCanvas.getContext("2d");
@@ -6,6 +5,7 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
     const urlParams = new URLSearchParams(window.location.search);
     const mapName = urlParams.get("m") ?? 'vanilla';
 
+    let camX = 0, camY = 0, camZoom = 1;
     const MIN_ZOOM = 0.26;
     const MAX_ZOOM = 2.6;
 
@@ -13,7 +13,9 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
     let prevTimestamp = performance.now();
     let keysDown = new Set();
     let selected = null;
+    let modeSelectAnimation = 0;
     let focused = false;
+    let showCrosshair = false;
 
     function loadMapData(){
         let mapURL = "/data/map/" + mapName.replace(/-/g,"/") + ".json";
@@ -26,7 +28,7 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
             .then(_map => {
                 map = _map;
                 prevTimestamp = performance.now();
-                requestAnimationFrame(draw);
+                requestAnimationFrame(update);
             })
             .catch(error => {
                 alert("Error loading map: \n" + error +
@@ -51,6 +53,23 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
         x *= scaleFactor; y *= scaleFactor; r *= scaleFactor;
         x += mapCanvas.width / 2; y += mapCanvas.height / 2;
         return [x, y, r, r];
+    }
+    function isPointInMode(x, y, mode) {
+        let [modeX, modeY, modeSize] = getMapModeCoords(mode.x, mode.y, mode.size);
+        switch(mode.shape) {
+            case 1: // square
+                return x >= modeX && x <= modeX + modeSize && y >= modeY && y <= modeY + modeSize;
+            case 2: // diamond
+                return Math.abs(x - modeX) + Math.abs(y - modeY) <= modeSize;
+            default: // circle
+                return Math.hypot(x - modeX, y - modeY) <= modeSize;
+        }
+    }
+    function getModeAtPoint(x, y) {
+        for(mode of Object.values(map.modes)){
+            if(isPointInMode(x, y, mode)) return mode;
+        }
+        return null;
     }
 
     // #region Mode draw functions
@@ -89,7 +108,6 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
             mapContext.stroke();
         mapContext.restore();
     }
-    // #endregion
     
     // background color of modes based on rank, from 0 to 5
     const modeBackgroundColor = {
@@ -103,7 +121,15 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
     function drawModeShape(x, y, size, shape, rank) {
         if(!rank || rank <= 5) { // static color
             mapContext.fillStyle = modeBackgroundColor[rank ?? 0];
-        } // TODO: "former world record" and "world record" ranks
+        } else if(rank == 6) { // x rank + top 10
+            let t = Math.sin(performance.now() / 300) / 2 + 0.5;
+            const color1 = {r: 255, g: 0, b: 0}
+            const color2 = {r: 230, g: 0, b: 212}
+            mapContext.fillStyle = `rgba(${color1.r * (1-t) + color2.r * t}, ${color1.g * (1-t) + color2.g * t}, ${color1.b * (1-t) + color2.b * t}, 0.36)`;
+        } else { // x rank + world record
+            let t = performance.now() / 12 % 360;
+            mapContext.fillStyle = `hsla(${t}, 100%, 50%, 0.36)`;
+        }
         mapContext.strokeStyle = "#CCCCCCFF"
         mapContext.lineWidth = 4 * camZoom;
         switch(shape) {
@@ -124,7 +150,13 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
                 mapContext.stroke();
         }
     }
-    function draw(timestamp){
+    // #endregion
+    
+    // #region Modeicon draw functions
+    // TODO: modeicon draw functions
+    // #endregion
+
+    function update(timestamp){
         const dt = timestamp - prevTimestamp;
         prevTimestamp = timestamp;
 
@@ -139,7 +171,7 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
 
         // Draw modes
         for(mode of Object.values(map.modes)){
-            // TODO: replace with drawing modeicon
+            // TODO: draw modeicon
             drawModeShape(mode.x, mode.y, mode.size, mode.shape);
 
             // Draw connected mode lines
@@ -153,8 +185,23 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
             });
         }
 
-        // Draw selected mode details
-        // TODO
+        // Draw crosshair
+        if(showCrosshair){
+            mapContext.strokeStyle = "#FFFFFFAF";
+            mapContext.lineWidth = 5;
+            mapContext.beginPath();
+            mapContext.moveTo(mapCanvas.width / 2, mapCanvas.height * 0.47);
+            mapContext.lineTo(mapCanvas.width / 2, mapCanvas.height * 0.49);
+            mapContext.moveTo(mapCanvas.width / 2, mapCanvas.height * 0.51);
+            mapContext.lineTo(mapCanvas.width / 2, mapCanvas.height * 0.53);
+            mapContext.moveTo(mapCanvas.width * 0.47, mapCanvas.height / 2);
+            mapContext.lineTo(mapCanvas.width * 0.49, mapCanvas.height / 2);
+            mapContext.moveTo(mapCanvas.width * 0.51, mapCanvas.height / 2);
+            mapContext.lineTo(mapCanvas.width * 0.53, mapCanvas.height / 2);
+            mapContext.stroke();
+        }
+
+        // TODO: Draw selected mode details
 
         // Draw "click here to focus" layer
         if(!focused){
@@ -178,11 +225,12 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
             if (keysDown.has("s") || keysDown.has("S")) dy += speed;
 
             if (dx !== 0 || dy !== 0) {
+                showCrosshair = true;
                 moveMap(dx * dt, dy * dt);
             }
         }
         // #endregion
-        requestAnimationFrame(draw);
+        requestAnimationFrame(update);
     }
 
     function moveMap(dx, dy){
@@ -224,8 +272,18 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
     
                 document.addEventListener('mousemove', handleMouseMove);
                 document.addEventListener('mouseup', handleMouseUp);
+                showCrosshair = false;
             } else {
                 focused = true;
+            }
+        });
+        mapCanvas.addEventListener('click', function(event) {
+            if (focused) {
+                let rect = mapCanvas.getBoundingClientRect();
+                let x = event.clientX - rect.left;
+                let y = event.clientY - rect.top;
+                selected = getModeAtPoint(x, y);
+                console.log(x, y, selected); // DEBUG
             }
         });
     
@@ -241,9 +299,19 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
         window.addEventListener('keydown', (event) => {
             if(event.key === "Escape") {
                 focused = false;
-            } else if(focused) {
-                keysDown.add(event.key);
-                console.log(event.key); // DEBUG
+                keysDown.clear();
+                return;
+            }
+            if(!focused) return;
+
+            switch(event.key) {
+                case "Enter":
+                    selected = getModeAtPoint(mapCanvas.width / 2, mapCanvas.height / 2);
+                    console.log(mapCanvas.width / 2, mapCanvas.height / 2, selected); // DEBUG
+                    break;
+                default:
+                    keysDown.add(event.key);
+                    break;
             }
         });
           
