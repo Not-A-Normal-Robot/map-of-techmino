@@ -11,6 +11,7 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
 
     let map = {};
     let prevTimestamp = performance.now();
+    let keysDown = new Set();
     let selected = null;
     let focused = false;
 
@@ -123,7 +124,11 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
                 mapContext.stroke();
         }
     }
-    function draw(_){
+    function draw(timestamp){
+        const dt = timestamp - prevTimestamp;
+        prevTimestamp = timestamp;
+
+        // #region Graphics
         // Pre-draw
         mapContext.clearRect(0, 0, mapCanvas.offsetWidth, mapCanvas.offsetHeight);
 
@@ -160,7 +165,23 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
             mapContext.textAlign = "center";
             mapContext.fillText("Unfocused - Click here to focus", mapCanvas.width / 2, mapCanvas.height / 2);
         }
+        // #endregion
 
+        // #region Handle inputs
+        if(focused){
+            const speed = -1;
+            let dx = 0, dy = 0;
+
+            if (keysDown.has("a") || keysDown.has("A")) dx -= speed;
+            if (keysDown.has("d") || keysDown.has("D")) dx += speed;
+            if (keysDown.has("w") || keysDown.has("W")) dy -= speed;
+            if (keysDown.has("s") || keysDown.has("S")) dy += speed;
+
+            if (dx !== 0 || dy !== 0) {
+                moveMap(dx * dt, dy * dt);
+            }
+        }
+        // #endregion
         requestAnimationFrame(draw);
     }
 
@@ -214,6 +235,20 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
                 const dZoom = event.deltaY * -0.001;
                 zoomMapScroll(dZoom);
             }
+        });
+    }
+    { // Keyboard events
+        window.addEventListener('keydown', (event) => {
+            if(event.key === "Escape") {
+                focused = false;
+            } else if(focused) {
+                keysDown.add(event.key);
+                console.log(event.key); // DEBUG
+            }
+        });
+          
+        window.addEventListener('keyup', (event) => {
+            keysDown.delete(event.key);
         });
     }
 }

@@ -151,3 +151,9 @@ canvas#map{
     width: 100%;
     border: 1px solid white;
 }
+small.description {
+    display: block;
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.8);
+}
