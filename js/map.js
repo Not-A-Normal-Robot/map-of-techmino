@@ -52,38 +52,75 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
         return [x, y, r, r];
     }
 
+    // #region Mode draw functions
     function drawDiamond(x, y, size) {
         let [x2, y2, r] = getMapModeCoords(x, y, size * 1.125);
         x2 += r/2; y2 += r/2;
-        mapContext.beginPath();
-        mapContext.moveTo(x2 + r, y2);
-        mapContext.lineTo(x2, y2 + r);
-        mapContext.lineTo(x2 - r, y2);
-        mapContext.lineTo(x2, y2 - r);
-        mapContext.closePath();
-        mapContext.stroke();
+        mapContext.save();
+            mapContext.translate(x2, y2);
+            mapContext.beginPath();
+            mapContext.moveTo(r, 0);
+            mapContext.lineTo(0, r);
+            mapContext.lineTo(-r, 0);
+            mapContext.lineTo(0, -r);
+            mapContext.closePath();
+            mapContext.fill();
+            mapContext.stroke();
+        mapContext.restore();
     }
-    function drawOctagon(x, y, size) { // TODO
+    function drawOctagon(x, y, size) {
         let [x2, y2, r] = getMapModeCoords(x, y, size * 1.125);
         const cos45 = Math.sqrt(2) / 2;
         x2 += r/2; y2 += r/2;
-        mapContext.beginPath();
-        mapContext.moveTo(x2 + r, y2);
-        mapContext.lineTo(x2, y2 + r);
-        mapContext.lineTo(x2 - r, y2);
-        mapContext.lineTo(x2, y2 - r);
-        mapContext.closePath();
-        mapContext.stroke();
+        mapContext.save();
+            mapContext.translate(x2, y2);
+            mapContext.beginPath();
+            mapContext.moveTo(r, 0);
+            mapContext.lineTo(r * cos45, r * cos45);
+            mapContext.lineTo(0, r);
+            mapContext.lineTo(-r * cos45, r * cos45);
+            mapContext.lineTo(-r, 0);
+            mapContext.lineTo(-r * cos45, -r * cos45);
+            mapContext.lineTo(0, -r);
+            mapContext.lineTo(r * cos45, -r * cos45);
+            mapContext.closePath();
+            mapContext.fill();
+            mapContext.stroke();
+        mapContext.restore();
     }
-    function drawModeShape(x, y, size, shape) {
+    // #endregion
+    
+    // background color of modes based on rank, from 0 to 5
+    const modeBackgroundColor = {
+        0: "#0000004F", // no rank
+        1: "#3366994F", // B rank
+        2: "#99D9A64F", // A rank
+        3: "#D9CC4D4F", // S rank
+        4: "#D980664F", // U rank
+        5: "#D94DCC4F", // X rank
+    }
+    function drawModeShape(x, y, size, shape, rank) {
+        if(!rank || rank <= 5) { // static color
+            mapContext.fillStyle = modeBackgroundColor[rank ?? 0];
+        } // TODO: "former world record" and "world record" ranks
+        mapContext.strokeStyle = "#CCCCCCFF"
+        mapContext.lineWidth = 4 * camZoom;
         switch(shape) {
             case 1:
+                mapContext.fillRect(...getMapModeCoords(x, y, size * 2));
                 mapContext.strokeRect(...getMapModeCoords(x, y, size * 2));
                 break;
             case 2:
                 drawDiamond(x, y, size);
+                break;
             case 3:
                 drawOctagon(x, y, size);
+                break;
+            default:
+                mapContext.beginPath();
+                mapContext.arc(...getMapModeCoords(x, y, size), 0, 2 * Math.PI);
+                mapContext.fill();
+                mapContext.stroke();
         }
     }
     function draw(_){
@@ -98,9 +135,6 @@ let camX = 0, camY = 0, camZoom = 1; // TODO: place back inside closure after de
         // Draw modes
         for(mode of Object.values(map.modes)){
             // TODO: replace with drawing modeicon
-            mapContext.fillStyle = "#0000008F";
-            mapContext.strokeStyle = "#FFFFFFFF"
-            mapContext.lineWidth = 4 * camZoom;
             drawModeShape(mode.x, mode.y, mode.size, mode.shape);
 
             // Draw connected mode lines
