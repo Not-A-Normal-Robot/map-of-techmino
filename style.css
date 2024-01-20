@@ -58,7 +58,6 @@ nav.navbar{
     margin: 20px;
     border: 1px solid white;
 }
-.title{ text-align: center }
 
 section.content{
     padding: 0 50px 50px;
@@ -156,4 +155,22 @@ small.description {
     text-align: center;
     font-size: 0.8rem;
     color: rgba(255,255,255,0.8);
+}
+
+/* -------- Misc -------- */
+.hide {
+    display: none;
+}
+.hide-important {
+    display: none !important;
+}
+.show {
+    display: block;
+}
+.show-important {
+    display: block !important;
+}
+
+.center-text {
+    text-align: center;
 }

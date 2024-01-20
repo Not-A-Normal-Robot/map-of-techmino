@@ -1,3 +1,10 @@
+.hide-no-script {
+    display: none !important;
+}
+.show-no-script {
+    display: block !important;
+}
+
 header > div.bg-toggle {
     display: none;
 }
@@ -6,4 +13,7 @@ canvas#map{
 }
 .answer {
     display: block !important;
+}
+.question-icon {
+    transform: rotate(180deg);
 }

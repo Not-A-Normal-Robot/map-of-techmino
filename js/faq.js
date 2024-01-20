@@ -13,19 +13,19 @@ if(faqLastUpdatedElement !== undefined) {
 
         if (timeDifference < 60 * 60 * 1000) {
             const minutes = Math.floor(timeDifference / (60 * 1000));
-            formattedDate = `Last updated: ${minutes} minutes ago`;
+            formattedDate = `${minutes} minutes ago`;
         } else if (timeDifference < 24 * 60 * 60 * 1000) {
             const hours = Math.floor(timeDifference / (60 * 60 * 1000));
-            formattedDate = `Last updated: ${hours} hours ago`;
+            formattedDate = `${hours} hours ago`;
         } else {
-            // show date
-            const day = lastUpdated.getDate();
-            const month = lastUpdated.toLocaleString('default', { month: 'long' });
-            const year = lastUpdated.getFullYear();
-            formattedDate = `Last updated: ${month} ${day}, ${year}`;
+            formattedDate = lastUpdated.toLocaleDateString('en-US', {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            })
         }
 
-        faqLastUpdatedElement.innerText = formattedDate;
+        faqLastUpdatedElement.innerText = "Last updated: " + formattedDate;
     });
 }
 

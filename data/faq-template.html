@@ -5,10 +5,10 @@
 !!  PLEASE DO NOT OVERWRITE faq.html!                                                       !!
 !!  It will get overwritten by GitHub Actions when someone edits /data/faq.json.            !!
 !!  If you want to make changes to the page, please edit /data/faq-template.html instead.   !!
+!!  If you want to make changes to the question template, edit the faq generator in         !!
+!!    /.github/scripts/generate_faq_html.py instead.                                        !!
 !!                                                                                          !!
 ---------------------------------------------------------------------------------------------->
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -41,20 +41,20 @@
         </nav>
         
         <section class="content">
-            <h1 class="title">
+            <h1 class="center-text">
                 Frequently Asked Questions
             </h1>
-            <h4 class="title">
+            <h4 class="center-text">
                 Sourced from Techmino's official Discord server. <br>
                 Click on a question to reveal the answer. <br>
                 Use Ctrl+F to search for a question. <br>
                 Or if you're on mobile, use your browser's "find in page" feature.
             </h4>
-            <h5 class="title" id="last-updated"></h5>
+            <h5 class="center-text" id="last-updated"></h5>
             <br>
             
             <section class="faq">
-                <!-- Do not edit the below line! -->
+                <!-- Do not edit the below line! It will be replaced by the faq generator. -->
                 <INSERT_QUESTIONS>
                 <!-- Sample question
                     <div class="question">
