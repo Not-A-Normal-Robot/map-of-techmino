@@ -140,10 +140,19 @@
         4: "#D980664F", // U rank
         5: "#D94DCC4F", // X rank
     }
+
+    function isModeOnScreen(x, y, size) {
+        let [x2, y2, r] = getMapModeCoords(x, y, size * 1.125);
+        r *= 2;
+        if(x2 + r < 0 || x2 - r > mapCanvas.width) return false;
+        if(y2 + r < 0 || y2 - r > mapCanvas.height) return false;
+        return true;
+    }
+
     function drawModeShape(x, y, size, shape, rank) {
         if(!rank || rank <= 5) { // static color
             mapContext.fillStyle = modeBackgroundColor[rank ?? 0];
-        } else if(rank == 6) { // x rank + top 10
+        } else if(rank === 6) { // x rank + top 10
             let t = Math.sin(performance.now() / 300) / 2 + 0.5;
             const color1 = {r: 255, g: 0, b: 0}
             const color2 = {r: 230, g: 0, b: 212}
@@ -192,14 +201,6 @@
 
         // Draw modes
         for(mode of Object.values(map.modes)){
-            // TODO: draw modeicon
-            if(mode === selected) {
-                mapContext.strokeStyle = "#CFCF03FF"
-            } else {
-                mapContext.strokeStyle = "#CCCCCCFF"
-            }
-            drawModeShape(mode.x, mode.y, mode.size, mode.shape);
-
             // Draw connected mode lines
             mapContext.strokeStyle = "#FFFFFF5F";
             mode.unlock?.forEach(otherModeName => {
@@ -209,6 +210,20 @@
                 mapContext.lineTo(...getMapModeCenterCoords(otherMode.x, otherMode.y, otherMode.size));
                 mapContext.stroke();
             });
+
+            if(isModeOnScreen(mode.x, mode.y, mode.size)){
+                mapContext.strokeStyle = mode === selected ? "#CFCF03FF" : "#CCCCCCFF";
+                drawModeShape(mode.x, mode.y, mode.size, mode.shape);
+
+                // Draw mode icon
+                if(mode.icon) {
+                    let [x, y, size] = getMapModeCoords(mode.x, mode.y, mode.size);
+                    mapContext.strokeStyle = "#DBCFCEFF";
+                    mapContext.fillStyle = "#DBCFCEFF";
+
+                    getModeIconDrawFunction(mode.icon)(mapContext, x, y, size);
+                }
+            }
         }
 
         // Draw crosshair
@@ -272,6 +287,7 @@
             }
         }
         // #endregion
+        
         requestAnimationFrame(update);
     }
 
