@@ -13,7 +13,9 @@
     let prevTimestamp = performance.now();
     let keysDown = new Set();
     let selected = null;
+    let selectedLonger = null; // stores the last selected mode, even if it's not selected anymore
     let modeSelectAnimation = 0;
+    const MODE_SELECT_ANIMATION_LENGTH = 300;
     let focused = false;
     let showCrosshair = false;
 
@@ -47,7 +49,7 @@
         x += mapCanvas.width / 2; y += mapCanvas.height / 2;
         return [x, y, r, r];
     }
-    function getMapEdgeCoords(x, y, r) {
+    function getMapModeCenterCoords(x, y, r) {
         let scaleFactor = camZoom * mapCanvas.width / 1280;
         x += camX; y += camY;
         x *= scaleFactor; y *= scaleFactor; r *= scaleFactor;
@@ -55,14 +57,24 @@
         return [x, y, r, r];
     }
     function isPointInMode(x, y, mode) {
-        let [modeX, modeY, modeSize] = getMapModeCoords(mode.x, mode.y, mode.size);
+        let [modeX, modeY, modeSize] = getMapModeCenterCoords(mode.x, mode.y, mode.size);
+        
+        // early returns for optimization
+        const dx = Math.abs(x - modeX);
+        const dy = Math.abs(y - modeY);
+        const threshold = modeSize * 1.1;
+        if(dx > threshold) return false;
+        if(dy > threshold) return false;
+
         switch(mode.shape) {
             case 1: // square
-                return x >= modeX && x <= modeX + modeSize && y >= modeY && y <= modeY + modeSize;
+                return dx <= modeSize && dy <= modeSize;
             case 2: // diamond
-                return Math.abs(x - modeX) + Math.abs(y - modeY) <= modeSize;
+                modeSize *= 1.062;
+                return dx + dy <= modeSize;
             default: // circle
-                return Math.hypot(x - modeX, y - modeY) <= modeSize;
+                modeSize *= 1.062;
+                return dx * dx + dy * dy <= modeSize * modeSize;
         }
     }
     function getModeAtPoint(x, y) {
@@ -70,6 +82,16 @@
             if(isPointInMode(x, y, mode)) return mode;
         }
         return null;
+    }
+    function selectModeAtPoint(x, y, clearSelectedIfNone = true) {
+        const mode = getModeAtPoint(x, y);
+        if(clearSelectedIfNone){
+            selected = mode;
+        } else {
+            selected = mode ?? selected;
+        }
+        if(selected) selectedLonger = selected;
+        return selected;
     }
 
     // #region Mode draw functions
@@ -179,29 +201,44 @@
             mode.unlock?.forEach(otherModeName => {
                 const otherMode = map.modes[otherModeName];
                 mapContext.beginPath();
-                mapContext.moveTo(...getMapEdgeCoords(mode.x, mode.y, mode.size));
-                mapContext.lineTo(...getMapEdgeCoords(otherMode.x, otherMode.y, otherMode.size));
+                mapContext.moveTo(...getMapModeCenterCoords(mode.x, mode.y, mode.size));
+                mapContext.lineTo(...getMapModeCenterCoords(otherMode.x, otherMode.y, otherMode.size));
                 mapContext.stroke();
             });
         }
 
         // Draw crosshair
         if(showCrosshair){
-            mapContext.strokeStyle = "#FFFFFFAF";
+            mapContext.strokeStyle = "#FFFFFFDF";
             mapContext.lineWidth = 5;
-            mapContext.beginPath();
-            mapContext.moveTo(mapCanvas.width / 2, mapCanvas.height * 0.47);
-            mapContext.lineTo(mapCanvas.width / 2, mapCanvas.height * 0.49);
-            mapContext.moveTo(mapCanvas.width / 2, mapCanvas.height * 0.51);
-            mapContext.lineTo(mapCanvas.width / 2, mapCanvas.height * 0.53);
-            mapContext.moveTo(mapCanvas.width * 0.47, mapCanvas.height / 2);
-            mapContext.lineTo(mapCanvas.width * 0.49, mapCanvas.height / 2);
-            mapContext.moveTo(mapCanvas.width * 0.51, mapCanvas.height / 2);
-            mapContext.lineTo(mapCanvas.width * 0.53, mapCanvas.height / 2);
-            mapContext.stroke();
+            const crosshairLength = mapCanvas.height * 0.04;
+            
+            mapContext.save();
+                mapContext.translate(mapCanvas.width / 2, mapCanvas.height / 2);
+                mapContext.beginPath();
+                mapContext.moveTo(-crosshairLength, 0);
+                mapContext.lineTo(crosshairLength, 0);
+                mapContext.moveTo(0, -crosshairLength);
+                mapContext.lineTo(0, crosshairLength);
+                mapContext.stroke();
+            mapContext.restore();
         }
 
         // TODO: Draw selected mode details
+        if(selected) {
+            modeSelectAnimation = Math.min(modeSelectAnimation + dt, MODE_SELECT_ANIMATION_LENGTH);
+        } else {
+            modeSelectAnimation = Math.max(modeSelectAnimation - dt, 0);
+        }
+        if(selected || selectedLonger) {
+            const t = modeSelectAnimation / MODE_SELECT_ANIMATION_LENGTH;
+            const smoothT = t * t * (3 - 2 * t); // smoothstep(t)
+            const panelWidth = mapCanvas.width * 0.3;
+            const panelX = mapCanvas.width - panelWidth * smoothT;
+
+            mapContext.fillStyle = "#FFFFFF8F";
+            mapContext.fillRect(panelX, 0, panelWidth, mapCanvas.height);
+        }
 
         // Draw "click here to focus" layer
         if(!focused){
@@ -227,12 +264,14 @@
             if (dx !== 0 || dy !== 0) {
                 showCrosshair = true;
                 moveMap(dx * dt, dy * dt);
+                selectModeAtPoint(mapCanvas.width / 2, mapCanvas.height / 2, false);
             }
         }
         // #endregion
         requestAnimationFrame(update);
     }
 
+    // #region Controls
     function moveMap(dx, dy){
         // switched up min and max and negated them because of the way the map is drawn
         camX = Math.min(Math.max(camX + (dx / camZoom), -map.max_x), -map.min_x);
@@ -250,7 +289,9 @@
         camZoom += scrollAmount * camZoom; // multiplicative zoom for scrolling
         clampZoom();
     }
+    // #endregion
 
+    // #region Event listeners
     { // Mouse events
         mapCanvas.addEventListener('mousedown', function(event) {
             if (focused) {
@@ -282,8 +323,7 @@
                 let rect = mapCanvas.getBoundingClientRect();
                 let x = event.clientX - rect.left;
                 let y = event.clientY - rect.top;
-                selected = getModeAtPoint(x, y);
-                console.log(x, y, selected); // DEBUG
+                selectModeAtPoint(x, y);
             }
         });
     
@@ -306,8 +346,7 @@
 
             switch(event.key) {
                 case "Enter":
-                    selected = getModeAtPoint(mapCanvas.width / 2, mapCanvas.height / 2);
-                    console.log(mapCanvas.width / 2, mapCanvas.height / 2, selected); // DEBUG
+                    selectModeAtPoint(mapCanvas.width / 2, mapCanvas.height / 2);
                     break;
                 default:
                     keysDown.add(event.key);
@@ -319,4 +358,5 @@
             keysDown.delete(event.key);
         });
     }
+    // #endregion
 }
