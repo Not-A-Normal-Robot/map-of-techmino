@@ -152,7 +152,6 @@
             let t = performance.now() / 12 % 360;
             mapContext.fillStyle = `hsla(${t}, 100%, 50%, 0.36)`;
         }
-        mapContext.strokeStyle = "#CCCCCCFF"
         mapContext.lineWidth = 4 * camZoom;
         switch(shape) {
             case 1:
@@ -194,6 +193,11 @@
         // Draw modes
         for(mode of Object.values(map.modes)){
             // TODO: draw modeicon
+            if(mode === selected) {
+                mapContext.strokeStyle = "#CFCF03FF"
+            } else {
+                mapContext.strokeStyle = "#CCCCCCFF"
+            }
             drawModeShape(mode.x, mode.y, mode.size, mode.shape);
 
             // Draw connected mode lines
