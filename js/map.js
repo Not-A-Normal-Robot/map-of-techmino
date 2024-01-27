@@ -408,8 +408,8 @@
             } else if(event.touches.length === 2) {
                 const dx = event.touches[0].clientX - event.touches[1].clientX;
                 const dy = event.touches[0].clientY - event.touches[1].clientY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                const dZoom = (dist - Math.sqrt(touchPrevX * touchPrevX + touchPrevY * touchPrevY)) / 100;
+                const dist = dx * dx + dy * dy;
+                const dZoom = (dist - touchPrevX * touchPrevX + touchPrevY * touchPrevY) / 100;
                 touchPrevX = dx;
                 touchPrevY = dy;
                 zoomMap(dZoom);
@@ -420,6 +420,9 @@
             if(event.touches.length === 0) {
                 touchPrevX = 0;
                 touchPrevY = 0;
+            } else if(event.touches.length === 1) {
+                touchPrevX = event.touches[0].clientX;
+                touchPrevY = event.touches[0].clientY;
             }
         });
     }
