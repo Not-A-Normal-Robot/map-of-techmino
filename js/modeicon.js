@@ -141,56 +141,168 @@ let MODE_ICON_DRAW_FUNCTIONS = { // from techmino v0.17.15 /parts/scenes/load.lu
         ctx.save();
             ctx.translate(x, y);
             ctx.translate(-size / 2, -size / 2);
-            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
-            // insert code here
+            ctx.scale(2 * size / 128, 2 * size / 128);
+            // the game code uses a Unicode PUA to draw the pentomino, but here we will draw it our own way
+            ctx.scale(2.8, 2.8);
+            ctx.rotate(-0.26);
+            ctx.translate(2.6, 12.8);
+            ctx.beginPath();
+            ctx.moveTo(0, 0);
+            ctx.lineTo(10, 0);
+            ctx.lineTo(10, 10);
+            ctx.lineTo(30, 10);
+            ctx.lineTo(30, 20);
+            ctx.lineTo(20, 20);
+            ctx.lineTo(20, 30);
+            ctx.lineTo(10, 30);
+            ctx.lineTo(10, 20);
+            ctx.lineTo(0, 20);
+            ctx.closePath();
+            ctx.fill();
         ctx.restore();
     },
     sprint_tri: (ctx, x, y, size) => {
         ctx.save();
             ctx.translate(x, y);
             ctx.translate(-size / 2, -size / 2);
-            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
-            // insert code here
+            ctx.scale(2 * size / 256, 2 * size / 256);
+            ctx.translate(72, 20); // {'move',72,20},
+            ctx.rotate(0.26); // {'rotate',0.26},
+            ctx.fillRect(0, 80, 160, 80); // {'fRect',0,80,160,80},
+            ctx.fillRect(80, 0, 80, 81); // {'fRect',80,0,80,80},
         ctx.restore();
     },
     ultra: (ctx, x, y, size) => {
         ctx.save();
             ctx.translate(x, y);
             ctx.translate(-size / 2, -size / 2);
-            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
-            // insert code here
+            ctx.scale(2 * size / 128, 2 * size / 128);
+            ctx.lineWidth = 12; // {'setLW',12},
+            ctx.fillRect(46, 0, 36, 12); // {'fRect',46,0,36,12},
+            ctx.beginPath(); // {'dCirc',64,72,48},
+            ctx.arc(64, 72, 48, -0.8, 2 * Math.PI);
+            ctx.stroke();
+            ctx.fillRect(58, 42, 12, 38); // {'fRect',58,42,12,38,4,4},
+            ctx.fillRect(58, 68, 24, 12); // {'fRect',58,68,24,12,4,4},
+            ctx.rotate(Math.PI / 4); // {'rotate',math.pi/4},
+            ctx.fillRect(90, -64, 16, 24); // {'fRect',90,-64,16,24,4,4}
         ctx.restore();
     },
     big: (ctx, x, y, size) => {
         ctx.save();
             ctx.translate(x, y);
             ctx.translate(-size / 2, -size / 2);
-            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
-            // insert code here
-        ctx.restore();
-    },
-    zen: (ctx, x, y, size) => {
-        ctx.save();
-            ctx.translate(x, y);
-            ctx.translate(-size / 2, -size / 2);
-            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
-            // insert code here
+            ctx.scale(2 * size / 100, 2 * size / 100);
+            ctx.lineWidth = 2; // {'setLW',2},
+            ctx.fillRect(0, 80, 60, 20); // {'fRect',00,80,60,20},
+            ctx.fillRect(20, 60, 20, 20); // {'fRect',20,60,20,20},
+            ctx.fillStyle = '#dbcfce'; // {'setCL',unpack(COLOR.lX)},
+            ctx.strokeStyle = '#dbcfce';
+            ctx.strokeRect(0, 80, 20, 20); // {'dRect',00,80,20,20},
+            ctx.strokeRect(20, 80, 20, 20); // {'dRect',20,80,20,20},
+            ctx.strokeRect(40, 80, 20, 20); // {'dRect',40,80,20,20},
+            ctx.strokeRect(20, 60, 20, 20); // {'dRect',20,60,20,20},
+
+            // Draw grid
+            ctx.fillStyle = 'rgba(255,255,255,0.5)'; // {'setCL',1,1,1,.5},
+            ctx.translate(0, -2); // not present in original game
+            ctx.fillRect(15, 20, 8, 2); // {'fRect',15,20,8,2},{'fRect',35,20,8,2},{'fRect',55,20,8,2},{'fRect',75,20,8,2},
+            ctx.fillRect(35, 20, 8, 2);
+            ctx.fillRect(55, 20, 8, 2);
+            ctx.fillRect(75, 20, 8, 2);
+            ctx.fillRect(15, 40, 8, 2); // {'fRect',15,40,8,2},{'fRect',35,40,8,2},{'fRect',55,40,8,2},{'fRect',75,40,8,2},
+            ctx.fillRect(35, 40, 8, 2);
+            ctx.fillRect(55, 40, 8, 2);
+            ctx.fillRect(75, 40, 8, 2);
+            ctx.fillRect(15, 60, 8, 2); // {'fRect',15,60,8,2},{'fRect',35,60,8,2},{'fRect',55,60,8,2},{'fRect',75,60,8,2},
+            ctx.fillRect(35, 60, 8, 2);
+            ctx.fillRect(55, 60, 8, 2);
+            ctx.fillRect(75, 60, 8, 2);
+            ctx.fillRect(15, 80, 8, 2); // {'fRect',15,80,8,2},{'fRect',35,80,8,2},{'fRect',55,80,8,2},{'fRect',75,80,8,2},
+            ctx.fillRect(35, 80, 8, 2);
+            ctx.fillRect(55, 80, 8, 2);
+            ctx.fillRect(75, 80, 8, 2);
+
+            ctx.fillRect(18, 17, 2, 8); // {'fRect',18,17,2,8},{'fRect',38,17,2,8},{'fRect',58,17,2,8},{'fRect',78,17,2,8},
+            ctx.fillRect(38, 17, 2, 8);
+            ctx.fillRect(58, 17, 2, 8);
+            ctx.fillRect(78, 17, 2, 8);
+            ctx.fillRect(18, 37, 2, 8); // {'fRect',18,37,2,8},{'fRect',38,37,2,8},{'fRect',58,37,2,8},{'fRect',78,37,2,8},
+            ctx.fillRect(38, 37, 2, 8);
+            ctx.fillRect(58, 37, 2, 8);
+            ctx.fillRect(78, 37, 2, 8);
+            ctx.fillRect(18, 57, 2, 8); // {'fRect',18,57,2,8},{'fRect',38,57,2,8},{'fRect',58,57,2,8},{'fRect',78,57,2,8},
+            ctx.fillRect(38, 57, 2, 8);
+            ctx.fillRect(58, 57, 2, 8);
+            ctx.fillRect(78, 57, 2, 8);
+            ctx.fillRect(18, 77, 2, 8); // {'fRect',18,77,2,8},{'fRect',38,77,2,8},{'fRect',58,77,2,8},{'fRect',78,77,2,8},
+            ctx.fillRect(38, 77, 2, 8);
+            ctx.fillRect(58, 77, 2, 8);
+            ctx.fillRect(78, 77, 2, 8);
         ctx.restore();
     },
     tech: (ctx, x, y, size) => {
         ctx.save();
             ctx.translate(x, y);
             ctx.translate(-size / 2, -size / 2);
-            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
-            // insert code here
+            ctx.scale(2 * size / 128, 2 * size / 128);
+            ctx.lineWidth = 4; // {'setLW',4},
+
+            // Draw Erlenmeyer flask
+            ctx.beginPath(); // {'dPoly',51,12, 75,12, 75,43, 109,117, 17,117, 51,43},
+            ctx.moveTo(51, 12);
+            ctx.lineTo(75, 12);
+            ctx.lineTo(75, 43);
+            ctx.lineTo(109, 117);
+            ctx.lineTo(17, 117);
+            ctx.lineTo(51, 43);
+            ctx.closePath();
+            ctx.stroke();
+
+            // Draw flask rim
+            ctx.beginPath(); // {'fPoly',42,10, 52,10, 52,20},
+            ctx.moveTo(42, 10);
+            ctx.lineTo(52, 10);
+            ctx.lineTo(52, 20);
+            ctx.closePath();
+            ctx.fill();
+            ctx.beginPath(); // {'fPoly',74,10, 84,10, 74,20},
+            ctx.moveTo(74, 10);
+            ctx.lineTo(84, 10);
+            ctx.lineTo(74, 20);
+            ctx.closePath();
+            ctx.fill();
+
+            // Draw flask measurement marks
+            ctx.beginPath(); // {'line',42,105, 62,105},
+            ctx.moveTo(42, 105);
+            ctx.lineTo(62, 105);
+            ctx.moveTo(46, 91); // {'line',46,91, 62,91},
+            ctx.lineTo(62, 91);
+            ctx.moveTo(50, 75); // {'line',50,75,  62,75},
+            ctx.lineTo(62, 75);
+            ctx.moveTo(54, 57); // {'line',54,57, 62,57},
+            ctx.lineTo(62, 57);
+            ctx.stroke();
         ctx.restore();
     },
     tech_plus: (ctx, x, y, size) => {
+        // Draw tech icon
+        MODE_ICON_DRAW_FUNCTIONS.tech(ctx, x, y, size);
+        
         ctx.save();
             ctx.translate(x, y);
             ctx.translate(-size / 2, -size / 2);
-            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
-            // insert code here
+            ctx.scale(2 * size / 128, 2 * size / 128);
+            ctx.lineWidth = 4;
+
+            // Draw plus icon
+            ctx.beginPath();// {'line',105,16, 105,38},
+            ctx.moveTo(105, 16);
+            ctx.lineTo(105, 38);
+            ctx.moveTo(94, 27); // {'line',94,27,  116,27},
+            ctx.lineTo(116, 27);
+            ctx.stroke();
         ctx.restore();
     },
     none: ()=>{}
@@ -208,7 +320,8 @@ const MODE_ICON_IMAGE_NAMES = [ // NOTE: Update this list whenever you add a new
     'round',
     'solo',
     'sprint1','sprint2','sprint3',
-    'survivor'
+    'survivor',
+    'zen'
 ];
 
 
