@@ -84,7 +84,7 @@ const getModeIconDrawFunction = (icon) => {
         return MODE_ICON_DRAW_FUNCTIONS[icon];
     }
     if(!icon || icon === '' || icon === 'none') {
-        return (_,__,___,____)=>{};
+        return ()=>{};
     }
     
     // try to find the png from /data/img/modeicons
@@ -93,7 +93,7 @@ const getModeIconDrawFunction = (icon) => {
     
     // check if image exists
     if(!img.width) {
-        return (_,__,___,____)=>{};
+        return ()=>{};
     }
 
     let func = (ctx, x, y, size) => {
