@@ -298,6 +298,10 @@
         camX = Math.min(Math.max(camX + (dx / camZoom), -maxX), -minX);
         camY = Math.min(Math.max(camY + (dy / camZoom), -maxY), -minY);
     }
+    function dragMap(dx, dy) {
+        const pixelRatio = (window.devicePixelRatio || 1);
+        moveMap(dx * pixelRatio, dy * pixelRatio);
+    }
 
     function clampZoom(){
         camZoom = Math.min(Math.max(camZoom, MIN_ZOOM), MAX_ZOOM);
@@ -324,7 +328,7 @@
                     const dy = event.clientY - startY;
                     startX = event.clientX;
                     startY = event.clientY;
-                    moveMap(dx, dy);
+                    dragMap(dx, dy);
                 }
     
                 function handleMouseUp() {
@@ -404,7 +408,7 @@
                 const dy = event.touches[0].clientY - touchPrevY;
                 touchPrevX = event.touches[0].clientX;
                 touchPrevY = event.touches[0].clientY;
-                moveMap(dx, dy);
+                dragMap(dx, dy);
             } else if(event.touches.length === 2) {
                 const dx = event.touches[0].clientX - event.touches[1].clientX;
                 const dy = event.touches[0].clientY - event.touches[1].clientY;
