@@ -181,10 +181,6 @@
         }
     }
     // #endregion
-    
-    // #region Modeicon draw functions
-    // TODO: modeicon draw functions
-    // #endregion
 
     function update(timestamp){
         const dt = timestamp - prevTimestamp;

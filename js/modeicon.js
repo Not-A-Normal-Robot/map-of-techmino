@@ -289,7 +289,7 @@ let MODE_ICON_DRAW_FUNCTIONS = { // from techmino v0.17.15 /parts/scenes/load.lu
     tech_plus: (ctx, x, y, size) => {
         // Draw tech icon
         MODE_ICON_DRAW_FUNCTIONS.tech(ctx, x, y, size);
-        
+
         ctx.save();
             ctx.translate(x, y);
             ctx.translate(-size / 2, -size / 2);
@@ -317,6 +317,7 @@ const MODE_ICON_IMAGE_NAMES = [ // NOTE: Update this list whenever you add a new
     'master','master_ex',
     'mess',
     'pc',
+    'rhythm',
     'round',
     'solo',
     'sprint1','sprint2','sprint3',
