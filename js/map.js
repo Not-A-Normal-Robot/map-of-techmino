@@ -383,5 +383,44 @@
             keysDown.delete(event.key);
         });
     }
+    { // Touch events
+        let touchPrevX = 0, touchPrevY = 0;
+        let touchStartCamZoom = 0;
+
+        mapCanvas.addEventListener('touchstart', function(event) {
+            if(!focused) focused = true;
+            if(event.touches.length === 1) {
+                touchPrevX = event.touches[0].clientX;
+                touchPrevY = event.touches[0].clientY;
+                touchStartCamX = camX;
+                touchStartCamY = camY;
+                touchStartCamZoom = camZoom;
+            }
+        });
+        mapCanvas.addEventListener('touchmove', function(event) {
+            if(!focused) return;
+            if(event.touches.length === 1) {
+                const dx = event.touches[0].clientX - touchPrevX;
+                const dy = event.touches[0].clientY - touchPrevY;
+                touchPrevX = event.touches[0].clientX;
+                touchPrevY = event.touches[0].clientY;
+                moveMap(dx, dy);
+            } else if(event.touches.length === 2) {
+                const dx = event.touches[0].clientX - event.touches[1].clientX;
+                const dy = event.touches[0].clientY - event.touches[1].clientY;
+                const d = Math.sqrt(dx * dx + dy * dy);
+                const dZoom = (d - Math.sqrt(touchPrevX * touchPrevX + touchPrevY * touchPrevY)) * 0.01;
+                camZoom = touchStartCamZoom + dZoom;
+                clampZoom();
+            }
+            event.preventDefault();
+        });
+        mapCanvas.addEventListener('touchend', function(event) {
+            if(event.touches.length === 0) {
+                touchPrevX = 0;
+                touchPrevY = 0;
+            }
+        });
+    }
     // #endregion
 }
