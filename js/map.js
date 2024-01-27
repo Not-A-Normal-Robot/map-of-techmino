@@ -408,10 +408,11 @@
             } else if(event.touches.length === 2) {
                 const dx = event.touches[0].clientX - event.touches[1].clientX;
                 const dy = event.touches[0].clientY - event.touches[1].clientY;
-                const d = Math.sqrt(dx * dx + dy * dy);
-                const dZoom = (d - Math.sqrt(touchPrevX * touchPrevX + touchPrevY * touchPrevY)) * 0.01;
-                camZoom = touchStartCamZoom + dZoom;
-                clampZoom();
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const dZoom = (dist - Math.sqrt(touchPrevX * touchPrevX + touchPrevY * touchPrevY)) / 100;
+                touchPrevX = dx;
+                touchPrevY = dy;
+                zoomMap(dZoom);
             }
             event.preventDefault();
         });
