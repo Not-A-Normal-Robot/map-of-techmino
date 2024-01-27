@@ -292,10 +292,15 @@
     }
 
     // #region Controls
+    const margin = 50;
     function moveMap(dx, dy){
         // switched up min and max and negated them because of the way the map is drawn
-        camX = Math.min(Math.max(camX + (dx / camZoom), -map.max_x), -map.min_x);
-        camY = Math.min(Math.max(camY + (dy / camZoom), -map.max_y), -map.min_y);
+        const minX = map.min_x - margin;
+        const maxX = map.max_x + margin;
+        const minY = map.min_y - margin;
+        const maxY = map.max_y + margin;
+        camX = Math.min(Math.max(camX + (dx / camZoom), -maxX), -minX);
+        camY = Math.min(Math.max(camY + (dy / camZoom), -maxY), -minY);
     }
 
     function clampZoom(){
@@ -358,8 +363,12 @@
     { // Keyboard events
         window.addEventListener('keydown', (event) => {
             if(event.key === "Escape") {
-                focused = false;
-                keysDown.clear();
+                if(selected) {
+                    selected = null;
+                } else {
+                    focused = false;
+                    keysDown.clear();
+                }
                 return;
             }
             if(!focused) return;

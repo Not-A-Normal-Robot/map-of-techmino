@@ -1,5 +1,13 @@
 
 let MODE_ICON_DRAW_FUNCTIONS = { // from techmino v0.17.15 /parts/scenes/load.lua, ported to JS
+    template: (ctx, x, y, size) => {
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
+            // insert code here
+        ctx.restore();
+    },
     marathon: (ctx, x, y, size) => {
         ctx.save();
             ctx.translate(x, y);
@@ -17,44 +25,175 @@ let MODE_ICON_DRAW_FUNCTIONS = { // from techmino v0.17.15 /parts/scenes/load.lu
         ctx.restore();
     },
     infinite: (ctx, x, y, size) => {
-        // TODO: infinite modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128);
+            ctx.lineWidth = 8; // {'setLW',8}
+            ctx.beginPath(); // {'dCirc',64,64,56}
+            ctx.arc(64, 64, 56, 0, 2 * Math.PI);
+            ctx.stroke();
+            ctx.beginPath(); // {'line',64,28,64,64,82,82}
+            ctx.moveTo(64, 28);
+            ctx.lineTo(64, 64);
+            ctx.lineTo(82, 82);
+            ctx.stroke();
+            // we will ignore {'move',1,1}, the OBOE doesn't even happen here
+            ctx.fillRect(60, 14, 8, 8); // {'fRect',60,14,8,8}
+            ctx.fillRect(14, 60, 8, 8); // {'fRect',14,60,8,8}
+            ctx.fillRect(104, 60, 8, 8); // {'fRect',104,60,8,8}
+            ctx.fillRect(60, 104, 8, 8); // {'fRect',60,104,8,8}
+        ctx.restore();
     },
     classic: (ctx, x, y, size) => {
-        // TODO: classic modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128);
+            ctx.lineWidth = 12; // {'setLW',12}
+            ctx.strokeRect(20, 48, 24, 24); // {'dRect',20,48,24,24},
+            ctx.strokeRect(52, 48, 24, 24); // {'dRect',52,48,24,24},
+            ctx.strokeRect(84, 48, 24, 24); // {'dRect',84,48,24,24},
+            ctx.strokeRect(52, 80, 24, 24); // {'dRect',52,80,24,24},
+        ctx.restore();
     },
     tsd: (ctx, x, y, size) => {
-        // TODO: tsd modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128);
+            ctx.fillRect(14, 14, 32, 32); // {'fRect',14,14,32,32},
+            ctx.fillRect(14, 82, 32, 32); // {'fRect',14,82,32,32},
+            ctx.fillRect(82, 82, 32, 32); // {'fRect',82,82,32,32},
+            ctx.translate(1, 1); // {'move',1,1}
+            ctx.lineWidth = 2; // {'setLW',2}
+            ctx.beginPath(); // {'dPoly',14,48,112,48,112,78,78,78,78,112,48,112,48,78,14,78}
+            ctx.moveTo(14, 48);
+            ctx.lineTo(112, 48);
+            ctx.lineTo(112, 78);
+            ctx.lineTo(78, 78);
+            ctx.lineTo(78, 112);
+            ctx.lineTo(48, 112);
+            ctx.lineTo(48, 78);
+            ctx.lineTo(14, 78);
+            ctx.closePath();
+            ctx.stroke();
+        ctx.restore();
     },
     t49: (ctx, x, y, size) => {
-        // TODO: t49 modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128);
+            ctx.lineWidth = 4; // {'setLW',4},
+            ctx.strokeRect(10, 10, 20, 40); // {'dRect',10,10,20,40},{'dRect',98,10,20,40},
+            ctx.strokeRect(98, 10, 20, 40);
+            ctx.strokeRect(10, 78, 20, 40); // {'dRect',10,78,20,40},{'dRect',98,78,20,40},
+            ctx.strokeRect(98, 78, 20, 40);
+            ctx.strokeRect(40, 20, 46, 86); // {'dRect',40,20,46,86},
+            ctx.fillStyle = 'rgba(255,255,255,0.7)'; // {'setCL',1,1,1,.7},
+            ctx.fillRect(40, 20, 46, 86); // {'fRect',40,20,46,86},
+        ctx.restore();
     },
     t99: (ctx, x, y, size) => {
-        // TODO: t99 modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128);
+            ctx.lineWidth = 4; // {'setLW',4},
+            ctx.strokeRect(4, 4, 12, 24); // {'dRect',04,004,12,24},{'dRect',022,004,12,24},
+            ctx.strokeRect(22, 4, 12, 24);
+            ctx.strokeRect(4, 36, 12, 24); // {'dRect',04,036,12,24},{'dRect',022,036,12,24},
+            ctx.strokeRect(22, 36, 12, 24);
+            ctx.strokeRect(4, 68, 12, 24); // {'dRect',04,068,12,24},{'dRect',022,068,12,24},
+            ctx.strokeRect(22, 68, 12, 24);
+            ctx.strokeRect(4, 100, 12, 24); // {'dRect',04,100,12,24},{'dRect',022,100,12,24},
+            ctx.strokeRect(22, 100, 12, 24);
+            ctx.strokeRect(94, 4, 12, 24); // {'dRect',94,004,12,24},{'dRect',112,004,12,24},
+            ctx.strokeRect(112, 4, 12, 24);
+            ctx.strokeRect(94, 36, 12, 24); // {'dRect',94,036,12,24},{'dRect',112,036,12,24},
+            ctx.strokeRect(112, 36, 12, 24);
+            ctx.strokeRect(94, 68, 12, 24); // {'dRect',94,068,12,24},{'dRect',112,068,12,24},
+            ctx.strokeRect(112, 68, 12, 24);
+            ctx.strokeRect(94, 100, 12, 24); // {'dRect',94,100,12,24},{'dRect',112,100,12,24},
+            ctx.strokeRect(112, 100, 12, 24);
+            ctx.strokeRect(40, 20, 46, 86); // {'dRect',40,20,46,86},
+            ctx.fillStyle = 'rgba(255,255,255,0.7)'; // {'setCL',1,1,1,.7},
+            ctx.fillRect(40, 20, 46, 86); // {'fRect',40,20,46,86},
+        ctx.restore();
     },
     secret_grade: (ctx, x, y, size) => {
-        // TODO: secret_grade modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128);
+            ctx.fillRect(48, 0, 16, 16); // {'fRect',048,000,16,16},
+            ctx.fillRect(64, 16, 16, 16); // {'fRect',064,016,16,16},
+            ctx.fillRect(80, 32, 16, 16); // {'fRect',080,032,16,16},
+            ctx.fillRect(96, 48, 16, 16); // {'fRect',096,048,16,16},
+            ctx.fillRect(112, 64, 16, 16); // {'fRect',112,064,16,16},
+            ctx.fillRect(96, 80, 16, 16); // {'fRect',096,080,16,16},
+            ctx.fillRect(80, 96, 16, 16); // {'fRect',080,096,16,16},
+            ctx.fillRect(64, 112, 16, 16); // {'fRect',064,112,16,16},
+        ctx.restore();
     },
     sprint_pento: (ctx, x, y, size) => {
-        // TODO: sprint_pento modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
+            // insert code here
+        ctx.restore();
     },
     sprint_tri: (ctx, x, y, size) => {
-        // TODO: sprint_tri modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
+            // insert code here
+        ctx.restore();
     },
     ultra: (ctx, x, y, size) => {
-        // TODO: ultra modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
+            // insert code here
+        ctx.restore();
     },
     big: (ctx, x, y, size) => {
-        // TODO: big modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
+            // insert code here
+        ctx.restore();
     },
     zen: (ctx, x, y, size) => {
-        // TODO: zen modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
+            // insert code here
+        ctx.restore();
     },
     tech: (ctx, x, y, size) => {
-        // TODO: tech modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
+            // insert code here
+        ctx.restore();
     },
     tech_plus: (ctx, x, y, size) => {
-        // TODO: tech_plus modeicon
+        ctx.save();
+            ctx.translate(x, y);
+            ctx.translate(-size / 2, -size / 2);
+            ctx.scale(2 * size / 128, 2 * size / 128); // rescale from 128x128
+            // insert code here
+        ctx.restore();
     },
+    none: ()=>{}
 };
 const MODE_ICON_IMAGE_NAMES = [ // NOTE: Update this list whenever you add a new image to /data/image/modeicons!
     'attack',
