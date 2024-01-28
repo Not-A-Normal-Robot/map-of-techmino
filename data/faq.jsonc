@@ -24,10 +24,9 @@
         "author": "NOT_A_ROBOT"
     },
     {
-        "question": "I can't download the game from TestFlight! (iOS)",
-        "answerHTML":
-            "<p>If you can't download the game from TestFlight, you can still run the game by downloading Techmino_Bare.love from <a href=\"https://github.com/26F-Studio/Techmino\">GitHub Releases</a> and opening it using Love2D. However, this may not load third-party libraries such as ColdClear.</p>",
-        "author": "NOT_A_ROBOT"
+        "question": "Why can't I find Techmino in App Store (iOS)?",
+        "answerHTML": "<p>Techmino has received a warning about Copyright infringement from The Tetris Company. Techmino is no longer available on the App Store.</p><p>A TestFlight was made for Techmino, but unfortunately, the maximum number of members had been reached, therefore, you can't download Techmino on iOS anymore. We apologize for the inconvenience. If it says the beta isn't accepting more testers, unfortunately, it is not available at this time.</p><p>You may want to check the next FAQ entry for more information</p>",
+        "author": "nekonaomii (edited by NOT_A_ROBOT and SweetSea)"
     },
     {
         "question": "I want to play Techmino on iOS or iPadOS without jailbreaking, but the TestFlight limit is full or the TestFlight build has expired. What should I do?",
@@ -37,6 +36,23 @@
     {
         "question": "I want to play Techmino on iOS or iPadOS without jailbreaking, but I don't see an `.ipa` download on the latest release.",
         "answerHTML": "<p>If you want to install a version of Techmino that has no ipa builds, you can follow these steps:</p><ol><li>Get the .ipa files from <a href=\"https://github.com/26F-Studio/Techmino/releases\">the GitHub releases page</a>. Find any version with a valid .ipa file, then download “Techmino_iOS.ipa”.</li><li>Change the extension of the .ipa file to .zip. Extract the .zip file.</li><li>Go to ./Payload. If you are using Microsoft Windows, you will see a folder named “Techmino.app”. Open that folder and skip to step 5.</li><li>If you are using macOS, you will see an application file named Techmino.app. Control-click on it, then click on “Show package content” in the context menu.</li><li>Locate game.love. Replace this file using the .love file you intend to install.</li><li>Compress the Techmino iOS file into a .zip file again. Please choose the “no compression” option in your archive app when creating this zip file.</li><li>Change the extension of the new .zip file back to .ipa.</li><li>Follow the instructions of the previous FAQ entry.</li></ol><p>Note that builds that are too far back in time may use a different build of LÖVE and may not work properly with this method.</p>",
+        "author": "C29H25N3O5 (edited by NOT_A_ROBOT)"
+    },
+    {
+        "question": "Why am I getting the error while requiring Cold Clear bot?",
+        "answerHTML": "<p>abc</p>",
+        "author": "SweetSea"
+    },
+    {
+        "question": "Remake?",
+        "answerHTML":
+            "<p>On 15 Jan, 2022, MrZ (the main dev of Techmino) opened an issue named “REMAKE NOW” on the GitHub page. According to MrZ himself, the current Techmino contains too many bugs that he needs to remake the whole game from scratch in order to resolve them. Although it's still far from complete, you can view the source code <a href=\"https://github.com/26F-Studio/Techmino_Galaxy\">here</a>.</p>",
+        "author": "C29H25N3O5 (edited by NOT_A_ROBOT)"
+    },
+    {
+        "question": "How can I play Techmino: Galaxy (the remake)?",
+        "answerHTML":
+            "<p>Do understand that Galaxy is still rather early in development, and does not necessarily give the best experience.</p><p>The easiest way to obtain Techmino: Galaxy is through GitHub Actions.<br>(note: you need a GitHub account to download artifacts in GitHub Actions.)</p><ul><li>Go to <a href=\"https://github.com/26F-Studio/Techmino_Galaxy/actions\">https://github.com/26F-Studio/Techmino_Galaxy/actions</a></li><li>Select one workflow run from the list. A green tick mark means this run has successfully built all versions without errors. A red cross means there were some errors, but doesn't necessarily mean your version wasn't built successfully.</li><li>Scroll down to \"Artifacts\" and download your desired platform's version, or scroll further down to \"Post-build summary\" for links to mirrors to download from.</li></ul><p>Alternatively, obtain the source code and Love2D binary separately, and use the Love2D binary to open the source code. To do this, follow these instructions:</p><ol><li><a href=\"https://love2d.org/\">Get the latest version of LÖVE</a>.</li><li>Download the repo from GitHub (or just run a quick <code>git clone https://github.com/26F-Studio/Techmino_Galaxy.git</code> if you have Git installed).</li><li>Check if the Zenitha folder is empty. If it is, clone <a href=\"https://github.com/26F-Studio/Zenitha\">Zenitha</a> and put everything inside the folder into Zenitha in Techmino_Galaxy.</li><li>Drag and drop the entire Techmino_Galaxy folder onto love.exe (or love.app, depending on your OS)</li></ol><p>Also, if you often update the game, consider following <a href=\"https://github.com/26F-Studio/Techmino_Galaxy/discussions/26\">this guide made by SweetSea</a>.</p><p>Note: MrZ does not recommend talking about Techmino: Galaxy's contents, especially things that can still change a lot, in public places. Unless you have otherwise a good reason, might as well respect his recommendation. Thank you!</p>",
         "author": "C29H25N3O5 (edited by NOT_A_ROBOT)"
     },
     {
@@ -80,18 +96,18 @@
         "answerHTML": "<p>See the previous FAQ entry.</p>",
         "author": "NOT_A_ROBOT"
     },
-    {
-        "question": "Who's Miya?",
-        "answerHTML":
-            "<p>Miya is one of the voice actresses in the game. She is also a <a href=\"https://space.bilibili.com/846180\">virtual streamer</a>.</p>",
-        "author": "NOT_A_ROBOT (information from User670)"
-    },
-    {
-        "question": "Who is Mono?",
-        "answerHTML":
-            "<p>Mono is another voice actress featured in the game. She is an artist (ex-virtual streamer). The voice pack language is in English. Unfortunately, their profile was wiped clean.</p>",
-        "author": "NOT_A_ROBOT (information from User670)"
-    },
+    // {
+    //     "question": "Who's Miya?",
+    //     "answerHTML":
+    //         "<p>Miya is one of the voice actresses in the game. She is also a <a href=\"https://space.bilibili.com/846180\">virtual streamer</a>.</p>",
+    //     "author": "NOT_A_ROBOT (information from User670)"
+    // },
+    // {
+    //     "question": "Who is Mono?",
+    //     "answerHTML":
+    //         "<p>Mono is another voice actress featured in the game. She is an artist (ex-virtual streamer). The voice pack language is in English. Unfortunately, their profile was wiped clean.</p>",
+    //     "author": "NOT_A_ROBOT (information from User670)"
+    // },
     {
         "question": "How do I change the game's language?",
         "answerHTML":
@@ -161,18 +177,6 @@
         "question": "I see an icon that is like the \"thinking\" emoji, but with a Z tetromino. What is this?",
         "answerHTML":
             "<p>It means “Tetris”! Due to possible risk of receiving DMCAs from TTC, we have decided to replace all instances of the word “Tetris” in the game with 󰀕.</p>",
-        "author": "C29H25N3O5 (edited by NOT_A_ROBOT)"
-    },
-    {
-        "question": "Remake?",
-        "answerHTML":
-            "<p>On 15 Jan, 2022, MrZ (the main dev of Techmino) opened an issue named “REMAKE NOW” on the GitHub page. According to MrZ himself, the current Techmino contains too many bugs that he needs to remake the whole game from scratch in order to resolve them. Although it's still far from complete, you can view the source code <a href=\"https://github.com/26F-Studio/Techmino_Galaxy\">here</a>.</p>",
-        "author": "C29H25N3O5 (edited by NOT_A_ROBOT)"
-    },
-    {
-        "question": "How can I play Techmino: Galaxy (the remake)?",
-        "answerHTML":
-            "<p>Do understand that Galaxy is still rather early in development, and does not necessarily give the best experience.</p><p>The easiest way to obtain Techmino: Galaxy is through GitHub Actions.<br>(note: you need a GitHub account to download artifacts in GitHub Actions.)</p><ul><li>Go to <a href=\"https://github.com/26F-Studio/Techmino_Galaxy/actions\">https://github.com/26F-Studio/Techmino_Galaxy/actions</a></li><li>Select one workflow run from the list. A green tick mark means this run has successfully built all versions without errors. A red cross means there were some errors, but doesn't necessarily mean your version wasn't built successfully.</li><li>Scroll down to \"Artifacts\" and download your desired platform's version, or scroll further down to \"Post-build summary\" for links to mirrors to download from.</li></ul><p>Alternatively, obtain the source code and Love2D binary separately, and use the Love2D binary to open the source code. To do this, follow these instructions:</p><ol><li><a href=\"https://love2d.org/\">Get the latest version of LÖVE</a>.</li><li>Download the repo from GitHub (or just run a quick <code>git clone https://github.com/26F-Studio/Techmino_Galaxy.git</code> if you have Git installed).</li><li>Check if the Zenitha folder is empty. If it is, clone <a href=\"https://github.com/26F-Studio/Zenitha\">Zenitha</a> and put everything inside the folder into Zenitha in Techmino_Galaxy.</li><li>Drag and drop the entire Techmino_Galaxy folder onto love.exe (or love.app, depending on your OS)</li></ol><p>Also, if you often update the game, consider following <a href=\"https://github.com/26F-Studio/Techmino_Galaxy/discussions/26\">this guide made by SweetSea</a>.</p><p>Note: MrZ does not recommend talking about Techmino: Galaxy's contents, especially things that can still change a lot, in public places. Unless you have otherwise a good reason, might as well respect his recommendation. Thank you!</p>",
         "author": "C29H25N3O5 (edited by NOT_A_ROBOT)"
     },
     {
@@ -285,10 +289,5 @@
         "question": "How is B2B2B calculated in Techmino?",
         "answerHTML": "<p>Use this table to calculate B2B2B meter (on the left of the playfield):<br><img src=\"/data/img/faq/b2b2b-calculator.png\"></p>",
         "author": "nekonaomii"
-    },
-    {
-        "question": "Why can't I play Techmino on iOS?",
-        "answerHTML": "<p>Techmino has received a warning about Copyright infringement from The Tetris Company. Techmino is no longer available on the App Store.</p><p>A TestFlight was made for Techmino, but unfortunately, the maximum number of members had been reached, therefore, you can't download Techmino on iOS anymore. We apologize for the inconvenience. If it says the beta isn't accepting more testers, unfortunately, it is not available at this time.</p>",
-        "author": "nekonaomii (edited by NOT_A_ROBOT)"
     }
 ]
