@@ -164,7 +164,7 @@ import {getLanguageEntry} from "/js/lang.js";
             let t = performance.now() / 12 % 360;
             mapContext.fillStyle = `hsla(${t}, 100%, 50%, 0.36)`;
         }
-        mapContext.lineWidth = 4 * camZoom;
+        mapContext.lineWidth = 8 * camZoom / (window.devicePixelRatio || 1);
         switch(shape) {
             case 1:
                 mapContext.fillRect(...getMapModeCoords(x, y, size * 2));
@@ -447,8 +447,6 @@ import {getLanguageEntry} from "/js/lang.js";
             if(event.touches.length === 1) {
                 touchPrevX = event.touches[0].clientX;
                 touchPrevY = event.touches[0].clientY;
-                touchStartCamX = camX;
-                touchStartCamY = camY;
             } else if(event.touches.length === 2) {
                 touchStartDist = Math.hypot(
                     event.touches[0].clientX - event.touches[1].clientX,
