@@ -222,7 +222,7 @@ import {getLanguageEntry} from "/js/lang.js";
         if(version_info.length > 0) version_info = `(${version_info})`;
 
         mapContext.save();
-            mapContext.fillStyle = "#FFFFFF8F";
+            mapContext.fillStyle = "#9E9E9ECC";
             mapContext.translate(panelX, 0);
             mapContext.fillRect(0, 0, panelWidth, mapCanvas.height);
             mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.062}px techmino-proportional`;
@@ -233,7 +233,7 @@ import {getLanguageEntry} from "/js/lang.js";
             mapContext.fillText(subtitle, panelWidth * 0.5, mapCanvas.height * 0.145);
             mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.03}px techmino-proportional`;
             mapContext.fillText(version_info, panelWidth * 0.5, mapCanvas.height * 0.2);
-            mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.035}px techmino-proportional`;
+            mapContext.font = `normal ${Math.min(mapCanvas.width, mapCanvas.height) * 0.035}px techmino-proportional`;
             description = getWrappedText(mapContext, description, panelWidth * 0.9);
             for(let i = 0; i < description.length; i++){
                 mapContext.fillText(description[i], panelWidth * 0.5, mapCanvas.height * (0.24 + i * 0.036));
@@ -318,7 +318,7 @@ import {getLanguageEntry} from "/js/lang.js";
 
         // #region Handle inputs
         if(focused){
-            const speed = -1;
+            const speed = -0.35;
             let dx = 0, dy = 0;
 
             if (keysDown.has("a") || keysDown.has("A") || keysDown.has("ArrowLeft")) dx -= speed;
@@ -340,6 +340,9 @@ import {getLanguageEntry} from "/js/lang.js";
     // #region Controls
     const margin = 50;
     function moveMap(dx, dy){
+        if(typeof camX !== "number" || isNaN(camX)) camX = 0;
+        if(typeof camY !== "number" || isNaN(camY)) camY = 0;
+
         // switched up min and max and negated them because of the way the map is drawn
         const minX = map.min_x - margin;
         const maxX = map.max_x + margin;
@@ -354,11 +357,8 @@ import {getLanguageEntry} from "/js/lang.js";
     }
 
     function clampZoom(){
+        if(typeof camZoom !== "number" || isNaN(camZoom)) camZoom = 1;
         camZoom = Math.min(Math.max(camZoom, MIN_ZOOM), MAX_ZOOM);
-    }
-    function zoomMap(dZoom){
-        camZoom += dZoom;
-        clampZoom();
     }
     function zoomMapScroll(scrollAmount) {
         camZoom += scrollAmount * camZoom; // multiplicative zoom for scrolling
@@ -440,6 +440,7 @@ import {getLanguageEntry} from "/js/lang.js";
     }
     { // Touch events
         let touchPrevX = 0, touchPrevY = 0;
+        let touchStartDist = 1, touchStartZoom = 1;
 
         mapCanvas.addEventListener('touchstart', function(event) {
             if(!focused) focused = true;
@@ -448,8 +449,13 @@ import {getLanguageEntry} from "/js/lang.js";
                 touchPrevY = event.touches[0].clientY;
                 touchStartCamX = camX;
                 touchStartCamY = camY;
-                touchStartCamZoom = camZoom;
+            } else if(event.touches.length === 2) {
+                touchStartDist = Math.hypot(
+                    event.touches[0].clientX - event.touches[1].clientX,
+                    event.touches[0].clientY - event.touches[1].clientY
+                );
             }
+            touchStartZoom = camZoom;
         });
         mapCanvas.addEventListener('touchmove', function(event) {
             if(!focused) return;
@@ -460,13 +466,13 @@ import {getLanguageEntry} from "/js/lang.js";
                 touchPrevY = event.touches[0].clientY;
                 dragMap(dx, dy);
             } else if(event.touches.length === 2) {
-                const dx = event.touches[0].clientX - event.touches[1].clientX;
-                const dy = event.touches[0].clientY - event.touches[1].clientY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                const dZoom = (dist - Math.sqrt(touchPrevX * touchPrevX + touchPrevY * touchPrevY)) / 62;
-                touchPrevX = dx;
-                touchPrevY = dy;
-                zoomMap(dZoom);
+                const dist = Math.hypot(
+                    event.touches[0].clientX - event.touches[1].clientX,
+                    event.touches[0].clientY - event.touches[1].clientY
+                );
+                const zoomMultipler = dist / touchStartDist;
+                camZoom = touchStartZoom * zoomMultipler;
+                clampZoom();
             }
             event.preventDefault();
         });
