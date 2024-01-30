@@ -558,12 +558,22 @@ export default {
         sprintLock: {
             title: "Sprint",
             subtitle: "NO ROTATIONS",
-            description: "40L with no rotations"
+            description: "40L but you can't rotate the pieces"
         },
         sprintSmooth: {
             title: "Sprint",
             subtitle: "NO FRICTION",
             description: "40L with zero DAS and ARR"
+        },
+        sprintSym: {
+            title: "Sprint",
+            subtitle: "SYMMETRY",
+            description: "40L but your field must be symmetrical"
+        },
+        sprintMD: {
+            title: "Sprint",
+            subtitle: "MISDROP",
+            description: "40L but random inputs happen"
         },
         marathon_bfmax: {
             title: "Marathon",
@@ -593,6 +603,16 @@ export default {
             subtitle: "ULTIMATE",
             description: "200-line high-tempo rhythmic marathon",
             version_info: "v0.13.2 - v0.16.4"
+        },
+        techrash_n: {
+            title: "Techrash",
+            subtitle: "NORMAL",
+            description: "[TODO]"
+        },
+        techrash_u: {
+            title: "Techrash",
+            subtitle: "ULTIMATE",
+            description: "[TODO]"
         },
 
         // Outdated modes
@@ -722,6 +742,69 @@ export default {
             subtitle: "PHANTOM",
             description: "The locked blocks are invisible. What will you do?",
             version_info: "Unofficial Expansion"
+        },
+
+        // Techmino WTF modes
+        // https://github.com/MelloBoo44/Techmino-WTF
+        sprint_40l_math: {
+            title: "Sprint",
+            subtitle: "40L MATH",
+            description: "Clear 40 lines while doing math!",
+            version_info: "Techmino WTF mod"
+        },
+        wtf: {
+            title: "wtf",
+            subtitle: "",
+            description: "Flashing lights warning!",
+            version_info: "Techmino WTF mod"
+        },
+        stack_wtf: {
+            title: "Stack",
+            subtitle: "WTF",
+            description: "Minimum zone requirement increases every zone!",
+            version_info: "Techmino WTF mod"
+        },
+        lockout: {
+            title: "Lockout",
+            subtitle: "",
+            description: "Clear randomly-selected types of clears quickly!",
+            version_info: "Techmino WTF mod"
+        },
+        round_wtf: {
+            title: "Turn-Based",
+            subtitle: "WTF",
+            description: "Only 4 pieces per turn!",
+            version_info: "Techmino WTF mod"
+        },
+        scanner_l: {
+            title: "Scanner",
+            subtitle: "LUNATIC",
+            description: "Zone lines clear away after a set number of pieces! Originally by hanamielle.",
+            version_info: "Techmino WTF mod"
+        },
+        solo_wtf: {
+            title: "Battle",
+            subtitle: "WTF",
+            description: "Get as much attack as you can!",
+            version_info: "Techmino WTF mod"
+        },
+        backfire_wtf: {
+            title: "Backfire",
+            subtitle: "WTF",
+            description: "Multiplied backfire!",
+            version_info: "Techmino WTF mod"
+        },
+        confusion: {
+            title: "Confusion",
+            subtitle: "",
+            description: "?????",
+            version_info: "Techmino WTF mod"
+        },
+        cascade: {
+            title: "Cascade",
+            subtitle: "",
+            description: "On death, individual minos fall!",
+            version_info: "Techmino WTF mod"
         },
 
         // Unused modes
