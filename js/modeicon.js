@@ -332,7 +332,7 @@ const MODE_ICON_IMAGE_NAMES = [ // NOTE: Update this list whenever you add a new
 // Output: a function where:
 //   - input: the canvas context (object) and X/Y/size of the mode icon (number)
 //   - output: none
-const getModeIconDrawFunction = (icon) => {
+export function getModeIconDrawFunction(icon) {
     if(MODE_ICON_DRAW_FUNCTIONS[icon]) {
         return MODE_ICON_DRAW_FUNCTIONS[icon];
     }
@@ -364,7 +364,7 @@ const getModeIconDrawFunction = (icon) => {
 // Output: a map of mode icon names to functions that draw them, where each function:
 //   - input: the canvas context (object) and X/Y/size of the mode icon (number)
 //   - output: none
-const getModeIconDrawFunctionMap = () => {
+export function getModeIconDrawFunctionMap() {
     MODE_ICON_IMAGE_NAMES.forEach((icon) => {
         getModeIconDrawFunction(icon);
     })
