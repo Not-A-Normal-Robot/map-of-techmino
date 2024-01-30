@@ -1,3 +1,6 @@
+import {getModeIconDrawFunction, getModeIconDrawFunctionMap} from "/js/modeicon.js";
+import {getLanguageEntry} from "/js/lang.js";
+
 {
     const mapCanvas = document.getElementById("map");
     const mapContext = mapCanvas.getContext("2d");
@@ -78,7 +81,7 @@
         }
     }
     function getModeAtPoint(x, y) {
-        for(mode of Object.values(map.modes)){
+        for(let mode of Object.values(map.modes)){
             if(isPointInMode(x, y, mode)) return mode;
         }
         return null;
@@ -196,7 +199,7 @@
         }
 
         // Draw modes
-        for(mode of Object.values(map.modes)){
+        for(let mode of Object.values(map.modes)){
             // Draw connected mode lines
             mapContext.strokeStyle = "#FFFFFF5F";
             mode.unlock?.forEach(otherModeName => {
@@ -262,7 +265,7 @@
             mapContext.fillStyle = "#FFFFFFFF";
             mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.05}px techmino-proportional`;
             mapContext.textAlign = "center";
-            mapContext.fillText("Unfocused - Click here to focus", mapCanvas.width / 2, mapCanvas.height / 2);
+            mapContext.fillText(getLanguageEntry("map.unfocused"), mapCanvas.width / 2, mapCanvas.height / 2);
         }
         // #endregion
 
