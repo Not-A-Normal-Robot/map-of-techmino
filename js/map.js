@@ -164,7 +164,7 @@ import {getLanguageEntry} from "/js/lang.js";
             let t = performance.now() / 12 % 360;
             mapContext.fillStyle = `hsla(${t}, 100%, 50%, 0.36)`;
         }
-        mapContext.lineWidth = 4 * camZoom;
+        mapContext.lineWidth = 8 * camZoom / (window.devicePixelRatio || 1);
         switch(shape) {
             case 1:
                 mapContext.fillRect(...getMapModeCoords(x, y, size * 2));
@@ -184,6 +184,62 @@ import {getLanguageEntry} from "/js/lang.js";
         }
     }
     // #endregion
+
+    // modified from https://stackoverflow.com/a/16599668
+    function getWrappedText(ctx, text, maxWidth) {
+        var words = text.split(" ");
+        var lines = [];
+        var currentLine = words[0];
+    
+        for (var i = 1; i < words.length; i++) {
+            var word = words[i];
+            var width = ctx.measureText(currentLine + " " + word).width;
+            if (width < maxWidth) {
+                currentLine += " " + word;
+            } else {
+                lines.push(currentLine);
+                currentLine = word;
+            }
+        }
+        lines.push(currentLine);
+        return lines;
+    }
+
+    function drawSelectedPane() {
+        if(!selected && !selectedLonger) return;
+
+        const t = modeSelectAnimation / MODE_SELECT_ANIMATION_LENGTH;
+
+        if(t <= 0) return;
+        
+        const smoothT = t * t * (3 - 2 * t); // smoothstep(t)
+        const panelWidth = mapCanvas.width * 0.3;
+        const panelX = mapCanvas.width - panelWidth * smoothT;
+        let title = getLanguageEntry(`modes.${selectedLonger.name}.title`, `[${selectedLonger.name}]`);
+        let subtitle = getLanguageEntry(`modes.${selectedLonger.name}.subtitle`, "");
+        let description = getLanguageEntry(`modes.${selectedLonger.name}.description`, "");
+        let version_info = getLanguageEntry(`modes.${selectedLonger.name}.version_info`, "");
+        if(version_info.length > 0) version_info = `(${version_info})`;
+
+        mapContext.save();
+            mapContext.fillStyle = "#9E9E9ECC";
+            mapContext.translate(panelX, 0);
+            mapContext.fillRect(0, 0, panelWidth, mapCanvas.height);
+            mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.062}px techmino-proportional`;
+            mapContext.textAlign = "center";
+            mapContext.fillStyle = "white";
+            mapContext.fillText(title, panelWidth * 0.5, mapCanvas.height * 0.09);
+            mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.042}px techmino-proportional`;
+            mapContext.fillText(subtitle, panelWidth * 0.5, mapCanvas.height * 0.145);
+            mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.03}px techmino-proportional`;
+            mapContext.fillText(version_info, panelWidth * 0.5, mapCanvas.height * 0.2);
+            mapContext.font = `normal ${Math.min(mapCanvas.width, mapCanvas.height) * 0.035}px techmino-proportional`;
+            description = getWrappedText(mapContext, description, panelWidth * 0.9);
+            for(let i = 0; i < description.length; i++){
+                mapContext.fillText(description[i], panelWidth * 0.5, mapCanvas.height * (0.24 + i * 0.036));
+            }
+        mapContext.restore();
+    }
 
     function update(timestamp){
         const dt = timestamp - prevTimestamp;
@@ -242,21 +298,12 @@ import {getLanguageEntry} from "/js/lang.js";
             mapContext.restore();
         }
 
-        // TODO: Draw selected mode details
         if(selected) {
             modeSelectAnimation = Math.min(modeSelectAnimation + dt, MODE_SELECT_ANIMATION_LENGTH);
         } else {
             modeSelectAnimation = Math.max(modeSelectAnimation - dt, 0);
         }
-        if(selected || selectedLonger) {
-            const t = modeSelectAnimation / MODE_SELECT_ANIMATION_LENGTH;
-            const smoothT = t * t * (3 - 2 * t); // smoothstep(t)
-            const panelWidth = mapCanvas.width * 0.3;
-            const panelX = mapCanvas.width - panelWidth * smoothT;
-
-            mapContext.fillStyle = "#FFFFFF8F";
-            mapContext.fillRect(panelX, 0, panelWidth, mapCanvas.height);
-        }
+        drawSelectedPane();
 
         // Draw "click here to focus" layer
         if(!focused){
@@ -265,19 +312,19 @@ import {getLanguageEntry} from "/js/lang.js";
             mapContext.fillStyle = "#FFFFFFFF";
             mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.05}px techmino-proportional`;
             mapContext.textAlign = "center";
-            mapContext.fillText(getLanguageEntry("map.unfocused"), mapCanvas.width / 2, mapCanvas.height / 2);
+            mapContext.fillText(getLanguageEntry("map.unfocused"), mapCanvas.width * 0.5, mapCanvas.height * 0.5);
         }
         // #endregion
 
         // #region Handle inputs
         if(focused){
-            const speed = -1;
+            const speed = -0.35;
             let dx = 0, dy = 0;
 
-            if (keysDown.has("a") || keysDown.has("A")) dx -= speed;
-            if (keysDown.has("d") || keysDown.has("D")) dx += speed;
-            if (keysDown.has("w") || keysDown.has("W")) dy -= speed;
-            if (keysDown.has("s") || keysDown.has("S")) dy += speed;
+            if (keysDown.has("a") || keysDown.has("A") || keysDown.has("ArrowLeft")) dx -= speed;
+            if (keysDown.has("d") || keysDown.has("D") || keysDown.has("ArrowRight")) dx += speed;
+            if (keysDown.has("w") || keysDown.has("W") || keysDown.has("ArrowUp")) dy -= speed;
+            if (keysDown.has("s") || keysDown.has("S") || keysDown.has("ArrowDown")) dy += speed;
 
             if (dx !== 0 || dy !== 0) {
                 showCrosshair = true;
@@ -293,6 +340,9 @@ import {getLanguageEntry} from "/js/lang.js";
     // #region Controls
     const margin = 50;
     function moveMap(dx, dy){
+        if(typeof camX !== "number" || isNaN(camX)) camX = 0;
+        if(typeof camY !== "number" || isNaN(camY)) camY = 0;
+
         // switched up min and max and negated them because of the way the map is drawn
         const minX = map.min_x - margin;
         const maxX = map.max_x + margin;
@@ -307,11 +357,8 @@ import {getLanguageEntry} from "/js/lang.js";
     }
 
     function clampZoom(){
+        if(typeof camZoom !== "number" || isNaN(camZoom)) camZoom = 1;
         camZoom = Math.min(Math.max(camZoom, MIN_ZOOM), MAX_ZOOM);
-    }
-    function zoomMap(dZoom){
-        camZoom += dZoom;
-        clampZoom();
     }
     function zoomMapScroll(scrollAmount) {
         camZoom += scrollAmount * camZoom; // multiplicative zoom for scrolling
@@ -384,6 +431,7 @@ import {getLanguageEntry} from "/js/lang.js";
                     keysDown.add(event.key);
                     break;
             }
+            if(event.key.startsWith("Arrow")) event.preventDefault();
         });
           
         window.addEventListener('keyup', (event) => {
@@ -392,17 +440,20 @@ import {getLanguageEntry} from "/js/lang.js";
     }
     { // Touch events
         let touchPrevX = 0, touchPrevY = 0;
-        let touchStartCamZoom = 0;
+        let touchStartDist = 1, touchStartZoom = 1;
 
         mapCanvas.addEventListener('touchstart', function(event) {
             if(!focused) focused = true;
             if(event.touches.length === 1) {
                 touchPrevX = event.touches[0].clientX;
                 touchPrevY = event.touches[0].clientY;
-                touchStartCamX = camX;
-                touchStartCamY = camY;
-                touchStartCamZoom = camZoom;
+            } else if(event.touches.length === 2) {
+                touchStartDist = Math.hypot(
+                    event.touches[0].clientX - event.touches[1].clientX,
+                    event.touches[0].clientY - event.touches[1].clientY
+                );
             }
+            touchStartZoom = camZoom;
         });
         mapCanvas.addEventListener('touchmove', function(event) {
             if(!focused) return;
@@ -413,13 +464,13 @@ import {getLanguageEntry} from "/js/lang.js";
                 touchPrevY = event.touches[0].clientY;
                 dragMap(dx, dy);
             } else if(event.touches.length === 2) {
-                const dx = event.touches[0].clientX - event.touches[1].clientX;
-                const dy = event.touches[0].clientY - event.touches[1].clientY;
-                const dist = Math.sqrt(dx * dx + dy * dy);
-                const dZoom = (dist - Math.sqrt(touchPrevX * touchPrevX + touchPrevY * touchPrevY)) / 62;
-                touchPrevX = dx;
-                touchPrevY = dy;
-                zoomMap(dZoom);
+                const dist = Math.hypot(
+                    event.touches[0].clientX - event.touches[1].clientX,
+                    event.touches[0].clientY - event.touches[1].clientY
+                );
+                const zoomMultipler = dist / touchStartDist;
+                camZoom = touchStartZoom * zoomMultipler;
+                clampZoom();
             }
             event.preventDefault();
         });
