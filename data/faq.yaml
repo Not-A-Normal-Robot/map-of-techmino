@@ -137,26 +137,10 @@
             "<p>Yes! Feel free to adjust button mappings in Settings &gt; Key Settings.</p>"
         author: "User670 (edited by NOT_A_ROBOT)"
     -
-        question: "How do I play multiplayer?"
+        question: "How do I play multiplayer? / I can't sign up for an account!"
         answerHTML:
             "<p>Unfortunately, as of December 2023, the server is down. The server maintainer, Particle_G, has not been active for quite a while. It's recommended that you treat this game as a single-player game until this problem is resolved.</p>"
         author: "NOT_A_ROBOT"
-    -
-        question: "I can't sign up for an account!"
-        answerHTML: "<p>See the previous FAQ entry.</p>"
-        author: "NOT_A_ROBOT"
-    # -
-    #     question: "Who's Miya?"
-    #     answerHTML:
-    #         "<p>Miya is one of the voice actresses in the game. She is also a <a href=\"https://space.bilibili.com/846180\">virtual streamer</a>.</p>"
-    #     author: "NOT_A_ROBOT (information from User670)"
-    # }
-    # -
-    #     question: "Who is Mono?"
-    #     answerHTML:
-    #         "<p>Mono is another voice actress featured in the game. She is an artist (ex-virtual streamer). The voice pack language is in English. Unfortunately, their profile was wiped clean.</p>"
-    #     author: "NOT_A_ROBOT (information from User670)"
-    # }
     -
         question: "How do I change the game's language?"
         answerHTML:
