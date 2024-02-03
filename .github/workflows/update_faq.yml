@@ -20,6 +20,7 @@ jobs:
 
       - name: Generate FAQ HTML
         run: |
+          python -m pip install pyyaml
           python .github/scripts/generate_faq_html.py
 
       - name: Commit updated FAQ HTML

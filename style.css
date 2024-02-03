@@ -1,7 +1,6 @@
 /* -------- Fonts -------- */
 @font-face { font-family: "techmino-proportional"; src: url('fonts/proportional.otf') }
-/* Currently unused, if you want to use it then uncomment the below line */
-/* @font-face { font-family: "techmino-monospace"   ; src: url('fonts/monospace.otf') } */
+@font-face { font-family: "techmino-monospace"   ; src: url('fonts/monospaced.otf') }
 
 /* -------- Body -------- */
 body{
@@ -11,6 +10,10 @@ body{
     margin: 0;
     font-family: "techmino-proportional";
     z-index: -2;
+}
+
+body code {
+    font-family: "techmino-monospace";
 }
 
 /* -------- Background -------- */
@@ -150,6 +153,59 @@ a:not(header a):hover
     max-width: 100%;
     height: auto;
     margin: 0.5rem 0;
+}
+.expanded .answer img.center {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+.expanded .answer table {
+    border-collapse: collapse;
+    margin: 20px auto;
+    width: 100%;
+
+    /* For scrolling, if the screen's width is too low */
+    display: block;
+    max-width: -moz-fit-content;
+    max-width: fit-content;
+    overflow-x: auto;
+    white-space: nowrap;
+
+    th {
+        border: 1.5px solid #ddd;
+        padding: 8px;
+        text-align: center;
+    };
+    tr {border: 0.75px solid #ddd}
+    td {
+        border: 0.75px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    };
+}
+.expanded .answer table.compact {
+    border-collapse: collapse;
+    margin: 20px auto;
+    width: 100%;
+    display: flex;
+
+    td {border: 0px solid #ddd}
+}
+@media only screen and (max-width: 700px) {
+    .expanded .answer table.compact {
+        /* Inverting/transposing the table */
+        tr {
+            display: block;
+            float: left;
+        };
+        th, td {
+            width: auto !important;
+            display: block;
+            border: 0px;
+        }
+        
+    }
 }
 
 .answer-source {
