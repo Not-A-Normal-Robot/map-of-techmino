@@ -1,6 +1,6 @@
 /* -------- Fonts -------- */
 @font-face { font-family: "techmino-proportional"; src: url('fonts/proportional.otf') }
-@font-face { font-family: "techmino-monospace"   ; src: url('fonts/monospace.otf') }
+@font-face { font-family: "techmino-monospace"   ; src: url('fonts/monospaced.otf') }
 
 /* -------- Body -------- */
 body{
@@ -10,6 +10,10 @@ body{
     margin: 0;
     font-family: "techmino-proportional";
     z-index: -2;
+}
+
+body code {
+    font-family: "techmino-monospace";
 }
 
 /* -------- Background -------- */
@@ -188,7 +192,7 @@ a:not(header a):hover
 
     td {border: 0px solid #ddd}
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
     .expanded .answer table.compact {
         /* Inverting/transposing the table */
         tr {
