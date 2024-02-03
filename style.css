@@ -107,7 +107,6 @@ a:not(header a):hover
     display: flex;
     flex-direction: row;
     cursor: pointer;
-    font-family: monospace;
 }
 .expanded .question-header {
     border-bottom: 1px solid lime;
