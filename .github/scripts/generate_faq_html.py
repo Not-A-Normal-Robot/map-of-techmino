@@ -2,7 +2,7 @@ import yaml
 try:
     from yaml import CLoader as _Loader
 except ImportError:
-    from yaml import _Loader
+    from yaml import Loader  as _Loader
 
 # Constants
 faq_yaml_location  = "data/faq.yaml"
