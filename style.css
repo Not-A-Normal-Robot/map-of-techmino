@@ -1,7 +1,6 @@
 /* -------- Fonts -------- */
 @font-face { font-family: "techmino-proportional"; src: url('fonts/proportional.otf') }
-/* Currently unused, if you want to use it then uncomment the below line */
-/* @font-face { font-family: "techmino-monospace"   ; src: url('fonts/monospace.otf') } */
+@font-face { font-family: "techmino-monospace"   ; src: url('fonts/monospace.otf') }
 
 /* -------- Body -------- */
 body{
@@ -108,6 +107,7 @@ a:not(header a):hover
     display: flex;
     flex-direction: row;
     cursor: pointer;
+    font-family: monospace;
 }
 .expanded .question-header {
     border-bottom: 1px solid lime;
@@ -162,7 +162,7 @@ a:not(header a):hover
     margin: 20px auto;
     width: 100%;
 
-    /* For scrolling */
+    /* For scrolling, if the screen's width is too low */
     display: block;
     max-width: -moz-fit-content;
     max-width: fit-content;
@@ -170,10 +170,11 @@ a:not(header a):hover
     white-space: nowrap;
 
     th {
-        border: 1.25px solid #ddd;
+        border: 1.5px solid #ddd;
         padding: 8px;
         text-align: center;
     };
+    tr {border: 0.75px solid #ddd}
     td {
         border: 0.75px solid #ddd;
         padding: 8px;
@@ -186,9 +187,7 @@ a:not(header a):hover
     width: 100%;
     display: flex;
 
-    td {
-        border: 0px solid #ddd;
-    }
+    td {border: 0px solid #ddd}
 }
 @media only screen and (max-width: 600px) {
     .expanded .answer table.compact {
