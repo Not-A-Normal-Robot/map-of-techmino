@@ -1,13 +1,11 @@
-try: # pip install json-with-comments
-    import jsonc; json=jsonc
-    use_jsonc=True
-except:
-    import json
-    use_jsonc=False
+import yaml
+try:
+    from yaml import CLoader as _Loader
+except ImportError:
+    from yaml import _Loader
 
 # Constants
-faq_json_location  = "data/faq.json"
-faq_jsonc_location = "data/faq.jsonc"
+faq_yaml_location  = "data/faq.yaml"
 faq_html_template_location  = "data/faq-template.html"
 faq_html_output_location    = "faq.html"
 template_insertion_location = "<INSERT_QUESTIONS>"
@@ -23,14 +21,14 @@ def faq_html(entry):
             </div>
             <h2 class="question-title">{entry['question']}</h2>
         </button>
-        <div class="answer" contenteditable="true">
+        <div class="answer">
             {entry['answerHTML']}
             <div class="answer-source">— {entry['author']}</div>
         </div>
     </div>
     """
 
-faq = json.load(open(faq_jsonc_location if use_jsonc else faq_json_location, "r", encoding="utf-8"))
+faq = yaml.load(open(faq_yaml_location, "r", encoding="utf-8"),Loader=_Loader)
 html_template = open(faq_html_template_location, "r", encoding="utf-8").read()
 text_to_insert = ""
 for entry in faq:

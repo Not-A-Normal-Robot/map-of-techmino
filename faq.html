@@ -3,7 +3,7 @@
 !!  !!! WARNING WARNING WARNING WARNING WARNING !!!                                         !!
 !!                                                                                          !!
 !!  PLEASE DO NOT OVERWRITE faq.html!                                                       !!
-!!  It will get overwritten by GitHub Actions when someone edits /data/faq.json.            !!
+!!  It will get overwritten by GitHub Actions when someone edits /data/faq.yaml.            !!
 !!  If you want to make changes to the page, please edit /data/faq-template.html instead.   !!
 !!  If you want to make changes to the question template, edit the faq generator in         !!
 !!    /.github/scripts/generate_faq_html.py instead.                                        !!
@@ -123,11 +123,11 @@
                     <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
                 </svg>
             </div>
-            <h2 class="question-title">I can't download the game from TestFlight! (iOS)</h2>
+            <h2 class="question-title">Why can't I find Techmino in App Store (iOS)?</h2>
         </button>
         <div class="answer">
-            <p>If you can't download the game from TestFlight, you can still run the game by downloading Techmino_Bare.love from <a href="https://github.com/26F-Studio/Techmino">GitHub Releases</a> and opening it using Love2D. However, this may not load third-party libraries such as ColdClear.</p>
-            <div class="answer-source">— NOT_A_ROBOT</div>
+            <p>Techmino has received a warning about Copyright infringement from The Tetris Company. Techmino is no longer available on the App Store.</p><p>A TestFlight was made for Techmino, but unfortunately, the maximum number of members had been reached, therefore, you can't download Techmino on iOS anymore. We apologize for the inconvenience. If it says the beta isn't accepting more testers, unfortunately, it is not available at this time.</p><p>You may want to check the next FAQ entry for more information</p>
+            <div class="answer-source">— nekonaomii (edited by NOT_A_ROBOT and SweetSea)</div>
         </div>
     </div>
     
@@ -157,6 +157,115 @@
         </button>
         <div class="answer">
             <p>If you want to install a version of Techmino that has no ipa builds, you can follow these steps:</p><ol><li>Get the .ipa files from <a href="https://github.com/26F-Studio/Techmino/releases">the GitHub releases page</a>. Find any version with a valid .ipa file, then download “Techmino_iOS.ipa”.</li><li>Change the extension of the .ipa file to .zip. Extract the .zip file.</li><li>Go to ./Payload. If you are using Microsoft Windows, you will see a folder named “Techmino.app”. Open that folder and skip to step 5.</li><li>If you are using macOS, you will see an application file named Techmino.app. Control-click on it, then click on “Show package content” in the context menu.</li><li>Locate game.love. Replace this file using the .love file you intend to install.</li><li>Compress the Techmino iOS file into a .zip file again. Please choose the “no compression” option in your archive app when creating this zip file.</li><li>Change the extension of the new .zip file back to .ipa.</li><li>Follow the instructions of the previous FAQ entry.</li></ol><p>Note that builds that are too far back in time may use a different build of LÖVE and may not work properly with this method.</p>
+            <div class="answer-source">— C29H25N3O5 (edited by NOT_A_ROBOT)</div>
+        </div>
+    </div>
+    
+    <div class="question">
+        <button class="question-header">
+            <div class="question-icon-container">
+                <svg class="question-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
+                </svg>
+            </div>
+            <h2 class="question-title">Why am I getting the error related to Cold Clear bot? (And how to fix it?)</h2>
+        </button>
+        <div class="answer">
+            <p>This is a known issue can be happened with many reason, but most of time, the reason is there are missing files so the game cannot load Cold Clear bot.</p><p>Here are required files to load CCLoader, depending on the OS you are using to play Techmino on:</p>
+<table>
+    <thead><tr>
+        <th>Platform</th>
+        <th>Files</th>
+        <th>Note</th>
+    </tr></thead>
+    <tbody>
+        <tr>
+            <td>Windows</td>
+            <td>CCloader.dll and cold_clear.dll</td>
+        </tr>
+        <tr>
+            <td>Linux</td>
+            <td>lib/CCloader.so</td>
+        </tr>
+        <tr>
+            <td>MacOS</td>
+            <td>CCloader.dylib</td>
+            <td>I don't know if this path is correct or not or <br> there are another paths I don't know about <br> (sorry but I don't have a Mac to verify)</td>
+        </tr>
+        <tr>
+            <td>Android (x86)</td>
+            <td>libAndroid/armeabi_v7a/CCloader.so</td>
+        </tr>
+        <tr>
+            <td>Android (x64)</td>
+            <td>libAndroid/arm64_v8a/CCloader.so</td>
+        </tr>
+        <tr>
+            <td>iOS</td>
+            <td>llibCCloader.a and libcold_clear.a</td>
+        </tr>
+    </tbody>
+</table>
+<p>How to fix:</p>
+<ol>
+    <li>Grab files you need from <a href=\"https://github.com/26F-Studio/cold_clear_ai_love2d_wrapper/releases\">here</a>. (Example: if you want to fix for Windows version, grab the Windows.zip file)</li>
+    <li>Don't forget to <a href=https://github.com/26F-Studio/Techmino>download Techmino source code</a></li>
+    <li>Extract downloaded files to seperate folders (Techmino source code to a folder, CCloader files to a folder)</li>
+    <li>Copy necessarily files from CCloader folder to Techmino source code based on the path in the above table (you can check the table above to know the destination of these files).</li>
+    <li>Compile Techmino (instruction is different based on the platform you are playing on, you may want to search Google instead)</li>
+</ol>
+            <div class="answer-source">— SweetSea</div>
+        </div>
+    </div>
+    
+    <div class="question">
+        <button class="question-header">
+            <div class="question-icon-container">
+                <svg class="question-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
+                </svg>
+            </div>
+            <h2 class="question-title">Remake?</h2>
+        </button>
+        <div class="answer">
+            <p>On 15 Jan, 2022, MrZ (the main dev of Techmino) opened an issue named “REMAKE NOW” on the GitHub page. According to MrZ himself, the current Techmino contains too many bugs that he needs to remake the whole game from scratch in order to resolve them. Although it's still far from complete, you can view the source code <a href="https://github.com/26F-Studio/Techmino_Galaxy">here</a>.</p>
+            <div class="answer-source">— C29H25N3O5 (edited by NOT_A_ROBOT)</div>
+        </div>
+    </div>
+    
+    <div class="question">
+        <button class="question-header">
+            <div class="question-icon-container">
+                <svg class="question-icon" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
+                </svg>
+            </div>
+            <h2 class="question-title">How can I play Techmino: Galaxy (the remake)?</h2>
+        </button>
+        <div class="answer">
+            <p>Do understand that Galaxy is still rather early in development, and does not necessarily give the best experience.</p>
+
+<p>The easiest way to obtain Techmino: Galaxy is through GitHub Actions.
+<br>(note: you need a GitHub account to download artifacts in GitHub Actions.)</p>
+
+<ul>
+    <li>Go to <a href=\"https://github.com/26F-Studio/Techmino_Galaxy/actions\">https://github.com/26F-Studio/Techmino_Galaxy/actions</a></li>
+    <li>Select one workflow run from the list. A green tick mark means this run has successfully built all versions without errors. A red cross means there were some errors, but doesn't necessarily mean your version wasn't built successfully.</li>
+    <li>Scroll down to \"Artifacts\" and download your desired platform's version, or scroll further down to \"Post-build summary\" for links to mirrors to download from.</li>
+</ul>
+
+<p>Alternatively, obtain the source code and Love2D binary separately, and use the Love2D binary to open the source code. To do this, follow these instructions:</p>
+
+<ol>
+    <li><a href=\"https://love2d.org/\">Get the latest version of LÖVE</a>.</li>
+    <li>Download the repo from GitHub (or just run a quick <code>git clone https://github.com/26F-Studio/Techmino_Galaxy.git</code> if you have Git installed).</li>
+    <li>Check if the Zenitha folder is empty. If it is, clone <a href=\"https://github.com/26F-Studio/Zenitha\">Zenitha</a> and put everything inside the folder into Zenitha in Techmino_Galaxy.</li>
+    <li>Drag and drop the entire Techmino_Galaxy folder onto love.exe (or love.app, depending on your OS)</li>
+</ol>
+
+<p>Also, if you often update the game, consider following <a href=\"https://github.com/26F-Studio/Techmino_Galaxy/discussions/26\">this guide made by SweetSea</a>.</p>
+
+<p>Note: MrZ does not recommend talking about Techmino: Galaxy's contents, especially things that can still change a lot, in public places. Unless you have otherwise a good reason, might as well respect his recommendation. Thank you!</p>
             <div class="answer-source">— C29H25N3O5 (edited by NOT_A_ROBOT)</div>
         </div>
     </div>
@@ -263,36 +372,6 @@
         <div class="answer">
             <p>See the previous FAQ entry.</p>
             <div class="answer-source">— NOT_A_ROBOT</div>
-        </div>
-    </div>
-    
-    <div class="question">
-        <button class="question-header">
-            <div class="question-icon-container">
-                <svg class="question-icon" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
-                </svg>
-            </div>
-            <h2 class="question-title">Who's Miya?</h2>
-        </button>
-        <div class="answer">
-            <p>Miya is one of the voice actresses in the game. She is also a <a href="https://space.bilibili.com/846180">virtual streamer</a>.</p>
-            <div class="answer-source">— NOT_A_ROBOT (information from User670)</div>
-        </div>
-    </div>
-    
-    <div class="question">
-        <button class="question-header">
-            <div class="question-icon-container">
-                <svg class="question-icon" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
-                </svg>
-            </div>
-            <h2 class="question-title">Who is Mono?</h2>
-        </button>
-        <div class="answer">
-            <p>Mono is another voice actress featured in the game. She is an artist (ex-virtual streamer). The voice pack language is in English. Unfortunately, their profile was wiped clean.</p>
-            <div class="answer-source">— NOT_A_ROBOT (information from User670)</div>
         </div>
     </div>
     
@@ -483,36 +562,6 @@
                     <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
                 </svg>
             </div>
-            <h2 class="question-title">Remake?</h2>
-        </button>
-        <div class="answer">
-            <p>On 15 Jan, 2022, MrZ (the main dev of Techmino) opened an issue named “REMAKE NOW” on the GitHub page. According to MrZ himself, the current Techmino contains too many bugs that he needs to remake the whole game from scratch in order to resolve them. Although it's still far from complete, you can view the source code <a href="https://github.com/26F-Studio/Techmino_Galaxy">here</a>.</p>
-            <div class="answer-source">— C29H25N3O5 (edited by NOT_A_ROBOT)</div>
-        </div>
-    </div>
-    
-    <div class="question">
-        <button class="question-header">
-            <div class="question-icon-container">
-                <svg class="question-icon" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
-                </svg>
-            </div>
-            <h2 class="question-title">How can I play Techmino: Galaxy (the remake)?</h2>
-        </button>
-        <div class="answer">
-            <p>Do understand that Galaxy is still rather early in development, and does not necessarily give the best experience.</p><p>The easiest way to obtain Techmino: Galaxy is through GitHub Actions.<br>(note: you need a GitHub account to download artifacts in GitHub Actions.)</p><ul><li>Go to <a href="https://github.com/26F-Studio/Techmino_Galaxy/actions">https://github.com/26F-Studio/Techmino_Galaxy/actions</a></li><li>Select one workflow run from the list. A green tick mark means this run has successfully built all versions without errors. A red cross means there were some errors, but doesn't necessarily mean your version wasn't built successfully.</li><li>Scroll down to "Artifacts" and download your desired platform's version, or scroll further down to "Post-build summary" for links to mirrors to download from.</li></ul><p>Alternatively, obtain the source code and Love2D binary separately, and use the Love2D binary to open the source code. To do this, follow these instructions:</p><ol><li><a href="https://love2d.org/">Get the latest version of LÖVE</a>.</li><li>Download the repo from GitHub (or just run a quick <code>git clone https://github.com/26F-Studio/Techmino_Galaxy.git</code> if you have Git installed).</li><li>Check if the Zenitha folder is empty. If it is, clone <a href="https://github.com/26F-Studio/Zenitha">Zenitha</a> and put everything inside the folder into Zenitha in Techmino_Galaxy.</li><li>Drag and drop the entire Techmino_Galaxy folder onto love.exe (or love.app, depending on your OS)</li></ol><p>Also, if you often update the game, consider following <a href="https://github.com/26F-Studio/Techmino_Galaxy/discussions/26">this guide made by SweetSea</a>.</p><p>Note: MrZ does not recommend talking about Techmino: Galaxy's contents, especially things that can still change a lot, in public places. Unless you have otherwise a good reason, might as well respect his recommendation. Thank you!</p>
-            <div class="answer-source">— C29H25N3O5 (edited by NOT_A_ROBOT)</div>
-        </div>
-    </div>
-    
-    <div class="question">
-        <button class="question-header">
-            <div class="question-icon-container">
-                <svg class="question-icon" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
-                </svg>
-            </div>
             <h2 class="question-title">I got a purple screen of death, what does that mean?</h2>
         </button>
         <div class="answer">
@@ -555,7 +604,7 @@ local T=P.stat.time
         T<=92.9 and 2 or
         T<=183 and 1 or
         0
-end,</pre></code><br>The first line means that if <code>P.stat.row</code> is less than 40 (which means that you didn’t finish the 40L sprint), your grade is not recorded. <br> The variable’s name that goes after <code>local</code> is the category of the requirement (in this example, time (in seconds)). <br> The <code>5</code>, <code>4</code>, <code>3</code>, <code>2</code>, and <code>1</code> correspond to <code>X</code>, <code>U</code>, <code>S</code>, <code>A</code>, and <code>B</code> grades in the game. <code>0</code> also means your grade is not recorded (in this example, when your time exceeds 183 seconds). <p>
+end,</pre></code><br>The first line means that if <code>P.stat.row</code> is less than 40 (which means that you didn’t finish the 40L sprint), your grade is not recorded. <br> The variable’s name that goes after <code>local</code> is the category of the requirement (in this example, time (in seconds)). <br> The <code>5</code>, <code>4</code>, <code>3</code>, <code>2</code>, and <code>1</code> correspond to <code>X</code>, <code>U</code>, <code>S</code>, <code>A</code>, and <code>B</code> grades in the game. <code>0</code> also means your grade is not recorded (in this example, when your time exceeds 183 seconds). </p>
             <div class="answer-source">— C29H25N3O5 (edited by NOT_A_ROBOT)</div>
         </div>
     </div>
@@ -570,12 +619,34 @@ end,</pre></code><br>The first line means that if <code>P.stat.row</code> is les
             <h2 class="question-title">How can I perform O-Spins?</h2>
         </button>
         <div class="answer">
-            <p>There are two kinds of O-spins: transformative O-spins and translational O-spins. Transformative O-spins are only possible with TRS, while translational O-spins are possible with TRS, BiRS, and ASC; so make sure you have the correct rotation system. <br> To perform a transformative O-spin, move the O block in an appropriate “hole,” then use the following rotations to do the trick:<br><pre><code>O → Z: LRL
+            <table class='compact'><tr>
+    <td>
+        <p>There are two kinds of O-spins: transformative O-spins and translational O-spins. Transformative O-spins are only possible with TRS, while translational O-spins are possible with TRS, BiRS, and ASC; so make sure you have the correct rotation system.
+        <br>To perform a transformative O-spin, move the O block in an appropriate “hole,” then use the following rotations to do the trick:
+        <br><pre><code>
+O → Z: LRL
 O → S: RLR
 O → J: LLR
 O → L: RRL
 O → T: LLL & RRR
-O → I: FFF</pre></code><br> Here is a useful GIF demonstrating this: <img src="/data/img/faq/trs-tf-ospin.gif"> <br> To perform a translational O-spin, you can use the fact that some rotation systems have kicks, and use that to put the O-piece in a hole. A notable oddity is BiRS, where you have to hold the correct arrow keys (move left/right/soft drop) to try to "bias" the kick in that direction, and then trying to rotate the O-piece. More info is available in the in-game Zictionary. Here's a demonstration of translational O-spins: <img src="/data/img/faq/birs-tl-ospin.gif"> <br> Quick note: you may hold the transformed O block, and it will stay as the transformed block. However, if you perform a spin using this “O block,” it still counts as an O-spin.</p>
+O → I: FFF
+        </pre></code></p>
+    </td><td style="width:35%">
+        <p>Here is a useful GIF demonstrating this:</p>
+        <img src="/data/img/faq/trs-tf-ospin.gif" class="center">
+    </td>
+</tr></table>
+
+<table class='compact'><tr>
+    <td>
+        <p>To perform a translational O-spin, you can use the fact that some rotation systems have kicks, and use that to put the O-piece in a hole. A notable oddity is BiRS, where you have to hold the correct arrow keys (move left/right/soft drop) to try to "bias" the kick in that direction, and then trying to rotate the O-piece. More info is available in the in-game Zictionary.</p>
+    </td>
+
+    <td style="width:35%">
+        <p>Here's a demonstration of translational O-spins:</p>
+        <img src="/data/img/faq/birs-tl-ospin.gif" class="center">
+    </td>
+</tr></table>
             <div class="answer-source">— C29H25N3O5 (edited by NOT_A_ROBOT)</div>
         </div>
     </div>
@@ -650,7 +721,7 @@ O → I: FFF</pre></code><br> Here is a useful GIF demonstrating this: <img src=
             <h2 class="question-title">How do I make and import my own block skin?</h2>
         </button>
         <div class="answer">
-            <p>This is an example block skin for your reference:<img src="/data/img/faq/example-skin.png"><br><ul><li>The block skin is a png file with a dimension of at least 240 × 90.</li><li>The image is divided into a 3 ×8 array of blocks, with each block having a dimension of 30× 30.</li></ul><br>To import your skin into the game:<br><ol><li>Make your block skin and export it into a png file.</li><li>Move you skin to <code>./media/image/skin/</code>.</li><li>Added the following code into <code>./main.lua</code> at around line 315, after <code>SKIN.load{</code> (replace <code>&lt;SKINNAME&gt;</code> with the filename of the skin):<br><code>{name="&lt;SKINNAME&gt;",path='media/image/skin/<SKINNAME>.png'},</code></li><li>Start the game. You will find your skin appearing in the block skin list.</li></ol></p>
+            <p>This is an example block skin for your reference:<img src="/data/img/faq/example-skin.png"><br><ul><li>The block skin is a png file with a dimension of at least 240 × 90.</li><li>The image is divided into a 3 ×8 array of blocks, with each block having a dimension of 30× 30.</li></ul><br>To import your skin into the game:<br><ol><li>Make your block skin and export it into a png file.</li><li>Move you skin to <code>./media/image/skin/</code>.</li><li>Added the following code into <code>./main.lua</code> at around line 315, after <code>SKIN.load-</code> (replace <code>&lt;SKINNAME&gt;</code> with the filename of the skin):<br><code>-name="&lt;SKINNAME&gt;",path='media/image/skin/<SKINNAME>.png'},</code></li><li>Start the game. You will find your skin appearing in the block skin list.</li></ol></p>
             <div class="answer-source">— C29H25N3O5 (edited by NOT_A_ROBOT)</div>
         </div>
     </div>
@@ -665,7 +736,13 @@ O → I: FFF</pre></code><br> Here is a useful GIF demonstrating this: <img src=
             <h2 class="question-title">Techmino Galaxy macOS error: Techmino_Galaxy.app cannot be opened because the developer cannot be verified.</h2>
         </button>
         <div class="answer">
-            <img src="/data/img/faq/mac-unverified-developer.png"><br><p>This is because the Gatekeeper on macOS won’t let the user open any app that is not signed or notarized on default. However, there is an easy way to bypass this: control–click Techmino (Galaxy).app and select “Open” from the pop-up menu, then select “Open” from the window.</p>
+            <table class='compact'>
+    <tr><td style='width:30%'>
+        <img class='center' src="/data/img/faq/mac-unverified-developer.png">
+    </td><td>
+        <p>This is because the Gatekeeper on macOS won’t let the user open any app that is not signed or notarized on default. However, there is an easy way to bypass this: control–click Techmino (Galaxy).app and select “Open” from the pop-up menu, then select “Open” from the window.</p>
+    </td></tr>
+</table>
             <div class="answer-source">— C29H25N3O5</div>
         </div>
     </div>
@@ -680,7 +757,13 @@ O → I: FFF</pre></code><br> Here is a useful GIF demonstrating this: <img src=
             <h2 class="question-title">Techmino macOS error: Techmino.app will damage your computer. You should move it to the Trash.</h2>
         </button>
         <div class="answer">
-            <img src=""/data/img/faq/macos-big-sur-alert-malicious-app.jpg><br><p>If you get this message instead, option-click Techmino (Galaxy).app, select “Get Info” from the menu, then check the “Override Malware Protection” checkbox. You should now be able to open it.<br>Techmino is not malware and will not damage your computer.<br>As far as we know, this issue only appears on the dev and snapshot versions that are not signed.</p>
+            <table class='compact'>
+    <tr><td style='width:30%'>
+        <img class='center' src="/data/img/faq/macos-big-sur-alert-malicious-app.jpg">
+    </td><td>
+        <p>If you get this message instead, option-click Techmino (Galaxy).app, select “Get Info” from the menu, then check the “Override Malware Protection” checkbox. You should now be able to open it.</p><p>Techmino is not malware and will not damage your computer.<br>As far as we know, this issue only appears on the dev and snapshot versions that are not signed.</p>
+    </td></tr>
+</table>
             <div class="answer-source">— C29H25N3O5</div>
         </div>
     </div>
@@ -802,21 +885,6 @@ O → I: FFF</pre></code><br> Here is a useful GIF demonstrating this: <img src=
         <div class="answer">
             <p>Use this table to calculate B2B2B meter (on the left of the playfield):<br><img src="/data/img/faq/b2b2b-calculator.png"></p>
             <div class="answer-source">— nekonaomii</div>
-        </div>
-    </div>
-    
-    <div class="question">
-        <button class="question-header">
-            <div class="question-icon-container">
-                <svg class="question-icon" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M7 14l5-5 5 5z"></path>
-                </svg>
-            </div>
-            <h2 class="question-title">Why can't I play Techmino on iOS?</h2>
-        </button>
-        <div class="answer">
-            <p>Techmino has received a warning about Copyright infringement from The Tetris Company. Techmino is no longer available on the App Store.</p><p>A TestFlight was made for Techmino, but unfortunately, the maximum number of members had been reached, therefore, you can't download Techmino on iOS anymore. We apologize for the inconvenience. If it says the beta isn't accepting more testers, unfortunately, it is not available at this time.</p>
-            <div class="answer-source">— nekonaomii (edited by NOT_A_ROBOT)</div>
         </div>
     </div>
     
