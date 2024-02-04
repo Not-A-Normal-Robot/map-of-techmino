@@ -113,9 +113,9 @@ import {getLanguageEntry} from "/js/lang.js";
             mapContext.stroke();
         mapContext.restore();
     }
+    const cos45 = Math.sqrt(2) / 2;
     function drawOctagon(x, y, size) {
         let [x2, y2, r] = getMapModeCoords(x, y, size * 1.125);
-        const cos45 = Math.sqrt(2) / 2;
         x2 += r/2; y2 += r/2;
         mapContext.save();
             mapContext.translate(x2, y2);
@@ -143,6 +143,41 @@ import {getLanguageEntry} from "/js/lang.js";
         4: "#D980664F", // U rank
         5: "#D94DCC4F", // X rank
     }
+    function getModeBackgroundColor(rank) {
+        if(!rank || rank <= 5) return modeBackgroundColor[rank ?? 0]; // static color
+        else if(rank < 14) { // x rank + top 10
+            let t = Math.sin(performance.now() / 300) / 2 + 0.5;
+            const color1 = {r: 255, g: 0, b: 0}
+            const color2 = {r: 230, g: 0, b: 212}
+            return `rgba(${color1.r * (1-t) + color2.r * t}, ${color1.g * (1-t) + color2.g * t}, ${color1.b * (1-t) + color2.b * t}, 0.36)`;
+        } else { // x rank + world record
+            let t = performance.now() / 12 % 360;
+            mapContext.fillStyle = `hsla(${t}, 100%, 50%, 0.36)`;
+        }
+    }
+    const modeRankTextColor = {
+        0: "#0000", // no rank
+        1: "#CCDBE6", // B rank
+        2: "#99E6B3", // A rank
+        3: "#EDEDA6", // S rank
+        4: "#FF8066", // U rank
+        5: "#F280F2", // X rank
+    }
+    function getModeRankTextColor(rank) {
+        if(!rank || rank <= 5) return modeRankTextColor[rank ?? 0]; // static color
+        else if(rank < 14) { // x rank + top 10
+            let t = Math.sin(performance.now() / 300) / 2 + 0.5;
+            const color1 = {r: 255, g: 40, b: 50}
+            const color2 = {r: 220, g: 70, b: 220}
+            let r = color1.r * (1-t) + color2.r * t;
+            let g = color1.g * (1-t) + color2.g * t;
+            let b = color1.b * (1-t) + color2.b * t;
+            return `rgba(${r}, ${g}, ${b}, 0.8)`;
+        } else { // x rank + world record
+            let t = performance.now() / 12 % 360;
+            return `hsla(${t}, 100%, 75%, 0.8)`;
+        }
+    }
 
     function isModeOnScreen(x, y, size) {
         let [x2, y2, r] = getMapModeCoords(x, y, size * 1.125);
@@ -152,18 +187,12 @@ import {getLanguageEntry} from "/js/lang.js";
         return true;
     }
 
+    // const RANK_OVERRIDE = 14; // DEBUG
     function drawModeShape(x, y, size, shape, rank) {
-        if(!rank || rank <= 5) { // static color
-            mapContext.fillStyle = modeBackgroundColor[rank ?? 0];
-        } else if(rank === 6) { // x rank + top 10
-            let t = Math.sin(performance.now() / 300) / 2 + 0.5;
-            const color1 = {r: 255, g: 0, b: 0}
-            const color2 = {r: 230, g: 0, b: 212}
-            mapContext.fillStyle = `rgba(${color1.r * (1-t) + color2.r * t}, ${color1.g * (1-t) + color2.g * t}, ${color1.b * (1-t) + color2.b * t}, 0.36)`;
-        } else { // x rank + world record
-            let t = performance.now() / 12 % 360;
-            mapContext.fillStyle = `hsla(${t}, 100%, 50%, 0.36)`;
-        }
+        // rank ??= RANK_OVERRIDE; // DEBUG
+        mapContext.fillStyle = getModeBackgroundColor(rank);
+
+        // Draw mode shape
         mapContext.lineWidth = 8 * camZoom / (window.devicePixelRatio || 1);
         switch(shape) {
             case 1:
@@ -181,6 +210,41 @@ import {getLanguageEntry} from "/js/lang.js";
                 mapContext.arc(...getMapModeCoords(x, y, size), 0, 2 * Math.PI);
                 mapContext.fill();
                 mapContext.stroke();
+        }
+    }
+    function drawModeRankText(x, y, size, rank) {
+        // rank ??= RANK_OVERRIDE; // DEBUG
+        if(!rank || rank <= 0) return;
+
+        let [screenspace_x, screenspace_y, screenspace_size] = getMapModeCoords(x, y, size);
+        
+        let rankText;
+        switch(rank) {
+            case 1: rankText = "\u{F00B7}"; break; // B
+            case 2: rankText = "\u{F00B6}"; break; // A
+            case 3: rankText = "\u{F00C2}"; break; // S
+            case 4: rankText = "\u{F00B5}"; break; // U
+            case 5: rankText = "\u{F00B4}"; break; // X
+            default:
+                if(rank < 14) rankText = (15 - rank).toString();
+                else rankText = "WR";
+                break;
+        }
+        
+        {
+            screenspace_x += screenspace_size * 2;
+            screenspace_y += screenspace_size * 0.5;
+
+            mapContext.font = `bold ${screenspace_size * 2}px techmino-proportional`;
+            mapContext.textAlign = "right";
+            mapContext.fillStyle = "#292929CC";
+            mapContext.fillText(rankText, screenspace_x, screenspace_y);
+
+            screenspace_x += screenspace_size * 0.1;
+            screenspace_y -= screenspace_size * 0.1;
+
+            mapContext.fillStyle = getModeRankTextColor(rank);
+            mapContext.fillText(rankText, screenspace_x, screenspace_y);
         }
     }
     // #endregion
@@ -215,8 +279,8 @@ import {getLanguageEntry} from "/js/lang.js";
         const smoothT = t * t * (3 - 2 * t); // smoothstep(t)
         const panelWidth = mapCanvas.width * 0.3;
         const panelX = mapCanvas.width - panelWidth * smoothT;
-        let title = getLanguageEntry(`modes.${selectedLonger.name}.title`, `[${selectedLonger.name}]`);
-        let subtitle = getLanguageEntry(`modes.${selectedLonger.name}.subtitle`, "");
+        const title = getLanguageEntry(`modes.${selectedLonger.name}.title`, `[${selectedLonger.name}]`);
+        const subtitle = getLanguageEntry(`modes.${selectedLonger.name}.subtitle`, "");
         let description = getLanguageEntry(`modes.${selectedLonger.name}.description`, "");
         let version_info = getLanguageEntry(`modes.${selectedLonger.name}.version_info`, "");
         if(version_info.length > 0) version_info = `(${version_info})`;
@@ -225,15 +289,15 @@ import {getLanguageEntry} from "/js/lang.js";
             mapContext.fillStyle = "#9E9E9ECC";
             mapContext.translate(panelX, 0);
             mapContext.fillRect(0, 0, panelWidth, mapCanvas.height);
-            mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.062}px techmino-proportional`;
+            mapContext.font = `bold ${mapCanvas.height * 0.062}px techmino-proportional`;
             mapContext.textAlign = "center";
             mapContext.fillStyle = "white";
             mapContext.fillText(title, panelWidth * 0.5, mapCanvas.height * 0.09);
-            mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.042}px techmino-proportional`;
+            mapContext.font = `bold ${mapCanvas.height * 0.042}px techmino-proportional`;
             mapContext.fillText(subtitle, panelWidth * 0.5, mapCanvas.height * 0.145);
-            mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.03}px techmino-proportional`;
+            mapContext.font = `bold ${mapCanvas.height * 0.03}px techmino-proportional`;
             mapContext.fillText(version_info, panelWidth * 0.5, mapCanvas.height * 0.2);
-            mapContext.font = `normal ${Math.min(mapCanvas.width, mapCanvas.height) * 0.035}px techmino-proportional`;
+            mapContext.font = `normal ${mapCanvas.height * 0.035}px techmino-proportional`;
             description = getWrappedText(mapContext, description, panelWidth * 0.9);
             for(let i = 0; i < description.length; i++){
                 mapContext.fillText(description[i], panelWidth * 0.5, mapCanvas.height * (0.24 + i * 0.036));
@@ -248,6 +312,7 @@ import {getLanguageEntry} from "/js/lang.js";
         // #region Graphics
         // Pre-draw
         mapContext.clearRect(0, 0, mapCanvas.offsetWidth, mapCanvas.offsetHeight);
+        mapContext.textRendering = "optimizeSpeed";
 
         if(mapCanvas.width !== mapCanvas.offsetWidth || mapCanvas.height !== mapCanvas.offsetHeight) {
             mapCanvas.width = mapCanvas.offsetWidth - 2;
@@ -255,30 +320,42 @@ import {getLanguageEntry} from "/js/lang.js";
         }
 
         // Draw modes
-        for(let mode of Object.values(map.modes)){
+        {
+            let modes = Object.values(map.modes);
+
             // Draw connected mode lines
+            mapContext.lineWidth = 8 * camZoom / (window.devicePixelRatio || 1);
             mapContext.strokeStyle = "#FFFFFF5F";
-            mode.unlock?.forEach(otherModeName => {
-                const otherMode = map.modes[otherModeName];
-                mapContext.beginPath();
-                mapContext.moveTo(...getMapModeCenterCoords(mode.x, mode.y, mode.size));
-                mapContext.lineTo(...getMapModeCenterCoords(otherMode.x, otherMode.y, otherMode.size));
-                mapContext.stroke();
+            modes.forEach(mode => {
+                mode.unlock?.forEach(otherModeName => {
+                    const otherMode = map.modes[otherModeName];
+                    mapContext.beginPath();
+                    mapContext.moveTo(...getMapModeCenterCoords(mode.x, mode.y, mode.size));
+                    mapContext.lineTo(...getMapModeCenterCoords(otherMode.x, otherMode.y, otherMode.size));
+                    mapContext.stroke();
+                });
+            })
+
+            let visibleModes = modes.filter(mode => isModeOnScreen(mode.x, mode.y, mode.size));
+
+            // Draw mode shapes
+            visibleModes.forEach(mode => {
+                mapContext.strokeStyle = mode === selected ? "#CFCF03" : "#CCCCCC";
+                drawModeShape(mode.x, mode.y, mode.size, mode.shape);
             });
 
-            if(isModeOnScreen(mode.x, mode.y, mode.size)){
-                mapContext.strokeStyle = mode === selected ? "#CFCF03FF" : "#CCCCCCFF";
-                drawModeShape(mode.x, mode.y, mode.size, mode.shape);
+            // Draw mode icons
+            mapContext.strokeStyle = "#DBCFCE";
+            mapContext.fillStyle = "#DBCFCE";
+            visibleModes.forEach(mode => {
+                let [screenspace_x, screenspace_y, screenspace_size] = getMapModeCoords(mode.x, mode.y, mode.size);
+                getModeIconDrawFunction(mode.icon)(mapContext, screenspace_x, screenspace_y, screenspace_size);
+            });
 
-                // Draw mode icon
-                if(mode.icon) {
-                    let [x, y, size] = getMapModeCoords(mode.x, mode.y, mode.size);
-                    mapContext.strokeStyle = "#DBCFCEFF";
-                    mapContext.fillStyle = "#DBCFCEFF";
-
-                    getModeIconDrawFunction(mode.icon)(mapContext, x, y, size);
-                }
-            }
+            // Draw mode rank text
+            visibleModes.forEach(mode => {
+                drawModeRankText(mode.x, mode.y, mode.size, mode.rank);
+            });
         }
 
         // Draw crosshair
@@ -310,7 +387,7 @@ import {getLanguageEntry} from "/js/lang.js";
             mapContext.fillStyle = "#0000008F";
             mapContext.fillRect(0, 0, mapCanvas.width, mapCanvas.height);
             mapContext.fillStyle = "#FFFFFFFF";
-            mapContext.font = `bold ${Math.min(mapCanvas.width, mapCanvas.height) * 0.05}px techmino-proportional`;
+            mapContext.font = `bold ${mapCanvas.height * 0.05}px techmino-proportional`;
             mapContext.textAlign = "center";
             mapContext.fillText(getLanguageEntry("map.unfocused"), mapCanvas.width * 0.5, mapCanvas.height * 0.5);
         }
