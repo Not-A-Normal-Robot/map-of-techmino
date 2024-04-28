@@ -47,9 +47,17 @@ def tags_html(entry):
             tags_html += tags_map[tag]
     return tags_html
 
+def tags_in_class(entry):
+    tags = entry['tags']
+    tags_classes = ""
+    for tag in tags:
+        if tag in tags_map:
+            tags_classes += tag + " "
+    return tags_classes
+
 def faq_html(entry):
     return f"""
-    <details class="question" name="faq">
+    <details class="question {tags_in_class(entry)}" name="faq">
         <summary>
             {entry['question']}
             <span class="tags">

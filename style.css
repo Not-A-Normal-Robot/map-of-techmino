@@ -199,6 +199,29 @@ details.question > summary::marker {
         --tag-logo: "󰂖"; /* console icon */
     }
 /* #endregion */
+/* #region Question tag filters */
+.faq.show-techmino    details.question:not(.techmino),
+.faq.show-galaxy      details.question:not(.galaxy),
+.faq.show-linux       details.question:not(.linux),
+.faq.show-apple       details.question:not(.apple),
+.faq.show-multiplayer details.question:not(.multiplayer),
+.faq.show-error       details.question:not(.error),
+.faq.show-bot         details.question:not(.bot)
+{
+    display: none;
+}
+
+.faq.hide-techmino    details.question.techmino,
+.faq.hide-galaxy      details.question.galaxy,
+.faq.hide-linux       details.question.linux,
+.faq.hide-apple       details.question.apple,
+.faq.hide-multiplayer details.question.multiplayer,
+.faq.hide-error       details.question.error,
+.faq.hide-bot         details.question.bot
+{
+    display: none;
+}
+/* #end */
 
 details.question[open] > summary {
     border-bottom: 1px solid lime;
@@ -206,9 +229,6 @@ details.question[open] > summary {
 
 details.question[open] article {
     padding: 0.5rem 1rem;
-}
-details.question[open] {
-    display: block;
 }
 details.question[open] img {
     max-width: 100%;
