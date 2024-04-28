@@ -1,8 +1,9 @@
-/* -------- Fonts -------- */
+/* #region Fonts */
 @font-face { font-family: "techmino-proportional"; src: url('fonts/proportional.otf') }
 @font-face { font-family: "techmino-monospace"   ; src: url('fonts/monospaced.otf') }
+/* #endregion */
 
-/* -------- Body -------- */
+/* #region Body */
 body{
     background-color: transparent;
     color: white;
@@ -15,18 +16,20 @@ body{
 body code {
     font-family: "techmino-monospace";
 }
+/* #endregion */
 
-/* -------- Background -------- */
+/* #region Background */
 canvas#bg{
     position: fixed;
     top: 0; left: 0;
-    width: 100%;
-    height: 200%;
+    width: 100vw;
+    height: 100vh;
     z-index: -1;
     background-color: black;
 }
+/* #endregion */
 
-/* -------- Header -------- */
+/* #region Header */
 header{
     background-color: darkslateblue;
     padding: 0.5rem 1.5rem;
@@ -46,16 +49,18 @@ header div.bg-toggle{
     flex-direction: row;
     align-items: center;
 }
+/* #endregion */
 
-/* -------- Navbar -------- */
+/* #region Navbar */
 nav.navbar{
     padding: 5px;
     border-top: 1px solid gray;
     border-bottom: 1px solid gray;
     font-size: 20px;
 }
+/* #endregion */
 
-/* -------- Content -------- */
+/* #region General content */
 .inner{
     background-color: rgba(0,0,0,0.6);
     margin: 20px;
@@ -93,74 +98,130 @@ a:not(header a):hover
 {
     background-color: rgba(0,255,0,0.3)
 }
+/* #endregion */
 
-/* -------- FAQ -------- */
-.question {
+/* #region FAQ content */
+details.question {
     border: 1px solid lime;
     border-radius: 0.4rem;
     transition: 200ms;
     margin-bottom: 1rem;
+
+    font-size: 1.25rem;
+    background-color: rgba(0,100,0,0.15);
+    color: white;
 }
-.question-header {
-    width: 100%;
+
+details.question > summary {
     height: min-content;
     padding: 0.5rem 1rem;
     background-color: rgba(0,100,0,0.5);
     border: 0 none transparent;
     color: lime;
-    display: flex;
-    flex-direction: row;
     cursor: pointer;
-}
-.expanded .question-header {
-    border-bottom: 1px solid lime;
-}
-.question-icon-container {
-    flex-shrink: 0;
-    padding: 0.5rem;
-    margin-right: 1rem;
-    width: 2rem;
-    height: 2rem;
-    align-self: center;
-    background-color: rgba(0,200,0,0.4);
-    border: 1px solid lime;
-    border-radius: 0.2rem;
-}
-.question-icon {
-    transition: 200ms;
-}
-.expanded .question-icon {
-    transform: rotate(180deg);
-}
-.question-title {
     font-size: 1.25rem;
     flex-grow: 1;
     text-align: left;
 }
 
-.answer {
-    font-size: 1.25rem;
-    padding: 0.5rem 1rem;
-    background-color: rgba(0,100,0,0.15);
-    border: 0 none transparent;
-    color: white;
-    display: none;
+details.question > summary::marker {
+    display: inline-block;
+    text-align: center;
+    margin-right: 1rem;
+    width: 2rem; height: 2rem;
+    align-self: center;
+    background-color: rgba(0,200,0,0.4);
+    border: 1px solid lime;
+    border-radius: 0.2rem;
 }
-.expanded .answer {
+
+/* #region Tags */
+    summary .tags {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        font-size: 0.8em;
+        margin-top: 0.5em;
+    }
+    summary .tags::before {
+        content: "Tags: ";
+    }
+
+    .tag {
+        --tag-color: lime;
+        --tag-bg-color: rgba(0,200,0,0.4);
+        --tag-logo: "󰁀" /* Z tetromino */
+
+        display: inline-block;
+        padding: 0.1rem 0.5rem;
+
+        color: var(--tag-color);
+        background-color: var(--tag-bg-color);
+        border: 1px solid var(--tag-color);
+    }
+    .tag::before {
+        content: var(--tag-logo) "  ";
+    }
+
+    .tag.techmino {
+        --tag-color: lime;
+        --tag-bg-color: rgba(0,200,0,0.4);
+        --tag-logo: "󰁀"; /* Z tetromino */
+    }
+    .tag.galaxy {
+        --tag-color: #978ae7;
+        --tag-bg-color: #483d8b44;
+        --tag-logo: "󰁄"; /* T tetromino */
+    }
+    .tag.linux {
+        --tag-color: #f1e05a;
+        --tag-bg-color: #f1e05a44;
+        --tag-logo: "󰂖"; /* console icon */
+    }
+    .tag.apple {
+        --tag-color: #ffffff;
+        --tag-bg-color: #ffffff44;
+        --tag-logo: "󰂛": /* Apple logo */
+    }
+    .tag.multiplayer {
+        --tag-color: #ff7f00;
+        --tag-bg-color: #ff7f0044;
+        --tag-logo: "󰂗"; /* Globe icon */
+    }
+    .tag.error {
+        --tag-color: #ff0000;
+        --tag-bg-color: #ff000044;
+        --tag-logo: "󰂒"; /* X icon */
+    }
+    .tag.bot {
+        --tag-color: #62c2b9;
+        --tag-bg-color: #62c2b944;
+        --tag-logo: "󰂖"; /* console icon */
+    }
+/* #endregion */
+
+details.question[open] > summary {
+    border-bottom: 1px solid lime;
+}
+
+details.question[open] article {
+    padding: 0.5rem 1rem;
+}
+details.question[open] {
     display: block;
 }
-.expanded .answer img {
+details.question[open] img {
     max-width: 100%;
     height: auto;
     margin: 0.5rem 0;
 }
-.expanded .answer img.center {
+details.question[open] img.center {
     max-width: 100%;
     height: auto;
     display: block;
     margin: 0 auto;
 }
-.expanded .answer table {
+details.question[open] table {
     border-collapse: collapse;
     margin: 20px auto;
     width: 100%;
@@ -184,7 +245,7 @@ a:not(header a):hover
         text-align: left;
     };
 }
-.expanded .answer table.compact {
+details.question[open] table.compact {
     border-collapse: collapse;
     margin: 20px auto;
     width: 100%;
@@ -192,8 +253,9 @@ a:not(header a):hover
 
     td {border: 0px solid #ddd}
 }
+
 @media only screen and (max-width: 700px) {
-    .expanded .answer table.compact {
+    details.question[open] table.compact {
         /* Inverting/transposing the table */
         tr {
             display: block;
@@ -213,8 +275,9 @@ a:not(header a):hover
     text-align: right;
     color: rgba(255,255,255,0.9);
 }
+/* #endregion */
 
-/* -------- Map -------- */
+/* #region Map content */
 canvas#map{
     width: 100%;
     border: 1px solid white;
@@ -225,8 +288,9 @@ small.description {
     font-size: 0.8rem;
     color: rgba(255,255,255,0.8);
 }
+/* #endregion */
 
-/* -------- Misc -------- */
+/* #region Misc */
 .hide {
     display: none;
 }
@@ -243,3 +307,4 @@ small.description {
 .center-text {
     text-align: center;
 }
+/* #endregion */
