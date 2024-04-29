@@ -25,6 +25,9 @@
             }
 
             faqLastUpdatedElement.innerText = "Last updated: " + formattedDate;
+        })
+        .catch(error => {
+            console.error('Failed to fetch last updated date:', error);
         });
     }
 
