@@ -199,6 +199,35 @@ details.question > summary::marker {
         --tag-logo: "󰂖"; /* console icon */
     }
 /* #endregion */
+/* #region Tag filter UI */
+    details.tag-filter {
+        border: 1px solid lime;
+        border-radius: 0.4rem;
+        padding: 0.5rem 1rem;
+    }
+    details.tag-filter ul {
+        display: flex;
+        flex-direction: column;
+        padding-left: 0;
+        gap: 0.5rem;
+        list-style-type: none;
+    }
+    details.tag-filter li {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+    @media (max-width: 400px) {
+        details.tag-filter li {
+            flex-direction: column;
+        }
+        details.tag-filter li:not(:last-child) {
+            border-bottom: 1px solid grey;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    }
+/* #endregion */
 /* #region Question tag filters */
 .faq.show-techmino    details.question:not(.techmino),
 .faq.show-galaxy      details.question:not(.galaxy),
