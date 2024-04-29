@@ -44,10 +44,92 @@
             <h1 class="center-text">
                 Frequently Asked Questions
             </h1>
-            <h4 class="center-text">
-                Sourced from Techmino's official Discord server. <br>
-                Use your browser's "find in page" feature (Ctrl+F) to search for keywords.
+            <h4 class="center-text hide show-noscript">
+                Use your browser's "find in page" feature to filter questions. <br>
+                Tag filtering is only available with JavaScript enabled.
             </h4>
+            <details class="tag-filter hide-noscript">
+                <summary>Filter tags</summary>
+                <ul>
+                    <li>
+                        <span class="tag techmino">Techmino</span>
+                        <div class="filter-radio">
+                            <input type="radio" name="techmino" id="tag-techmino-all" value="all" checked>
+                            <label for="tag-techmino-all">All</label>
+                            <input type="radio" name="techmino" id="tag-techmino-include" value="include">
+                            <label for="tag-techmino-include">Include</label>
+                            <input type="radio" name="techmino" id="tag-techmino-exclude" value="exclude">
+                            <label for="tag-techmino-exclude">Exclude</label>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="tag galaxy">Tech. Galaxy</span>
+                        <div class="filter-radio">
+                            <input type="radio" name="galaxy" id="tag-galaxy-all" value="all" checked>
+                            <label for="tag-galaxy-all">All</label>
+                            <input type="radio" name="galaxy" id="tag-galaxy-include" value="include">
+                            <label for="tag-galaxy-include">Include</label>
+                            <input type="radio" name="galaxy" id="tag-galaxy-exclude" value="exclude">
+                            <label for="tag-galaxy-exclude">Exclude</label>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="tag linux">Linux</span>
+                        <div class="filter-radio">
+                            <input type="radio" name="linux" id="tag-linux-all" value="all" checked>
+                            <label for="tag-linux-all">All</label>
+                            <input type="radio" name="linux" id="tag-linux-include" value="include">
+                            <label for="tag-linux-include">Include</label>
+                            <input type="radio" name="linux" id="tag-linux-exclude" value="exclude">
+                            <label for="tag-linux-exclude">Exclude</label>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="tag apple">Mac/iOS</span>
+                        <div class="filter-radio">
+                            <input type="radio" name="apple" id="tag-apple-all" value="all" checked>
+                            <label for="tag-apple-all">All</label>
+                            <input type="radio" name="apple" id="tag-apple-include" value="include">
+                            <label for="tag-apple-include">Include</label>
+                            <input type="radio" name="apple" id="tag-apple-exclude" value="exclude">
+                            <label for="tag-apple-exclude">Exclude</label>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="tag multiplayer">Multiplayer</span>
+                        <div class="filter-radio">
+                            <input type="radio" name="multiplayer" id="tag-multiplayer-all" value="all" checked>
+                            <label for="tag-multiplayer-all">All</label>
+                            <input type="radio" name="multiplayer" id="tag-multiplayer-include" value="include">
+                            <label for="tag-multiplayer-include">Include</label>
+                            <input type="radio" name="multiplayer" id="tag-multiplayer-exclude" value="exclude">
+                            <label for="tag-multiplayer-exclude">Exclude</label>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="tag error">Error</span>
+                        <div class="filter-radio">
+                            <input type="radio" name="error" id="tag-error-all" value="all" checked>
+                            <label for="tag-error-all">All</label>
+                            <input type="radio" name="error" id="tag-error-include" value="include">
+                            <label for="tag-error-include">Include</label>
+                            <input type="radio" name="error" id="tag-error-exclude" value="exclude">
+                            <label for="tag-error-exclude">Exclude</label>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="tag bot">ColdClear/9S</span>
+                        <div class="filter-radio">
+                            <input type="radio" name="bot" id="tag-bot-all" value="all" checked>
+                            <label for="tag-bot-all">All</label>
+                            <input type="radio" name="bot" id="tag-bot-include" value="include">
+                            <label for="tag-bot-include">Include</label>
+                            <input type="radio" name="bot" id="tag-bot-exclude" value="exclude">
+                            <label for="tag-bot-exclude">Exclude</label>
+                        </div>
+                    </li>
+                </ul>
+            </details>
             <h5 class="center-text" id="last-updated"></h5>
             <br>
             
@@ -799,7 +881,7 @@ O → I: FFF
                             Question
                             <span class="tags">
                                 <span class="tag techmino">Techmino</span>
-                                <span class="tag galaxy">Galaxy</span>
+                                <span class="tag galaxy">Tech. Galaxy</span>
                                 <span class="tag linux">Linux</span>
                                 <span class="tag apple">Mac/iOS</span>
                                 <span class="tag multiplayer">Multiplayer</span>
@@ -814,6 +896,12 @@ O → I: FFF
                     </details>
                 -->
             </section>
+
+            <br>
+            <small class="center-text">
+                The questions in this FAQ are originally sourced from Techmino's official Discord server, but slightly modified for easier finding. <br>
+                If you have any questions that are not answered here, feel free to ask in the <a href="https://discord.gg/f9pUvkh">Discord server</a>!
+            </small>
         </section>
     </div>
 
