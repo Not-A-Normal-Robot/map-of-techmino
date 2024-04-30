@@ -1,0 +1,73 @@
+/* #region Body */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: techmino-proportional, sans-serif;
+    background-color: transparent;
+
+    --cam-zoom: 1;
+}
+/* #endregion */
+/* #region Mode */
+.mode {
+    --mode-size: 40;
+    --mode-display-size: calc(var(--cam-zoom) * var(--mode-size));
+
+    width: calc(1px * var(--mode-display-size));
+    height: calc(1px * var(--mode-display-size));
+    border: calc(0.09px * var(--mode-display-size)) solid #CCCCCC;
+}
+.mode.square {
+    border-radius: 0;
+}
+.mode.circle {
+    border-radius: 50%;
+}
+.mode.octagon {
+    border: none;
+}
+.mode.octagon::before {
+    content: url('/data/img/icon/octagon.svg');
+    display: block;
+    width: 100%;
+    height: 100%;
+    stroke: #CCCCCC;
+}
+.mode.octagon polygon {
+    /* stroke-width: calc(8px * var(--cam-zoom)); */
+    stroke-width: 20;
+}
+
+.mode.selected {
+    border-color: #CFCF03;
+    stroke: #CFCF03 !important;
+}
+/* #endregion */
+/* #region Misc */
+.hide {
+    display: none;
+}
+.hide-important {
+    display: none !important;
+}
+.show {
+    display: block;
+}
+.show-important {
+    display: block !important;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.indev-warning {
+    position: fixed;
+    top: 0;
+    left: 0; right: 0;
+    font-size: 2rem;
+    text-align: center;
+    color: #ff000077;
+    user-select: none;
+}
+/* #endregion */
