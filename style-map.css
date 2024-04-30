@@ -7,9 +7,16 @@ body {
 
     --cam-zoom: 1;
 }
+main, canvas#edge-display {
+    display: fixed;
+    inset: 0;
+}
 /* #endregion */
 /* #region Mode */
 .mode {
+    position: fixed;
+    box-sizing: border-box;
+
     --mode-size: 40;
     --mode-display-size: calc(var(--cam-zoom) * var(--mode-size));
 
@@ -25,6 +32,7 @@ body {
 }
 .mode.octagon {
     border: none;
+    border-radius: 50%;
 }
 .mode.octagon::before {
     content: url('/data/img/icon/octagon.svg');
