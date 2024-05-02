@@ -1,4 +1,4 @@
-/* #region Body */
+/* #region Full-screen elements */
 body {
     margin: 0;
     padding: 0;
@@ -6,10 +6,16 @@ body {
     background-color: transparent;
 
     --cam-zoom: 1;
+    --scale-factor: 1;
+    --cam-scale: calc(var(--cam-zoom) * var(--scale-factor));
+    --cam-x: 0;
+    --cam-y: 0;
 }
 main, canvas#edge-display {
+    position: relative;
     display: fixed;
     inset: 0;
+    overflow: hidden;
 }
 /* #endregion */
 /* #region Mode */
@@ -18,10 +24,17 @@ main, canvas#edge-display {
     box-sizing: border-box;
 
     --mode-size: 40;
-    --mode-display-size: calc(var(--cam-zoom) * var(--mode-size));
+    --mode-x: 0;
+    --mode-y: 0;
 
-    width: calc(1px * var(--mode-display-size));
-    height: calc(1px * var(--mode-display-size));
+    --mode-display-size: calc(var(--cam-scale) * var(--mode-size));
+    --mode-display-x: calc(50vw + 1px * var(--cam-scale) * (var(--cam-x) + var(--mode-x)) - 0.5px * var(--mode-display-size));
+    --mode-display-y: calc(50vh + 1px * var(--cam-scale) * (var(--cam-y) + var(--mode-y)) - 0.5px * var(--mode-display-size));
+
+    top: var(--mode-display-y);
+    left: var(--mode-display-x);
+    width: calc(1px * var(--mode-display-size) * var(--cam-scale));
+    height: calc(1px * var(--mode-display-size) * var(--cam-scale));
     border: calc(0.09px * var(--mode-display-size)) solid #CCCCCC;
 }
 .mode.square {
@@ -42,7 +55,7 @@ main, canvas#edge-display {
     stroke: #CCCCCC;
 }
 .mode.octagon polygon {
-    /* stroke-width: calc(8px * var(--cam-zoom)); */
+    /* stroke-width: calc(8px * var(--cam-scale)); */
     stroke-width: 20;
 }
 
