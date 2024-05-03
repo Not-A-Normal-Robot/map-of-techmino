@@ -14,7 +14,7 @@
     <noscript>
         <h1>This page requires JavaScript to function properly.</h1>
     </noscript>
-    <main class="hide-no-script">
+    <main class="hide-no-script" id="main">
         <canvas id="edge-display">
             Your browser does not support the canvas element. <br>
             Please update your browser to a newer version.
@@ -22,10 +22,19 @@
         <h1 class="indev-warning">
             [IN DEVELOPMENT]
         </h1>
-        <div class="mode" shape="octagon" style="background-image: url('/data/img/modeicons/attack.png')">
-            
-        </div>
+        <h4 id="init-error-message" style="color: white; background-color: black;">
+            Loading...
+            <br>
+            <small style="font-size: 0.3em;">
+                This should take less than a second. <br>
+                If it's still loading after a while, either your internet's <em>extremely</em> slow, <br>
+                or something went <em>really</em> wrong. Check the console (F12 or Ctrl+Shift+I) for details.
+            </small>
+        </h4>
+        <!-- Sample mode -->
+        <!-- <button type="button" id="mode_attacker_e" class="mode selected" shape="diamond" icon="attack" title="Attacker EASY">
+        </button> -->
     </main>
-    <script src="/js/map-beta.js"></script>
+    <script src="/js/map-beta.js" type="module"></script>
 </body>
 </html>

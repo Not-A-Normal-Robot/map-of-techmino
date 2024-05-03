@@ -4,6 +4,7 @@ body {
     padding: 0;
     font-family: techmino-proportional, sans-serif;
     background-color: transparent;
+    color: white;
 
     --cam-zoom: 1;
     --scale-factor: 1;
@@ -42,35 +43,75 @@ canvas#edge-display {
     height: var(--mode-display-size);
     border: calc(0.09 * var(--mode-display-size)) solid #CCCCCC;
 
-    background-size: contain;
+    background: none;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center;
 }
+.mode.selected {
+    border-color: #CFCF03;
+}
+
+/* Mode shapes */
 .mode[shape="square"] {
     border-radius: 0;
 }
 .mode[shape="circle"] {
     border-radius: 50%;
+    background-size: 92.6%;
 }
 .mode[shape="octagon"], .mode[shape="diamond"] {
     border: none;
     border-radius: 50%;
 }
+.mode[shape="octagon"] {background-size: 72.6%}
+.mode[shape="diamond"] {background-size: 56.2%}
 .mode[shape="octagon"]::after, .mode[shape="diamond"]::after {
     position: absolute;
     display: block;
     inset: 0;
-    stroke: #CCCCCC;
 }
 .mode[shape="octagon"]::after {
-    content: url("/data/img/icon/octagon.svg");
+    content: url("/data/img/mode-shapes/octagon.svg");
+}
+.mode[shape="octagon"].selected::after {
+    content: url("/data/img/mode-shapes/octagon-selected.svg");
 }
 .mode[shape="diamond"]::after {
-    content: url("/data/img/icon/diamond.svg");
+    content: url("/data/img/mode-shapes/diamond.svg");
+}
+.mode[shape="diamond"].selected::after {
+    content: url("/data/img/mode-shapes/diamond-selected.svg");
 }
 
-.mode.selected {
-    border-color: #CFCF03;
-    stroke: #CFCF03 !important;
-}
+/* Mode icons */
+/* TODO: Add the missing vector icons */
+.mode[icon="attack"] { background-image: url("/data/img/modeicons/attack.png") }
+.mode[icon="backfire"] { background-image: url("/data/img/modeicons/backfire.png") }
+.mode[icon="bigbang"] { background-image: url("/data/img/modeicons/bigbang.png") }
+.mode[icon="confusion"] { background-image: url("/data/img/modeicons/confusion.png") }
+.mode[icon="defend"] { background-image: url("/data/img/modeicons/defend.png") }
+.mode[icon="dig_eff"] { background-image: url("/data/img/modeicons/dig_eff.png") }
+.mode[icon="dig_sprint"] { background-image: url("/data/img/modeicons/dig_sprint.png") }
+.mode[icon="dig"] { background-image: url("/data/img/modeicons/dig.png") }
+.mode[icon="drought"] { background-image: url("/data/img/modeicons/drought.png") }
+.mode[icon="hidden"] { background-image: url("/data/img/modeicons/hidden.png") }
+.mode[icon="hidden2"] { background-image: url("/data/img/modeicons/hidden2.png") }
+.mode[icon="hidden3"] { background-image: url("/data/img/modeicons/hidden3.png") }
+.mode[icon="hidden4"] { background-image: url("/data/img/modeicons/hidden4.png") }
+.mode[icon="hidden5"] { background-image: url("/data/img/modeicons/hidden5.png") }
+.mode[icon="master_ex"] { background-image: url("/data/img/modeicons/master_ex.png") }
+.mode[icon="master"] { background-image: url("/data/img/modeicons/master.png") }
+.mode[icon="mess"] { background-image: url("/data/img/modeicons/mess.png") }
+.mode[icon="pc"] { background-image: url("/data/img/modeicons/pc.png") }
+.mode[icon="rhythm"] { background-image: url("/data/img/modeicons/rhythm.png") }
+.mode[icon="round"] { background-image: url("/data/img/modeicons/round.png") }
+.mode[icon="solo"] { background-image: url("/data/img/modeicons/solo.png") }
+.mode[icon="sprint1"] { background-image: url("/data/img/modeicons/sprint1.png") }
+.mode[icon="sprint2"] { background-image: url("/data/img/modeicons/sprint2.png") }
+.mode[icon="sprint3"] { background-image: url("/data/img/modeicons/sprint3.png") }
+.mode[icon="survivor"] { background-image: url("/data/img/modeicons/survivor.png") }
+.mode[icon="zen"] { background-image: url("/data/img/modeicons/zen.png") }
 /* #endregion */
 /* #region Misc */
 .hide {
@@ -97,6 +138,7 @@ canvas#edge-display {
     font-size: calc(var(--cam-scale) * 1em);
     text-align: center;
     color: #ff000077;
+    -webkit-user-select: none;
     user-select: none;
 }
 /* #endregion */
