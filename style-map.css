@@ -13,8 +13,14 @@ body {
 }
 main, canvas#edge-display {
     position: fixed;
-    inset: 0;
+    top: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
     overflow: hidden;
+}
+canvas#edge-display {
+    z-index: -1;
 }
 /* #endregion */
 /* #region Mode */
@@ -33,29 +39,32 @@ main, canvas#edge-display {
     top: var(--mode-display-y);
     left: var(--mode-display-x);
     width: var(--mode-display-size);
-    height:  var(--mode-display-size);
+    height: var(--mode-display-size);
     border: calc(0.09 * var(--mode-display-size)) solid #CCCCCC;
+
+    background-size: contain;
 }
-.mode.square {
+.mode[shape="square"] {
     border-radius: 0;
 }
-.mode.circle {
+.mode[shape="circle"] {
     border-radius: 50%;
 }
-.mode.octagon {
+.mode[shape="octagon"], .mode[shape="diamond"] {
     border: none;
     border-radius: 50%;
 }
-.mode.octagon::before {
-    content: url('/data/img/icon/octagon.svg');
+.mode[shape="octagon"]::after, .mode[shape="diamond"]::after {
+    position: absolute;
     display: block;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     stroke: #CCCCCC;
 }
-.mode.octagon polygon {
-    /* stroke-width: calc(8px * var(--cam-scale)); */
-    stroke-width: 20;
+.mode[shape="octagon"]::after {
+    content: url("/data/img/icon/octagon.svg");
+}
+.mode[shape="diamond"]::after {
+    content: url("/data/img/icon/diamond.svg");
 }
 
 .mode.selected {
