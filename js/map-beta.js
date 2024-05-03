@@ -1,6 +1,9 @@
 {
+    const isInIframe = window.self === window.top;
+
     const root = document.documentElement;
     const body = document.body;
+    const metaViewport = document.querySelector("head>meta[name='viewport']");
     const edgeDisplayCanvas = document.getElementById("edge-display");
     const edgeDisplayContext = edgeDisplayCanvas.getContext("2d");
 
@@ -9,7 +12,7 @@
     let map = {};
 
     function init() {
-        if(window.self === window.top) {
+        if(isInIframe) {
             // for easier viewing if directly accessing the page
             document.getElementsByTagName("body")[0].style.backgroundColor = "black";
         }
@@ -40,14 +43,17 @@
             });
     }
 
-    function onResize() {
+    function getScaleFactor() {
         const viewportWidth = root.clientWidth || 0;
         const viewportHeight = root.clientHeight || 0;
         const viewportDimension = Math.sqrt(viewportWidth * viewportHeight);
         
         const targetDimension = Math.sqrt(1280 * 720);
-        const scaleFactor = Math.sqrt(viewportDimension / targetDimension);
-        body.style.setProperty("--scale-factor", scaleFactor);
+        return viewportDimension / targetDimension * (isInIframe ? 2.62 : 2.26);
+    }
+
+    function onResize() {
+        body.style.setProperty("--scale-factor", getScaleFactor());
     }
 
     function onMapZoom() {
