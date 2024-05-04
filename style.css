@@ -332,6 +332,7 @@ iframe#map {
     overflow: hidden;
     box-sizing: border-box;
     border: 1px solid lime;
+    background: none;
     width: 100%;
     height: 95vh;
 }

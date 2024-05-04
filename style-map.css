@@ -12,7 +12,7 @@ body {
     --cam-x: 0;
     --cam-y: 0;
 }
-main, canvas#edge-display {
+main, #edge-display {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -20,8 +20,9 @@ main, canvas#edge-display {
     height: 100vh;
     overflow: hidden;
 }
-canvas#edge-display {
+#edge-display {
     z-index: -1;
+    transform: translate(calc(50vw + (1px * var(--cam-x))), calc(50vh + (1px * var(--cam-y))));
 }
 /* #endregion */
 /* #region Mode */
