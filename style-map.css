@@ -15,14 +15,14 @@ body {
 main, #edge-display {
     position: fixed;
     top: 0;
-    bottom: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     overflow: hidden;
 }
 #edge-display {
     z-index: -1;
-    transform: translate(calc(50vw + (1px * var(--cam-x))), calc(50vh + (1px * var(--cam-y))));
+    transform: translate(calc((1px * var(--cam-x))), calc((1px * var(--cam-y))));
 }
 /* #endregion */
 /* #region Mode */
@@ -34,7 +34,7 @@ main, #edge-display {
     --mode-x: 0;
     --mode-y: 0;
 
-    --mode-display-size: calc(1px * var(--cam-scale) * var(--mode-size));
+    --mode-display-size: calc(1.8px * var(--cam-scale) * var(--mode-size));
     --mode-display-x: calc(50vw + 1px * var(--cam-scale) * (var(--cam-x) + var(--mode-x)) - 0.5 * var(--mode-display-size));
     --mode-display-y: calc(50vh + 1px * var(--cam-scale) * (var(--cam-y) + var(--mode-y)) - 0.5 * var(--mode-display-size));
 

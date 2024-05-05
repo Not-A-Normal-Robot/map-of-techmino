@@ -104,7 +104,7 @@ import * as LANG from "./lang.js";
                 edge.setAttribute("x1", x1); edge.setAttribute("y1", y1);
                 edge.setAttribute("x2", x2); edge.setAttribute("y2", y2);
 
-                edge.style.setProperty("stroke-width", "calc(4px * var(--scale-factor))");
+                edge.style.setProperty("stroke-width", "calc(20px * var(--cam-zoom))");
                 edge.style.setProperty("stroke", "#FFFFFF5F");
                 edge.style.setProperty("stroke-linecap", "round");
 
