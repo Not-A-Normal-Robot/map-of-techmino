@@ -12,7 +12,7 @@ import * as LANG from "./lang.js";
     const EDGES_SVG = document.getElementById("edge-display");
 
     const MODE_ID_PREFIX = "mode_";
-    const MOVE_SPEED_MULT = 1;
+    const MOVE_SPEED_MULT = 0.26;
     const ZOOM_SPEED_MULT = 0.00262;
     const MIN_ZOOM = 0.126;
     const MAX_ZOOM = 1.26;
@@ -57,6 +57,24 @@ import * as LANG from "./lang.js";
 
             camZoom = clamp(MIN_ZOOM, camZoom, MAX_ZOOM);
             onMapZoom(oldZoom, camZoom);
+        } else {
+            // Move
+            let dx =
+                heldKeyCodes.has("ArrowLeft")
+              - heldKeyCodes.has("ArrowRight")
+              + heldKeyCodes.has("KeyA")
+              - heldKeyCodes.has("KeyD");
+            
+            let dy =
+                heldKeyCodes.has("ArrowUp")
+              - heldKeyCodes.has("ArrowDown")
+              + heldKeyCodes.has("KeyW")
+              - heldKeyCodes.has("KeyS");
+
+            dx *= dt * MOVE_SPEED_MULT / camZoom;
+            dy *= dt * MOVE_SPEED_MULT / camZoom;
+
+            moveMap(dx, dy);
         }
     }
 
@@ -81,11 +99,14 @@ import * as LANG from "./lang.js";
     }
 
     function updateDebugInfo(dt) {
-        DEBUG_ELEMENT.innerText =
-            `Time: ${performance.now() - INIT_TIME}ms\n` +
-            `dt: ${dt}\n` +
-            `Camera: ${camX}, ${camY} @ ${camZoom}x\n` +
+        const debugText =
+            `Time: ${(performance.now() - INIT_TIME).toFixed(1)}ms\n` +
+            `dt: ${dt.toFixed(1)}\n` +
+            `Camera: ${camX}, ${camY} @ ${camZoom.toFixed(5)}x\n` +
             `Keys: {${Array.from(heldKeyCodes).join()}}\n`;
+        
+        DEBUG_ELEMENT.innerText = debugText;
+        // console.log(debugText);
     }
 
     function loadMapData(){
@@ -192,14 +213,29 @@ import * as LANG from "./lang.js";
         BODY.style.setProperty("--cam-zoom", newZoom);
     }
 
+    function moveMap(dx, dy) {
+        camX += dx;
+        camY += dy;
+
+        BODY.style.setProperty("--cam-x", camX);
+        BODY.style.setProperty("--cam-y", camY);
+    }
+
     window.addEventListener("resize", onResize);
     window.addEventListener("keydown", (event) => {
         heldKeyCodes.add(event.code);
 
-        if(event.code.includes("Key") || event.code.includes("Arrow")) {
+        if(
+            (event.code.includes("Key") || event.code.includes("Arrow"))
+            && !(event.code == "KeyI" && event.ctrlKey && event.shiftKey)
+        ) {
             event.preventDefault();
         }
-        if(!isUpdateRunning) update();
+
+        if(!isUpdateRunning) {
+            prevTime = performance.now();
+            update();
+        }
     });
     window.addEventListener("keyup", (event) => {
         heldKeyCodes.delete(event.code);
