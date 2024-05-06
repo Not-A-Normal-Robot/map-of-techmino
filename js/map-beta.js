@@ -217,6 +217,9 @@ import * as LANG from "./lang.js";
         camX += dx;
         camY += dy;
 
+        camX = clamp(map.min_x, camX, map.max_x);
+        camY = clamp(map.min_y, camY, map.max_y);
+
         BODY.style.setProperty("--cam-x", camX);
         BODY.style.setProperty("--cam-y", camY);
     }
