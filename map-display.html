@@ -14,23 +14,24 @@
     <noscript>
         <h1>This page requires JavaScript to function properly.</h1>
     </noscript>
+    <svg id="edge-display"></svg>
+    <h1 class="indev-warning hide-no-script">
+        [IN DEVELOPMENT]
+    </h1>
+    <h4 id="init-error-message" style="color: white; background-color: black;" class="hide-no-script">
+        Loading...
+        <br>
+        <small style="font-size: 0.6em;">
+            This should take less than a second. <br>
+            If it's still loading after a while, either your internet's <em>extremely</em> slow, <br>
+            or something went <em>really</em> wrong. Check the console (F12 or Ctrl+Shift+I) for details.
+        </small>
+    </h4>
+    <p id="debug-info">
+        (DEBUG: Update loop uninitialized)
+    </p>
     <main class="hide-no-script" id="main">
-        <svg id="edge-display"></svg>
-        <h1 class="indev-warning">
-            [IN DEVELOPMENT]
-        </h1>
-        <h4 id="init-error-message" style="color: white; background-color: black;">
-            Loading...
-            <br>
-            <small style="font-size: 0.6em;">
-                This should take less than a second. <br>
-                If it's still loading after a while, either your internet's <em>extremely</em> slow, <br>
-                or something went <em>really</em> wrong. Check the console (F12 or Ctrl+Shift+I) for details.
-            </small>
-        </h4>
-        <p id="debug-info">
-            
-        </p>
+        
     </main>
     <script src="/js/map-beta.js" type="module"></script>
 </body>

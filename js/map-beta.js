@@ -102,7 +102,7 @@ import * as LANG from "./lang.js";
         const debugText =
             `Time: ${(performance.now() - INIT_TIME).toFixed(1)}ms\n` +
             `dt: ${dt.toFixed(1)}\n` +
-            `Camera: ${camX}, ${camY} @ ${camZoom.toFixed(5)}x\n` +
+            `Camera: ${camX.toFixed(2)}, ${camY.toFixed(2)} @ ${camZoom.toFixed(5)}x\n` +
             `Keys: {${Array.from(heldKeyCodes).join()}}\n`;
         
         DEBUG_ELEMENT.innerText = debugText;
