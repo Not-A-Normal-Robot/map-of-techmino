@@ -136,7 +136,7 @@ main, #edge-display {
     position: fixed;
     top: 0;
     left: 0; right: 0;
-    font-size: calc(var(--cam-scale) * 1em);
+    font-size: calc(var(--scale-factor) * 1em);
     text-align: center;
     color: #ff000077;
     -webkit-user-select: none;

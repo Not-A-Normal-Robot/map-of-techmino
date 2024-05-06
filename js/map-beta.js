@@ -2,18 +2,28 @@
 import * as LANG from "./lang.js";
 {
     const INIT_TIME = performance.now();
+    const DEBUG_MODE = true;
     const IS_IN_IFRAME = window.self === window.top;
 
     const ROOT = document.documentElement;
     const BODY = document.body;
+    const DEBUG_ELEMENT = document.getElementById("debug-info");
     const MAIN_ELEMENT = document.getElementById("main");
     const EDGES_SVG = document.getElementById("edge-display");
 
     const MODE_ID_PREFIX = "mode_";
+    const MOVE_SPEED_MULT = 1;
+    const ZOOM_SPEED_MULT = 0.00262;
+    const MIN_ZOOM = 0.126;
+    const MAX_ZOOM = 1.26;
 
     let camX = 0; let camY = 0; let camZoom = 1;
 
     let map = {};
+    let heldKeyCodes = new Set();
+
+    let isUpdateRunning = false;
+    let prevTime = performance.now();
 
     function init() {
         if(IS_IN_IFRAME) {
@@ -25,6 +35,58 @@ import * as LANG from "./lang.js";
         document.getElementById("init-error-message")?.remove();
     }
     init();
+
+    function handleKeys(dt) {
+        if(heldKeyCodes.has("ControlLeft") || heldKeyCodes.has("ControlRight")) {
+            // Zoom in/out
+            const zoomExp =
+                heldKeyCodes.has("ArrowUp")
+              + heldKeyCodes.has("ArrowRight")
+              - heldKeyCodes.has("ArrowLeft")
+              - heldKeyCodes.has("ArrowDown")
+              + heldKeyCodes.has("KeyW")
+              - heldKeyCodes.has("KeyA")
+              - heldKeyCodes.has("KeyS")
+              + heldKeyCodes.has("KeyD")
+            
+            const zoomMultiplier =
+                Math.exp(zoomExp * dt * ZOOM_SPEED_MULT);
+
+            const oldZoom = camZoom;
+            camZoom *= zoomMultiplier;
+
+            camZoom = clamp(MIN_ZOOM, camZoom, MAX_ZOOM);
+            onMapZoom(oldZoom, camZoom);
+        }
+    }
+
+    function update(forceRun = false) {
+        if(isUpdateRunning && !forceRun) return;
+        isUpdateRunning = true;
+        let continueUpdate = heldKeyCodes.size > 0;
+
+        const dt = performance.now() - prevTime;
+        prevTime = performance.now();
+
+        handleKeys(dt);
+
+        if(DEBUG_MODE) {
+            updateDebugInfo(dt);
+        }
+
+        if(continueUpdate) {
+            return requestAnimationFrame(() => update(true));
+        }
+        isUpdateRunning = false;
+    }
+
+    function updateDebugInfo(dt) {
+        DEBUG_ELEMENT.innerText =
+            `Time: ${performance.now() - INIT_TIME}ms\n` +
+            `dt: ${dt}\n` +
+            `Camera: ${camX}, ${camY} @ ${camZoom}x\n` +
+            `Keys: {${Array.from(heldKeyCodes).join()}}\n`;
+    }
 
     function loadMapData(){
         const urlParams = new URLSearchParams(window.location.search);
@@ -126,9 +188,24 @@ import * as LANG from "./lang.js";
         BODY.style.setProperty("--scale-factor", getScaleFactor());
     }
 
-    function onMapZoom() {
-
+    function onMapZoom(oldZoom, newZoom = camZoom) {
+        BODY.style.setProperty("--cam-zoom", newZoom);
     }
 
     window.addEventListener("resize", onResize);
+    window.addEventListener("keydown", (event) => {
+        heldKeyCodes.add(event.code);
+
+        if(event.code.includes("Key") || event.code.includes("Arrow")) {
+            event.preventDefault();
+        }
+        if(!isUpdateRunning) update();
+    });
+    window.addEventListener("keyup", (event) => {
+        heldKeyCodes.delete(event.code);
+    });
+    
+    function clamp(min, val, max) {
+        return Math.min(Math.max(min, val), max);
+    }
 }
