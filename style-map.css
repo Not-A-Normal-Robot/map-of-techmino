@@ -41,7 +41,7 @@ main {
     --mode-x: 0;
     --mode-y: 0;
 
-    --mode-display-size: calc(1.8px * var(--cam-scale) * var(--mode-size));
+    --mode-display-size: calc(2px * var(--cam-scale) * var(--mode-size));
     --mode-display-x: calc(50vw + 1px * var(--cam-scale) * (var(--cam-x) + var(--mode-x)) - 0.5 * var(--mode-display-size));
     --mode-display-y: calc(50vh + 1px * var(--cam-scale) * (var(--cam-y) + var(--mode-y)) - 0.5 * var(--mode-display-size));
 
@@ -52,12 +52,17 @@ main {
     border: calc(0.09 * var(--mode-display-size)) solid #CCCCCC;
 
     background: none;
+    
+    cursor: pointer;
+    transition: transform 150ms;
+}
+.mode::before {
+    position: absolute;
+    display: block;
+    inset: 0;
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
-
-    cursor: pointer;
-    transition: transform 150ms;
 }
 .mode.selected {
     border-color: #CFCF03;
@@ -77,60 +82,65 @@ main {
 }
 .mode[shape="circle"] {
     border-radius: 50%;
+}
+.mode[shape="circle"]::before {
     background-size: 92.6%;
 }
 .mode[shape="octagon"], .mode[shape="diamond"] {
     border: none;
     border-radius: 50%;
 }
-.mode[shape="octagon"] {background-size: 72.6%}
-.mode[shape="diamond"] {background-size: 56.2%}
+.mode[shape="octagon"]::before, .mode[shape="diamond"]::before {
+    background-size: 72.6%
+}
 .mode[shape="octagon"]::after, .mode[shape="diamond"]::after {
+    content: "";
     position: absolute;
     display: block;
     inset: 0;
 }
 .mode[shape="octagon"]::after {
-    content: url("/data/img/mode-shapes/octagon.svg");
+    background-image: url("/data/img/mode-shapes/octagon.svg");
 }
 .mode[shape="octagon"].selected::after {
-    content: url("/data/img/mode-shapes/octagon-selected.svg");
+    background-image: url("/data/img/mode-shapes/octagon-selected.svg");
 }
 .mode[shape="diamond"]::after {
-    content: url("/data/img/mode-shapes/diamond.svg");
+    background-image: url("/data/img/mode-shapes/diamond.svg");
 }
 .mode[shape="diamond"].selected::after {
-    content: url("/data/img/mode-shapes/diamond-selected.svg");
+    background-image: url("/data/img/mode-shapes/diamond-selected.svg");
 }
 
 /* Mode icons */
 /* TODO: Add the missing vector icons */
-.mode[icon="attack"]     { background-image: url("/data/img/modeicons/attack.png") }
-.mode[icon="backfire"]   { background-image: url("/data/img/modeicons/backfire.png") }
-.mode[icon="bigbang"]    { background-image: url("/data/img/modeicons/bigbang.png") }
-.mode[icon="confusion"]  { background-image: url("/data/img/modeicons/confusion.png") }
-.mode[icon="defend"]     { background-image: url("/data/img/modeicons/defend.png") }
-.mode[icon="dig_eff"]    { background-image: url("/data/img/modeicons/dig_eff.png") }
-.mode[icon="dig_sprint"] { background-image: url("/data/img/modeicons/dig_sprint.png") }
-.mode[icon="dig"]        { background-image: url("/data/img/modeicons/dig.png") }
-.mode[icon="drought"]    { background-image: url("/data/img/modeicons/drought.png") }
-.mode[icon="hidden"]     { background-image: url("/data/img/modeicons/hidden.png") }
-.mode[icon="hidden2"]    { background-image: url("/data/img/modeicons/hidden2.png") }
-.mode[icon="hidden3"]    { background-image: url("/data/img/modeicons/hidden3.png") }
-.mode[icon="hidden4"]    { background-image: url("/data/img/modeicons/hidden4.png") }
-.mode[icon="hidden5"]    { background-image: url("/data/img/modeicons/hidden5.png") }
-.mode[icon="master_ex"]  { background-image: url("/data/img/modeicons/master_ex.png") }
-.mode[icon="master"]     { background-image: url("/data/img/modeicons/master.png") }
-.mode[icon="mess"]       { background-image: url("/data/img/modeicons/mess.png") }
-.mode[icon="pc"]         { background-image: url("/data/img/modeicons/pc.png") }
-.mode[icon="rhythm"]     { background-image: url("/data/img/modeicons/rhythm.png") }
-.mode[icon="round"]      { background-image: url("/data/img/modeicons/round.png") }
-.mode[icon="solo"]       { background-image: url("/data/img/modeicons/solo.png") }
-.mode[icon="sprint1"]    { background-image: url("/data/img/modeicons/sprint1.png") }
-.mode[icon="sprint2"]    { background-image: url("/data/img/modeicons/sprint2.png") }
-.mode[icon="sprint3"]    { background-image: url("/data/img/modeicons/sprint3.png") }
-.mode[icon="survivor"]   { background-image: url("/data/img/modeicons/survivor.png") }
-.mode[icon="zen"]        { background-image: url("/data/img/modeicons/zen.png") }
+.mode[icon]::before { content: ""; }
+.mode[icon="attack"]::before     { background-image: url("/data/img/modeicons/attack.png") }
+.mode[icon="backfire"]::before   { background-image: url("/data/img/modeicons/backfire.png") }
+.mode[icon="bigbang"]::before    { background-image: url("/data/img/modeicons/bigbang.png") }
+.mode[icon="confusion"]::before  { background-image: url("/data/img/modeicons/confusion.png") }
+.mode[icon="defend"]::before     { background-image: url("/data/img/modeicons/defend.png") }
+.mode[icon="dig_eff"]::before    { background-image: url("/data/img/modeicons/dig_eff.png") }
+.mode[icon="dig_sprint"]::before { background-image: url("/data/img/modeicons/dig_sprint.png") }
+.mode[icon="dig"]::before        { background-image: url("/data/img/modeicons/dig.png") }
+.mode[icon="drought"]::before    { background-image: url("/data/img/modeicons/drought.png") }
+.mode[icon="hidden"]::before     { background-image: url("/data/img/modeicons/hidden.png") }
+.mode[icon="hidden2"]::before    { background-image: url("/data/img/modeicons/hidden2.png") }
+.mode[icon="hidden3"]::before    { background-image: url("/data/img/modeicons/hidden3.png") }
+.mode[icon="hidden4"]::before    { background-image: url("/data/img/modeicons/hidden4.png") }
+.mode[icon="hidden5"]::before    { background-image: url("/data/img/modeicons/hidden5.png") }
+.mode[icon="master_ex"]::before  { background-image: url("/data/img/modeicons/master_ex.png") }
+.mode[icon="master"]::before     { background-image: url("/data/img/modeicons/master.png") }
+.mode[icon="mess"]::before       { background-image: url("/data/img/modeicons/mess.png") }
+.mode[icon="pc"]::before         { background-image: url("/data/img/modeicons/pc.png") }
+.mode[icon="rhythm"]::before     { background-image: url("/data/img/modeicons/rhythm.png") }
+.mode[icon="round"]::before      { background-image: url("/data/img/modeicons/round.png") }
+.mode[icon="solo"]::before       { background-image: url("/data/img/modeicons/solo.png") }
+.mode[icon="sprint1"]::before    { background-image: url("/data/img/modeicons/sprint1.png") }
+.mode[icon="sprint2"]::before    { background-image: url("/data/img/modeicons/sprint2.png") }
+.mode[icon="sprint3"]::before    { background-image: url("/data/img/modeicons/sprint3.png") }
+.mode[icon="survivor"]::before   { background-image: url("/data/img/modeicons/survivor.png") }
+.mode[icon="zen"]::before        { background-image: url("/data/img/modeicons/zen.png") }
 /* #endregion */
 /* #region Misc */
 .hide {
@@ -168,6 +178,13 @@ main {
     left: 47.5vw;
     width: 5vw;
     height: 5vw;
+    pointer-events: none;
+}
+
+#debug-info {
+    color: #fffd;
+    -webkit-user-select: none;
+    user-select: none;
     pointer-events: none;
 }
 /* #endregion */
