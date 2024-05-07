@@ -142,4 +142,13 @@ main, #edge-display {
     -webkit-user-select: none;
     user-select: none;
 }
+
+#crosshair {
+    position: fixed;
+    z-index: 3;
+    top: calc(50vh - 2.5vw);
+    left: 47.5vw;
+    width: 5vw;
+    height: 5vw;
+}
 /* #endregion */

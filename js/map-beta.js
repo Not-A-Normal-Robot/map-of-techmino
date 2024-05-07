@@ -16,6 +16,7 @@ import * as LANG from "./lang.js";
     const ZOOM_SPEED_MULT = 0.00262;
     const MIN_ZOOM = 0.126;
     const MAX_ZOOM = 1.26;
+    const MAP_MARGIN = 62;
 
     let camX = 0; let camY = 0; let camZoom = 1;
 
@@ -217,8 +218,8 @@ import * as LANG from "./lang.js";
         camX += dx;
         camY += dy;
 
-        camX = clamp(map.min_x, camX, map.max_x);
-        camY = clamp(map.min_y, camY, map.max_y);
+        camX = clamp(-map.max_x - MAP_MARGIN, camX, -map.min_x + MAP_MARGIN);
+        camY = clamp(-map.max_y - MAP_MARGIN, camY, -map.min_y + MAP_MARGIN);
 
         BODY.style.setProperty("--cam-x", camX);
         BODY.style.setProperty("--cam-y", camY);
