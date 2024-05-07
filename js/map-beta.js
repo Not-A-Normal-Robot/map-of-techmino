@@ -140,6 +140,10 @@ import * as LANG from "./lang.js";
     }
     
     function onMapLoad() {
+        BODY.style.setProperty("--min-x", map.min_x);
+        BODY.style.setProperty("--max-x", map.max_x);
+        BODY.style.setProperty("--min-y", map.min_y);
+        BODY.style.setProperty("--max-y", map.max_y);
         addMapToHtml();
         generateEdgeSVG();
     }
