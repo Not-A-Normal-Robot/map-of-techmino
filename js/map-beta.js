@@ -22,6 +22,7 @@ import * as LANG from "./lang.js";
 
     let map = {};
     let heldKeyCodes = new Set();
+    let selected = null;
 
     let isUpdateRunning = false;
     let prevTime = performance.now();
@@ -104,7 +105,11 @@ import * as LANG from "./lang.js";
             `Time: ${(performance.now() - INIT_TIME).toFixed(1)}ms\n` +
             `dt: ${dt.toFixed(1)}\n` +
             `Camera: ${camX.toFixed(2)}, ${camY.toFixed(2)} @ ${camZoom.toFixed(5)}x\n` +
-            `Keys: {${Array.from(heldKeyCodes).join()}}\n`;
+            (
+                heldKeyCodes.size > 0 ?
+                    `Keys: {${Array.from(heldKeyCodes).join()}}\n` :
+                    `No keys held (update stopped)\n`
+            );
         
         DEBUG_ELEMENT.innerText = debugText;
         // console.log(debugText);
@@ -170,6 +175,8 @@ import * as LANG from "./lang.js";
             element.style.setProperty("--mode-y", mode.y);
             element.style.setProperty("--mode-size", mode.size);
 
+            element.addEventListener("click", () => onModeClicked(mode.name));
+
             MAIN_ELEMENT.appendChild(element);
         }
     }
@@ -212,6 +219,14 @@ import * as LANG from "./lang.js";
 
     function onMapZoom(oldZoom, newZoom = camZoom) {
         BODY.style.setProperty("--cam-zoom", newZoom);
+    }
+
+    function onModeClicked(modeName) {
+        if(selected) {
+            document.getElementById(MODE_ID_PREFIX + selected).classList.remove("selected");
+        }
+        selected = modeName;
+        document.getElementById(MODE_ID_PREFIX + modeName).classList.add("selected");
     }
 
     function moveMap(dx, dy) {

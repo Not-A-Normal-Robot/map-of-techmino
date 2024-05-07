@@ -21,6 +21,9 @@ main, #edge-display {
     overflow: hidden;
 }
 #edge-display {
+    --offset-x: 0;
+    --offset-y: 0;
+    --size-mult: 1;
     z-index: -1;
     transform: scale(var(--cam-scale)) translate(calc((1px * var(--cam-x))), calc((1px * var(--cam-y))));
 }
@@ -48,9 +51,17 @@ main, #edge-display {
     background-size: 100%;
     background-repeat: no-repeat;
     background-position: center;
+
+    cursor: pointer;
+    transition: transform 150ms;
 }
 .mode.selected {
     border-color: #CFCF03;
+}
+
+.mode:hover {
+    transform: scale(1.25);
+    transform-origin: 50%;
 }
 
 /* Mode shapes */
@@ -87,32 +98,32 @@ main, #edge-display {
 
 /* Mode icons */
 /* TODO: Add the missing vector icons */
-.mode[icon="attack"] { background-image: url("/data/img/modeicons/attack.png") }
-.mode[icon="backfire"] { background-image: url("/data/img/modeicons/backfire.png") }
-.mode[icon="bigbang"] { background-image: url("/data/img/modeicons/bigbang.png") }
-.mode[icon="confusion"] { background-image: url("/data/img/modeicons/confusion.png") }
-.mode[icon="defend"] { background-image: url("/data/img/modeicons/defend.png") }
-.mode[icon="dig_eff"] { background-image: url("/data/img/modeicons/dig_eff.png") }
+.mode[icon="attack"]     { background-image: url("/data/img/modeicons/attack.png") }
+.mode[icon="backfire"]   { background-image: url("/data/img/modeicons/backfire.png") }
+.mode[icon="bigbang"]    { background-image: url("/data/img/modeicons/bigbang.png") }
+.mode[icon="confusion"]  { background-image: url("/data/img/modeicons/confusion.png") }
+.mode[icon="defend"]     { background-image: url("/data/img/modeicons/defend.png") }
+.mode[icon="dig_eff"]    { background-image: url("/data/img/modeicons/dig_eff.png") }
 .mode[icon="dig_sprint"] { background-image: url("/data/img/modeicons/dig_sprint.png") }
-.mode[icon="dig"] { background-image: url("/data/img/modeicons/dig.png") }
-.mode[icon="drought"] { background-image: url("/data/img/modeicons/drought.png") }
-.mode[icon="hidden"] { background-image: url("/data/img/modeicons/hidden.png") }
-.mode[icon="hidden2"] { background-image: url("/data/img/modeicons/hidden2.png") }
-.mode[icon="hidden3"] { background-image: url("/data/img/modeicons/hidden3.png") }
-.mode[icon="hidden4"] { background-image: url("/data/img/modeicons/hidden4.png") }
-.mode[icon="hidden5"] { background-image: url("/data/img/modeicons/hidden5.png") }
-.mode[icon="master_ex"] { background-image: url("/data/img/modeicons/master_ex.png") }
-.mode[icon="master"] { background-image: url("/data/img/modeicons/master.png") }
-.mode[icon="mess"] { background-image: url("/data/img/modeicons/mess.png") }
-.mode[icon="pc"] { background-image: url("/data/img/modeicons/pc.png") }
-.mode[icon="rhythm"] { background-image: url("/data/img/modeicons/rhythm.png") }
-.mode[icon="round"] { background-image: url("/data/img/modeicons/round.png") }
-.mode[icon="solo"] { background-image: url("/data/img/modeicons/solo.png") }
-.mode[icon="sprint1"] { background-image: url("/data/img/modeicons/sprint1.png") }
-.mode[icon="sprint2"] { background-image: url("/data/img/modeicons/sprint2.png") }
-.mode[icon="sprint3"] { background-image: url("/data/img/modeicons/sprint3.png") }
-.mode[icon="survivor"] { background-image: url("/data/img/modeicons/survivor.png") }
-.mode[icon="zen"] { background-image: url("/data/img/modeicons/zen.png") }
+.mode[icon="dig"]        { background-image: url("/data/img/modeicons/dig.png") }
+.mode[icon="drought"]    { background-image: url("/data/img/modeicons/drought.png") }
+.mode[icon="hidden"]     { background-image: url("/data/img/modeicons/hidden.png") }
+.mode[icon="hidden2"]    { background-image: url("/data/img/modeicons/hidden2.png") }
+.mode[icon="hidden3"]    { background-image: url("/data/img/modeicons/hidden3.png") }
+.mode[icon="hidden4"]    { background-image: url("/data/img/modeicons/hidden4.png") }
+.mode[icon="hidden5"]    { background-image: url("/data/img/modeicons/hidden5.png") }
+.mode[icon="master_ex"]  { background-image: url("/data/img/modeicons/master_ex.png") }
+.mode[icon="master"]     { background-image: url("/data/img/modeicons/master.png") }
+.mode[icon="mess"]       { background-image: url("/data/img/modeicons/mess.png") }
+.mode[icon="pc"]         { background-image: url("/data/img/modeicons/pc.png") }
+.mode[icon="rhythm"]     { background-image: url("/data/img/modeicons/rhythm.png") }
+.mode[icon="round"]      { background-image: url("/data/img/modeicons/round.png") }
+.mode[icon="solo"]       { background-image: url("/data/img/modeicons/solo.png") }
+.mode[icon="sprint1"]    { background-image: url("/data/img/modeicons/sprint1.png") }
+.mode[icon="sprint2"]    { background-image: url("/data/img/modeicons/sprint2.png") }
+.mode[icon="sprint3"]    { background-image: url("/data/img/modeicons/sprint3.png") }
+.mode[icon="survivor"]   { background-image: url("/data/img/modeicons/survivor.png") }
+.mode[icon="zen"]        { background-image: url("/data/img/modeicons/zen.png") }
 /* #endregion */
 /* #region Misc */
 .hide {
