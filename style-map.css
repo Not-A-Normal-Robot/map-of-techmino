@@ -64,8 +64,11 @@ main {
 }
 
 .mode:hover {
-    transform: scale(1.25);
+    transform: scale(1.1);
     transform-origin: 50%;
+}
+.mode:focus {
+    outline: none;
 }
 
 /* Mode shapes */
@@ -165,5 +168,6 @@ main {
     left: 47.5vw;
     width: 5vw;
     height: 5vw;
+    pointer-events: none;
 }
 /* #endregion */
