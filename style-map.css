@@ -45,13 +45,20 @@ main {
     --mode-display-x: calc(50vw + 1px * var(--cam-scale) * (var(--cam-x) + var(--mode-x)) - 0.5 * var(--mode-display-size));
     --mode-display-y: calc(50vh + 1px * var(--cam-scale) * (var(--cam-y) + var(--mode-y)) - 0.5 * var(--mode-display-size));
 
+    --mode-bg-color: #0000004F;
+    --mode-border-color: #CCCCCC;
+
     top: var(--mode-display-y);
     left: var(--mode-display-x);
     width: var(--mode-display-size);
     height: var(--mode-display-size);
-    border: calc(0.09 * var(--mode-display-size)) solid #CCCCCC;
 
-    background: none;
+    border: calc(0.09 * var(--mode-display-size)) solid;
+    border-color: var(--mode-border-color);
+    stroke: var(--mode-border-color);
+
+    background-color: var(--mode-bg-color);
+    fill: var(--mode-bg-color);
     
     cursor: pointer;
     transition: transform 150ms;
@@ -65,7 +72,7 @@ main {
     background-position: center;
 }
 .mode.selected {
-    border-color: #CFCF03;
+    --mode-border-color: #CFCF03;
 }
 
 .mode:hover {
@@ -89,27 +96,17 @@ main {
 .mode[shape="octagon"], .mode[shape="diamond"] {
     border: none;
     border-radius: 50%;
+    background: none;
 }
 .mode[shape="octagon"]::before, .mode[shape="diamond"]::before {
-    background-size: 72.6%
+    background-size: 72.6%;
 }
-.mode[shape="octagon"]::after, .mode[shape="diamond"]::after {
-    content: "";
+
+.mode > img {
     position: absolute;
-    display: block;
     inset: 0;
-}
-.mode[shape="octagon"]::after {
-    background-image: url("/data/img/mode-shapes/octagon.svg");
-}
-.mode[shape="octagon"].selected::after {
-    background-image: url("/data/img/mode-shapes/octagon-selected.svg");
-}
-.mode[shape="diamond"]::after {
-    background-image: url("/data/img/mode-shapes/diamond.svg");
-}
-.mode[shape="diamond"].selected::after {
-    background-image: url("/data/img/mode-shapes/diamond-selected.svg");
+    stroke: var(--mode-border-color);
+    fill: var(--mode-bg-color);
 }
 
 /* Mode icons */
@@ -141,6 +138,13 @@ main {
 .mode[icon="sprint3"]::before    { background-image: url("/data/img/modeicons/sprint3.png") }
 .mode[icon="survivor"]::before   { background-image: url("/data/img/modeicons/survivor.png") }
 .mode[icon="zen"]::before        { background-image: url("/data/img/modeicons/zen.png") }
+
+/* Mode ranks */
+.mode[rank="1"] { --mode-bg-color: #3366994F; }
+.mode[rank="2"] { --mode-bg-color: #99D9A64F; }
+.mode[rank="3"] { --mode-bg-color: #D9CC4D4F; }
+.mode[rank="4"] { --mode-bg-color: #D980664F; }
+.mode[rank="5"] { --mode-bg-color: #D94DCC4F; }
 /* #endregion */
 /* #region Misc */
 .hide {

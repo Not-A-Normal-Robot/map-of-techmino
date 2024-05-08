@@ -150,11 +150,11 @@ import * as LANG from "./lang.js";
 
     function addMapToHtml() {
         for(const mode of Object.values(map.modes)) {
-            let element = document.createElement('button');
+            let modeElement = document.createElement("button");
 
-            element.classList.add("mode");
-            element.setAttribute("type", "button");
-            element.id = MODE_ID_PREFIX + mode.name;
+            modeElement.classList.add("mode");
+            modeElement.setAttribute("type", "button");
+            modeElement.id = MODE_ID_PREFIX + mode.name;
             
             let shape;
             switch(mode.shape) {
@@ -172,16 +172,21 @@ import * as LANG from "./lang.js";
                     break;
             }
 
-            element.setAttribute("shape", shape);
-            element.setAttribute("icon", mode.icon);
-            element.setAttribute("title", LANG.getModeFullName(mode.name));
-            element.style.setProperty("--mode-x", mode.x);
-            element.style.setProperty("--mode-y", mode.y);
-            element.style.setProperty("--mode-size", mode.size);
+            modeElement.setAttribute("shape", shape);
+            modeElement.setAttribute("icon", mode.icon);
+            modeElement.setAttribute("title", LANG.getModeFullName(mode.name));
+            modeElement.style.setProperty("--mode-x", mode.x);
+            modeElement.style.setProperty("--mode-y", mode.y);
+            modeElement.style.setProperty("--mode-size", mode.size);
 
-            element.addEventListener("click", () => onModeClicked(mode.name));
+            if(shape === "diamond" || shape === "octagon") {
+                // append SVG to modeElement (svg sourced from /data/img/mode-shapes/(shape).svg)
+                
+            }
 
-            MAIN_ELEMENT.appendChild(element);
+            modeElement.addEventListener("click", () => onModeClicked(mode.name));
+
+            MAIN_ELEMENT.appendChild(modeElement);
         }
     }
 

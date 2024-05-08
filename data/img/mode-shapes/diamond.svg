@@ -1,7 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109">
     <polygon points="100,50 50,100 0,50 50,0"
-        fill="none"
-        stroke="#CCCCCC"
         stroke-width="8"
     />
 </svg>
