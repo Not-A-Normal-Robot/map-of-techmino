@@ -13,8 +13,23 @@ body{
     z-index: -2;
 }
 
-body code {
+code {
     font-family: "techmino-monospace";
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 0.35em;
+    padding: 0.1em 0.2em;
+}
+
+pre {
+    margin: auto;
+    background-color: rgba(0,0,0,0.8);
+    border: 1px solid green;
+    border-radius: 0.5em;
+    padding: 0.3em 0.5em;
+}
+pre code {
+    background-color: none;
+    border-radius: 0;
 }
 /* #endregion */
 
