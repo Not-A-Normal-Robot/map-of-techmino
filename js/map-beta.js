@@ -179,9 +179,10 @@ import * as LANG from "./lang.js";
             modeElement.style.setProperty("--mode-y", mode.y);
             modeElement.style.setProperty("--mode-size", mode.size);
 
-            if(shape === "diamond" || shape === "octagon") {
-                // append SVG to modeElement (svg sourced from /data/img/mode-shapes/(shape).svg)
-                
+            if(shape === "diamond") {
+                modeElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109"><polygon points="100,50 50,100 0,50 50,0"stroke-width="8"/></svg>`;
+            } else if(shape === "octagon") {
+                modeElement.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109"><polygon points="100,50 85.36,85.36 50,100 14.64,85.36 0,50 14.64,14.64 50,0 85.36,14.64"stroke-width="8"/></svg>`;
             }
 
             modeElement.addEventListener("click", () => onModeClicked(mode.name));
