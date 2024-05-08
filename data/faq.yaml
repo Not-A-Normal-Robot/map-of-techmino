@@ -722,7 +722,7 @@
         tags: ["techmino", "multiplayer"]
     -
         question: "How should I calculate the attack in Techmino?"
-        answerHTML: "<p>Please use this table as a reference: <img src="/data/img/faq/techmino-attack-table.jpg"></p>"
+        answerHTML: '<p>Please use this table as a reference: <img src="/data/img/faq/techmino-attack-table.jpg"></p>'
         author: "C29H25N3O5"
         tags: ["techmino"]
     -
