@@ -3,7 +3,7 @@ name: Update FAQ HTML
 on:
   push:
     paths:
-      - 'data/faq.json'
+      - 'data/faq.yaml'
       - 'data/faq-template.html'
       - '.github/scripts/generate_faq_html.py'
 
