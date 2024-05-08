@@ -1,6 +1,6 @@
 --- 
     -
-        question: "What is Techmino?"
+        question: What is Techmino?
         answerHTML: |-
             <p>
                 Techmino is a block-stacking game originally made by MrZ, along with
