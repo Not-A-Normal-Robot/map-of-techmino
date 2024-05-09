@@ -12,6 +12,13 @@ import * as LANG from "./lang.js";
     const MAIN_ELEMENT = document.getElementById("main");
     const EDGES_SVG = document.getElementById("edge-display");
     const CROSSHAIR = document.getElementById("crosshair");
+    
+    const MODE_INFO_ELEMENT = document.getElementById("mode-info");
+    const MODE_INFO_TITLE = MODE_INFO_ELEMENT.querySelector(".title");
+    const MODE_INFO_SUBTITLE = MODE_INFO_ELEMENT.querySelector(".subtitle");
+    const MODE_INFO_VERSION = MODE_INFO_ELEMENT.querySelector(".version-info");
+    const MODE_INFO_DESCRIPTION = MODE_INFO_ELEMENT.querySelector(".description");
+    const MODE_INFO_NAME = MODE_INFO_ELEMENT.querySelector(".name");
 
     const MODE_ID_PREFIX = "mode_";
     const MOVE_SPEED_MULT = 0.26;
@@ -32,6 +39,7 @@ import * as LANG from "./lang.js";
     let camX = 0; let camY = 0; let camZoom = 1;
 
     let map = {};
+    let mapLoaded = false;
     let heldKeyCodes = new Set();
     let selected = null;
     let isDragging = false;
@@ -68,15 +76,17 @@ import * as LANG from "./lang.js";
             const zoomMultiplier =
                 Math.exp(zoomExp * dt * ZOOM_SPEED_MULT);
 
-            const oldZoom = camZoom;
-            camZoom *= zoomMultiplier;
 
             if(zoomMultiplier !== 1) {
+                const oldZoom = camZoom;
+                camZoom *= zoomMultiplier;
+                
+                camZoom = clamp(MIN_ZOOM, camZoom, MAX_ZOOM);
+                onMapZoom(oldZoom, camZoom);
+
                 CROSSHAIR.style.display = "none";
             }
-
-            camZoom = clamp(MIN_ZOOM, camZoom, MAX_ZOOM);
-            onMapZoom(oldZoom, camZoom);
+            
         } else {
             // Move
             let dx =
@@ -96,12 +106,11 @@ import * as LANG from "./lang.js";
 
             if(dx !== 0 || dy !== 0) {
                 CROSSHAIR.style.display = "block";
-            }
-
-            moveMap(dx, dy);
-            const modeAtCenter = getModeAtScreenCenter();
-            if(modeAtCenter) {
-                selectMode(modeAtCenter.name);
+                moveMap(dx, dy);
+                const modeAtCenter = getModeAtScreenCenter();
+                if(modeAtCenter) {
+                    selectMode(modeAtCenter.name);
+                }
             }
         }
     }
@@ -165,6 +174,7 @@ import * as LANG from "./lang.js";
     }
     
     function onMapLoad() {
+        mapLoaded = true;
         BODY.style.setProperty("--min-x", map.min_x);
         BODY.style.setProperty("--max-x", map.max_x);
         BODY.style.setProperty("--min-y", map.min_y);
@@ -258,6 +268,7 @@ import * as LANG from "./lang.js";
     }
 
     function getModeAtScreenCenter() {
+        if(!mapLoaded) return;
         for(const mode of Object.values(map.modes)) {
             const modeElement = document.getElementById(MODE_ID_PREFIX + mode.name);
             const rect = modeElement.getBoundingClientRect();
@@ -287,6 +298,20 @@ import * as LANG from "./lang.js";
         }
         selected = modeName;
         document.getElementById(MODE_ID_PREFIX + modeName)?.classList.add("selected");
+
+        modeInfoExpand();
+        updateModeInfo();
+    }
+
+    function updateModeInfo() {
+        if(!selected) return;
+        const mode = map.modes[selected];
+
+        MODE_INFO_TITLE.innerText = LANG.getLanguageEntry(`modes.${selected}.title`);
+        MODE_INFO_SUBTITLE.innerText = LANG.getLanguageEntry(`modes.${selected}.subtitle`, "");
+        MODE_INFO_DESCRIPTION.innerText = LANG.getLanguageEntry(`modes.${selected}.description`, "");
+        MODE_INFO_VERSION.innerText = LANG.getLanguageEntry(`modes.${selected}.version_info`, "");
+        MODE_INFO_NAME.innerText = LANG.getModeFullName(selected);
     }
 
     function unselectMode() {
@@ -294,6 +319,28 @@ import * as LANG from "./lang.js";
             document.getElementById(MODE_ID_PREFIX + selected)?.classList.remove("selected");
         }
         selected = null;
+        modeInfoCollapseToNothing();
+    }
+
+    function modeInfoExpand() {
+        const classes = MODE_INFO_ELEMENT.classList;
+        classes.add("expand", "expand-anim");
+        classes.remove("expand-full", "expand-full-anim", "collapse-anim", "collapse-full-anim");
+    }
+    function modeInfoExpandFull() {
+        const classes = MODE_INFO_ELEMENT.classList;
+        classes.add("expand-full", "expand-full-anim");
+        classes.remove("expand", "expand-anim", "collapse-anim", "collapse-full-anim");
+    }
+    function modeInfoCollapseToNothing() {
+        const classes = MODE_INFO_ELEMENT.classList;
+        classes.add("collapse-anim");
+        classes.remove("expand", "expand-anim", "expand-full", "expand-full-anim", "collapse-full-anim");
+    }
+    function modeInfoCollapseToSmall() {
+        const classes = MODE_INFO_ELEMENT.classList;
+        classes.add("collapse-full-anim");
+        classes.remove("expand", "expand-anim", "expand-full", "expand-full-anim", "collapse-anim");
     }
 
     function moveMap(dx, dy) {

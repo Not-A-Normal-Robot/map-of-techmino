@@ -1,3 +1,7 @@
+/* #region Fonts */
+@font-face { font-family: "techmino-proportional"; src: url('fonts/proportional.otf') }
+@font-face { font-family: "techmino-monospace"   ; src: url('fonts/monospaced.otf') }
+/* #endregion */
 /* #region Full-screen elements */
 body {
     margin: 0;
@@ -160,6 +164,122 @@ main {
 .mode[rank="3"] { --mode-bg-color: #D9CC4D4F; }
 .mode[rank="4"] { --mode-bg-color: #D980664F; }
 .mode[rank="5"] { --mode-bg-color: #D94DCC4F; }
+/* #endregion */
+/* #region Mode info */
+@keyframes mode-info-slide {
+    0% { left: 100vw; }
+    100% { left: 70vw; }
+}
+@keyframes mode-info-full-slide {
+    0% { left: 70vw; }
+    100% { left: -30vw; }
+}
+@keyframes mode-info-slide-reverse {
+    0% { left: 70vw; }
+    100% { left: 100vw; }
+}
+@keyframes mode-info-full-slide-reverse {
+    0% { left: -30vw; }
+    100% { left: 70vw; }
+}
+#mode-info {
+    position: fixed;
+    top: 0; bottom: 0;
+    left: 100vw;
+    width: 130vw;
+    background-color: #9E9E9ECC;
+    z-index: 5;
+    font-size: calc(var(--scale-factor) * 0.426em);
+}
+#mode-info.expand {
+    left: 70vw;
+}
+
+#mode-info.expand-anim {
+    animation: mode-info-slide 250ms;
+}
+#mode-info.expand-full {
+    left: -30vw;
+}
+#mode-info.expand-full-anim {
+    animation: mode-info-full-slide 650ms;
+}
+#mode-info.collapse-anim {
+    animation: mode-info-slide-reverse 250ms;
+}
+#mode-info.collapse-full-anim {
+    animation: mode-info-full-slide-reverse 650ms;
+}
+
+
+#mode-info > .small {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    top: 0; bottom: 0;
+    left: 0; width: 30vw;
+    padding: 1em 0;
+}
+#mode-info .small .align-bottom {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    inset: 40vh 0 0 0;
+}
+#mode-info > .full {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 30vw; right: 0;
+}
+
+#mode-info *:not(button) {
+    pointer-events: none;
+}
+#mode-info * {
+    color: white;
+    text-align: center;
+    margin: 0;
+}
+
+#mode-info .title {
+    font-size: 2.26em;
+    margin-bottom: -0.1em;
+}
+#mode-info .subtitle {
+    margin-bottom: 0.1em;
+}
+#mode-info .version-info {
+    margin-bottom: 1em;
+}
+#mode-info .rank-reqs {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    inset: 2em 1em 15vh 1em;
+    background-color: #0000004F;
+    border: 1px solid #CCCCCC88;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    gap: 0.5em;
+    overflow: scroll;
+    list-style-type: none;
+}
+#mode-info .rank-reqs li:not(:last-child) {
+    padding-bottom: 0.5em;
+    border-bottom: 1px solid #CCCCCC88;
+    
+}
+#mode-info .rank-reqs .left {
+    float: left;
+}
+#mode-info .rank-reqs .right {
+    float: right;
+}
+#mode-info .buttons {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 0; height: 10vh;
+}
 /* #endregion */
 /* #region Misc */
 .hide {
