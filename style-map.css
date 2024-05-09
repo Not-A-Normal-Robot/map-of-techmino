@@ -30,6 +30,7 @@ main {
     height: calc(1px * var(--cam-scale) * (var(--max-y) - var(--min-y)));
     z-index: -1;
     overflow: hidden;
+    pointer-events: none;
 }
 /* #endregion */
 /* #region Mode */

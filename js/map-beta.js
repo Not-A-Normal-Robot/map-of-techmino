@@ -7,9 +7,11 @@ import * as LANG from "./lang.js";
 
     const ROOT = document.documentElement;
     const BODY = document.body;
+    const MAIN = document.getElementById("main");
     const DEBUG_ELEMENT = document.getElementById("debug-info");
     const MAIN_ELEMENT = document.getElementById("main");
     const EDGES_SVG = document.getElementById("edge-display");
+    const CROSSHAIR = document.getElementById("crosshair");
 
     const MODE_ID_PREFIX = "mode_";
     const MOVE_SPEED_MULT = 0.26;
@@ -17,12 +19,22 @@ import * as LANG from "./lang.js";
     const MIN_ZOOM = 0.126;
     const MAX_ZOOM = 1.26;
     const MAP_MARGIN = 62;
+    const DIAMOND_SVG =
+        `<svg class="border" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109">
+            <polygon points="100,50 50,100 0,50 50,0"stroke-width="8"/>
+        </svg>`;
+    const OCTAGON_SVG =
+        `<svg class="border" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109">
+            <polygon points="100,50 85.36,85.36 50,100 14.64,85.36 0,50 14.64,14.64 50,0 85.36,14.64"stroke-width="8"/>
+        </svg>`;
 
     let camX = 0; let camY = 0; let camZoom = 1;
 
     let map = {};
     let heldKeyCodes = new Set();
     let selected = null;
+    let isDragging = false;
+    let pendingDeleteSelected = false;
 
     let isUpdateRunning = false;
     let prevTime = performance.now();
@@ -57,6 +69,10 @@ import * as LANG from "./lang.js";
             const oldZoom = camZoom;
             camZoom *= zoomMultiplier;
 
+            if(zoomMultiplier !== 1) {
+                CROSSHAIR.style.display = "none";
+            }
+
             camZoom = clamp(MIN_ZOOM, camZoom, MAX_ZOOM);
             onMapZoom(oldZoom, camZoom);
         } else {
@@ -75,6 +91,10 @@ import * as LANG from "./lang.js";
 
             dx *= dt * MOVE_SPEED_MULT / camZoom;
             dy *= dt * MOVE_SPEED_MULT / camZoom;
+
+            if(dx !== 0 || dy !== 0) {
+                CROSSHAIR.style.display = "block";
+            }
 
             moveMap(dx, dy);
         }
@@ -112,7 +132,6 @@ import * as LANG from "./lang.js";
             );
         
         DEBUG_ELEMENT.innerText = debugText;
-        // console.log(debugText);
     }
 
     function loadMapData(){
@@ -180,9 +199,9 @@ import * as LANG from "./lang.js";
             modeElement.style.setProperty("--mode-size", mode.size);
 
             if(shape === "diamond") {
-                modeElement.innerHTML = `<svg class="border" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109"><polygon points="100,50 50,100 0,50 50,0"stroke-width="8"/></svg>`;
+                modeElement.innerHTML = DIAMOND_SVG;
             } else if(shape === "octagon") {
-                modeElement.innerHTML = `<svg class="border" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109"><polygon points="100,50 85.36,85.36 50,100 14.64,85.36 0,50 14.64,14.64 50,0 85.36,14.64"stroke-width="8"/></svg>`;
+                modeElement.innerHTML = OCTAGON_SVG;
             }
 
             modeElement.addEventListener("click", () => onModeClicked(mode.name));
@@ -233,10 +252,17 @@ import * as LANG from "./lang.js";
 
     function onModeClicked(modeName) {
         if(selected) {
-            document.getElementById(MODE_ID_PREFIX + selected).classList.remove("selected");
+            document.getElementById(MODE_ID_PREFIX + selected)?.classList.remove("selected");
         }
         selected = modeName;
-        document.getElementById(MODE_ID_PREFIX + modeName).classList.add("selected");
+        document.getElementById(MODE_ID_PREFIX + modeName)?.classList.add("selected");
+    }
+
+    function unselectMode() {
+        if(selected) {
+            document.getElementById(MODE_ID_PREFIX + selected)?.classList.remove("selected");
+        }
+        selected = null;
     }
 
     function moveMap(dx, dy) {
@@ -269,6 +295,31 @@ import * as LANG from "./lang.js";
     window.addEventListener("keyup", (event) => {
         heldKeyCodes.delete(event.code);
     });
+
+    window.addEventListener("mousedown", (event) => {
+        if(event.button === 0) {
+            isDragging = true;
+            CROSSHAIR.style.display = "none";
+        }
+        if(event.target === MAIN) {
+            pendingDeleteSelected = true;
+        }
+    });
+    window.addEventListener("mousemove", (event) => {
+        if(isDragging) {
+            let scaleFactor = getScaleFactor();
+            let camScale = camZoom * scaleFactor;
+            moveMap(event.movementX / camScale, event.movementY / camScale);
+        }
+        pendingDeleteSelected = false;
+    });
+    window.addEventListener("mouseup", (event) => {
+        if(pendingDeleteSelected) {
+            pendingDeleteSelected = false;
+            unselectMode();
+        }
+        isDragging = false;
+    })
     
     function clamp(min, val, max) {
         return Math.min(Math.max(min, val), max);
