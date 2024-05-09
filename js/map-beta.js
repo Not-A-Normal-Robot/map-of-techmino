@@ -34,6 +34,7 @@ import * as LANG from "./lang.js";
     let heldKeyCodes = new Set();
     let selected = null;
     let isDragging = false;
+    let cancelNextModeSelect = false;
     let pendingDeleteSelected = false;
 
     let isUpdateRunning = false;
@@ -251,6 +252,10 @@ import * as LANG from "./lang.js";
     }
 
     function onModeClicked(modeName) {
+        if(cancelNextModeSelect) {
+            cancelNextModeSelect = false;
+            return;
+        }
         if(selected) {
             document.getElementById(MODE_ID_PREFIX + selected)?.classList.remove("selected");
         }
@@ -304,12 +309,14 @@ import * as LANG from "./lang.js";
         if(event.target === MAIN) {
             pendingDeleteSelected = true;
         }
+        cancelNextModeSelect = false;
     });
     window.addEventListener("mousemove", (event) => {
         if(isDragging) {
             let scaleFactor = getScaleFactor();
             let camScale = camZoom * scaleFactor;
             moveMap(event.movementX / camScale, event.movementY / camScale);
+            cancelNextModeSelect = true;
         }
         pendingDeleteSelected = false;
     });
@@ -319,7 +326,7 @@ import * as LANG from "./lang.js";
             unselectMode();
         }
         isDragging = false;
-    })
+    });
     
     function clamp(min, val, max) {
         return Math.min(Math.max(min, val), max);
