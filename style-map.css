@@ -37,6 +37,8 @@ main {
     position: fixed;
     box-sizing: border-box;
 
+    padding: 0;
+
     --mode-size: 40;
     --mode-x: 0;
     --mode-y: 0;
@@ -107,6 +109,12 @@ main {
     inset: 0;
     stroke: var(--mode-border-color);
     fill: var(--mode-bg-color);
+}
+
+.mode > svg.border {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
 }
 
 /* Mode icons */
