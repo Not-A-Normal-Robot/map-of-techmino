@@ -16,16 +16,17 @@ import * as LANG from "./lang.js";
     const MODE_ID_PREFIX = "mode_";
     const MOVE_SPEED_MULT = 0.26;
     const ZOOM_SPEED_MULT = 0.00262;
+    const ZOOM_SCROLL_MULT = -0.6;
     const MIN_ZOOM = 0.126;
     const MAX_ZOOM = 1.26;
     const MAP_MARGIN = 62;
     const DIAMOND_SVG =
         `<svg class="border" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109">
-            <polygon points="100,50 50,100 0,50 50,0"stroke-width="8"/>
+            <polygon points="100,50 50,100 0,50 50,0"stroke-width="5"/>
         </svg>`;
     const OCTAGON_SVG =
         `<svg class="border" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109">
-            <polygon points="100,50 85.36,85.36 50,100 14.64,85.36 0,50 14.64,14.64 50,0 85.36,14.64"stroke-width="8"/>
+            <polygon points="100,50 85.36,85.36 50,100 14.64,85.36 0,50 14.64,14.64 50,0 85.36,14.64"stroke-width="5"/>
         </svg>`;
 
     let camX = 0; let camY = 0; let camZoom = 1;
@@ -98,6 +99,10 @@ import * as LANG from "./lang.js";
             }
 
             moveMap(dx, dy);
+            const modeAtCenter = getModeAtScreenCenter();
+            if(modeAtCenter) {
+                selectMode(modeAtCenter.name);
+            }
         }
     }
 
@@ -248,7 +253,24 @@ import * as LANG from "./lang.js";
     }
 
     function onMapZoom(oldZoom, newZoom = camZoom) {
-        BODY.style.setProperty("--cam-zoom", newZoom);
+        camZoom = clamp(MIN_ZOOM, newZoom, MAX_ZOOM);
+        BODY.style.setProperty("--cam-zoom", camZoom);
+    }
+
+    function getModeAtScreenCenter() {
+        for(const mode of Object.values(map.modes)) {
+            const modeElement = document.getElementById(MODE_ID_PREFIX + mode.name);
+            const rect = modeElement.getBoundingClientRect();
+            const screenCenterX = window.innerWidth / 2;
+            const screenCenterY = window.innerHeight / 2;
+
+            if(
+                screenCenterX >= rect.left && screenCenterX <= rect.right &&
+                screenCenterY >= rect.top && screenCenterY <= rect.bottom
+            ) {
+                return mode;
+            }
+        }
     }
 
     function onModeClicked(modeName) {
@@ -256,6 +278,10 @@ import * as LANG from "./lang.js";
             cancelNextModeSelect = false;
             return;
         }
+        selectMode(modeName);
+    }
+
+    function selectMode(modeName) {
         if(selected) {
             document.getElementById(MODE_ID_PREFIX + selected)?.classList.remove("selected");
         }
@@ -327,6 +353,12 @@ import * as LANG from "./lang.js";
         }
         isDragging = false;
     });
+    window.addEventListener("wheel", (event) => {
+        event.preventDefault();
+        
+        const dZoom = event.deltaY * ZOOM_SCROLL_MULT * ZOOM_SPEED_MULT * camZoom;
+        onMapZoom(camZoom, camZoom + dZoom);
+    })
     
     function clamp(min, val, max) {
         return Math.min(Math.max(min, val), max);

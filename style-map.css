@@ -44,7 +44,7 @@ main {
     --mode-x: 0;
     --mode-y: 0;
 
-    --mode-display-size: calc(2px * var(--cam-scale) * var(--mode-size));
+    --mode-display-size: calc(2.2px * var(--cam-scale) * var(--mode-size));
     --mode-display-x: calc(50vw + 1px * var(--cam-scale) * (var(--cam-x) + var(--mode-x)) - 0.5 * var(--mode-display-size));
     --mode-display-y: calc(50vh + 1px * var(--cam-scale) * (var(--cam-y) + var(--mode-y)) - 0.5 * var(--mode-display-size));
 
@@ -56,7 +56,7 @@ main {
     width: var(--mode-display-size);
     height: var(--mode-display-size);
 
-    border: calc(0.09 * var(--mode-display-size)) solid;
+    border: calc(0.05 * var(--mode-display-size)) solid;
     border-color: var(--mode-border-color);
     stroke: var(--mode-border-color);
 
@@ -100,6 +100,12 @@ main {
     border: none;
     border-radius: 50%;
     background: none;
+}
+.mode[shape="octagon"] {
+    --mode-display-size: calc(2.42px * var(--cam-scale) * var(--mode-size));
+}
+.mode[shape="diamond"] {
+    --mode-display-size: calc(2.62px * var(--cam-scale) * var(--mode-size));
 }
 .mode[shape="octagon"]::before, .mode[shape="diamond"]::before {
     background-size: 72.6%;
@@ -199,5 +205,6 @@ main {
     -webkit-user-select: none;
     user-select: none;
     pointer-events: none;
+    z-index: 9999;
 }
 /* #endregion */
