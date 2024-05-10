@@ -19,6 +19,10 @@ import * as LANG from "./lang.js";
     const MODE_INFO_VERSION = MODE_INFO_ELEMENT.querySelector(".version-info");
     const MODE_INFO_DESCRIPTION = MODE_INFO_ELEMENT.querySelector(".description");
     const MODE_INFO_NAME = MODE_INFO_ELEMENT.querySelector(".name");
+    const MODE_INFO_RANK_REQS = MODE_INFO_ELEMENT.querySelector(".rank-reqs");
+    const MODE_INFO_EXPAND_BUTTON = document.getElementById("expand-mode-info");
+    const MODE_INFO_CLOSE_BUTTON = document.getElementById("close-mode-info");
+    const MODE_INFO_COLLAPSE_BUTTON = document.getElementById("collapse-mode-info");
 
     const MODE_ID_PREFIX = "mode_";
     const MOVE_SPEED_MULT = 0.26;
@@ -45,6 +49,8 @@ import * as LANG from "./lang.js";
     let isDragging = false;
     let cancelNextModeSelect = false;
     let pendingDeleteSelected = false;
+    /**@type {"closed" | "open" | "expanded"}*/
+    let modeInfoExpansionState = "closed";
 
     let isUpdateRunning = false;
     let prevTime = performance.now();
@@ -61,6 +67,24 @@ import * as LANG from "./lang.js";
     init();
 
     function handleKeys(dt) {
+        if(heldKeyCodes.has("Escape")) {
+            console.log(modeInfoExpansionState); // DEBUG
+            if(modeInfoExpansionState === "expanded") {
+                modeInfoCollapseToSmall();
+            } else if(selected) {
+                unselectMode();
+            }
+            heldKeyCodes.delete("Escape");
+        }
+
+        if(heldKeyCodes.has("Enter")) {
+            if(modeInfoExpansionState === "open") {
+                modeInfoExpandFull();
+            }
+        }
+
+        if(modeInfoExpansionState === "expanded") return;
+
         if(heldKeyCodes.has("ControlLeft") || heldKeyCodes.has("ControlRight")) {
             // Zoom in/out
             const zoomExp =
@@ -326,21 +350,25 @@ import * as LANG from "./lang.js";
         const classes = MODE_INFO_ELEMENT.classList;
         classes.add("expand", "expand-anim");
         classes.remove("expand-full", "expand-full-anim", "collapse-anim", "collapse-full-anim");
+        modeInfoExpansionState = "open";
     }
     function modeInfoExpandFull() {
         const classes = MODE_INFO_ELEMENT.classList;
         classes.add("expand-full", "expand-full-anim");
         classes.remove("expand", "expand-anim", "collapse-anim", "collapse-full-anim");
+        modeInfoExpansionState = "expanded";
     }
     function modeInfoCollapseToNothing() {
         const classes = MODE_INFO_ELEMENT.classList;
         classes.add("collapse-anim");
         classes.remove("expand", "expand-anim", "expand-full", "expand-full-anim", "collapse-full-anim");
+        modeInfoExpansionState = "closed";
     }
     function modeInfoCollapseToSmall() {
         const classes = MODE_INFO_ELEMENT.classList;
-        classes.add("collapse-full-anim");
-        classes.remove("expand", "expand-anim", "expand-full", "expand-full-anim", "collapse-anim");
+        classes.add("collapse-full-anim", "expand");
+        classes.remove("expand-anim", "expand-full", "expand-full-anim", "collapse-anim");
+        modeInfoExpansionState = "open";
     }
 
     function moveMap(dx, dy) {
@@ -375,7 +403,7 @@ import * as LANG from "./lang.js";
     });
 
     window.addEventListener("mousedown", (event) => {
-        if(event.button === 0) {
+        if(event.button === 0 && !MODE_INFO_RANK_REQS.contains(event.target) && modeInfoExpansionState !== "expanded") {
             isDragging = true;
             CROSSHAIR.style.display = "none";
         }
@@ -401,11 +429,17 @@ import * as LANG from "./lang.js";
         isDragging = false;
     });
     window.addEventListener("wheel", (event) => {
+        if(MODE_INFO_RANK_REQS.contains(event.target) || modeInfoExpansionState === "expanded") return;
+
         event.preventDefault();
         
         const dZoom = event.deltaY * ZOOM_SCROLL_MULT * ZOOM_SPEED_MULT * camZoom;
         onMapZoom(camZoom, camZoom + dZoom);
-    })
+    });
+
+    MODE_INFO_CLOSE_BUTTON?.addEventListener("click", unselectMode);
+    MODE_INFO_EXPAND_BUTTON?.addEventListener("click", modeInfoExpandFull);
+    MODE_INFO_COLLAPSE_BUTTON?.addEventListener("click", modeInfoCollapseToSmall);
     
     function clamp(min, val, max) {
         return Math.min(Math.max(min, val), max);

@@ -188,6 +188,7 @@ main {
     left: 100vw;
     width: 130vw;
     background-color: #9E9E9ECC;
+    color: white;
     z-index: 5;
     font-size: calc(var(--scale-factor) * 0.426em);
 }
@@ -234,9 +235,9 @@ main {
 
 #mode-info *:not(button) {
     pointer-events: none;
+    user-select: none;
 }
 #mode-info * {
-    color: white;
     text-align: center;
     margin: 0;
 }
@@ -263,23 +264,62 @@ main {
     gap: 0.5em;
     overflow: scroll;
     list-style-type: none;
+    pointer-events: auto !important;
 }
 #mode-info .rank-reqs li:not(:last-child) {
     padding-bottom: 0.5em;
     border-bottom: 1px solid #CCCCCC88;
-    
 }
-#mode-info .rank-reqs .left {
-    float: left;
-}
-#mode-info .rank-reqs .right {
-    float: right;
-}
+#mode-info .rank-reqs li span { pointer-events: auto; }
+#mode-info .rank-reqs li span:last-child { user-select: text; }
+#mode-info .rank-reqs li span:not(:last-child) { user-select: none; cursor: help; }
+#mode-info .rank-reqs .left { float: left; }
+#mode-info .rank-reqs .right { float: right; }
+
 #mode-info .buttons {
+    display: flex;
+    flex-direction: row;
     position: absolute;
-    left: 0; right: 0;
-    bottom: 0; height: 10vh;
+    left: 1.25em; right: 1.25em;
+    bottom: 2.5vh;
+    height: 9vh;
+    gap: 10%;
+    justify-content: space-between;
 }
+#mode-info .buttons button {
+    color: black;
+    width: 45%;
+    font-size: 1.5em;
+    font-family: techmino-proportional;
+    vertical-align: middle;
+    border: 0.08em solid #FFFFFFDD;
+    border-radius: 0.25em;
+    background-color: #FFFFFF99;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 150ms;
+}
+#mode-info .buttons button:hover {
+    background-color: #FFFFFFBB;
+    transform: scale(1.05);
+}
+#mode-info .buttons button:active {
+    background-color: #FFFFFFDD;
+    box-shadow: 0 0 0.5em 0.25em #FFFFFF22;
+}
+/* #endregion */
+/* #region Rank colors */
+.text-color-rank-1, .text-color-rank-b { color: #CCDBE6; }
+.text-color-rank-2, .text-color-rank-a { color: #99E6B3; }
+.text-color-rank-3, .text-color-rank-s { color: #EDEDA6; }
+.text-color-rank-4, .text-color-rank-u { color: #FF8066; }
+.text-color-rank-5, .text-color-rank-x { color: #F280F2; }
+
+.bg-color-rank-1, .bg-color-rank-b { background-color: #3366994F; }
+.bg-color-rank-2, .bg-color-rank-a { background-color: #99D9A64F; }
+.bg-color-rank-3, .bg-color-rank-s { background-color: #D9CC4D4F; }
+.bg-color-rank-4, .bg-color-rank-u { background-color: #D980664F; }
+.bg-color-rank-5, .bg-color-rank-x { background-color: #D94DCC4F; }
 /* #endregion */
 /* #region Misc */
 .hide {
