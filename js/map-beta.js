@@ -48,7 +48,7 @@ import * as LANG from "./lang.js";
     let selected = null;
     let isDragging = false;
     let cancelNextModeSelect = false;
-    let pendingDeleteSelected = false;
+    let pendingUnselect = false;
     /**@type {"closed" | "open" | "expanded"}*/
     let modeInfoExpansionState = "closed";
 
@@ -374,7 +374,7 @@ import * as LANG from "./lang.js";
 
     function moveMap(dx, dy) {
         if(!mapLoaded) return;
-        
+
         camX += dx;
         camY += dy;
 
@@ -386,6 +386,9 @@ import * as LANG from "./lang.js";
     }
 
     window.addEventListener("resize", onResize);
+
+    // #region Events
+    // Keyboard events
     window.addEventListener("keydown", (event) => {
         heldKeyCodes.add(event.code);
 
@@ -405,13 +408,14 @@ import * as LANG from "./lang.js";
         heldKeyCodes.delete(event.code);
     });
 
+    // Mouse events
     window.addEventListener("mousedown", (event) => {
         if(event.button === 0 && !MODE_INFO_RANK_REQS.contains(event.target) && modeInfoExpansionState !== "expanded") {
             isDragging = true;
             CROSSHAIR.style.display = "none";
         }
         if(event.target === MAIN) {
-            pendingDeleteSelected = true;
+            pendingUnselect = true;
         }
         cancelNextModeSelect = false;
     });
@@ -422,11 +426,11 @@ import * as LANG from "./lang.js";
             moveMap(event.movementX / camScale, event.movementY / camScale);
             cancelNextModeSelect = true;
         }
-        pendingDeleteSelected = false;
+        pendingUnselect = false;
     });
     window.addEventListener("mouseup", (event) => {
-        if(pendingDeleteSelected) {
-            pendingDeleteSelected = false;
+        if(pendingUnselect) {
+            pendingUnselect = false;
             unselectMode();
         }
         isDragging = false;
@@ -440,9 +444,63 @@ import * as LANG from "./lang.js";
         onMapZoom(camZoom, camZoom + dZoom);
     });
 
+    // Touch events
+    let prevTouches = [];
+    window.addEventListener("touchstart", (event) => {
+        if(event.touches.length === 1 && !MODE_INFO_RANK_REQS.contains(event.target) && modeInfoExpansionState !== "expanded") {
+            isDragging = true;
+            CROSSHAIR.style.display = "none";
+        }
+        if(event.target === MAIN && event.touches.length === 1) {
+            pendingUnselect = true;
+        }
+        cancelNextModeSelect = false;
+
+        prevTouches = event.touches;
+    });
+    window.addEventListener("touchmove", (event) => {
+        if(isDragging) {
+            let scaleFactor = getScaleFactor();
+            let camScale = camZoom * scaleFactor;
+            moveMap(event.touches[0].clientX / camScale, event.touches[0].clientY / camScale);
+            cancelNextModeSelect = true;
+        } else if(event.touches.length >= 2) {
+            event.preventDefault();
+            const prevTouchA = prevTouches[0];
+            const prevTouchB = prevTouches[1];
+            const touchA = event.touches[0];
+            const touchB = event.touches[1];
+
+            const prevTouchDist = 
+                Math.hypot(prevTouchA.clientX - prevTouchB.clientX,
+                    prevTouchA.clientY - prevTouchB.clientY);
+            
+            const touchDist =
+                Math.hypot(touchA.clientX - touchB.clientX,
+                    touchA.clientY - touchB.clientY);
+            
+            const zoomFactor = touchDist / prevTouchDist;
+            onMapZoom(camZoom, camZoom * zoomFactor);
+        }
+        pendingUnselect = false;
+
+        prevTouches = event.touches;
+    });
+    window.addEventListener("touchend", (event) => {
+        if(pendingUnselect) {
+            pendingUnselect = false;
+            unselectMode();
+        }
+        isDragging = false;
+
+        prevTouches = event.touches;
+    });
+
+    // Button events
     MODE_INFO_CLOSE_BUTTON?.addEventListener("click", unselectMode);
     MODE_INFO_EXPAND_BUTTON?.addEventListener("click", modeInfoExpandFull);
     MODE_INFO_COLLAPSE_BUTTON?.addEventListener("click", modeInfoCollapseToSmall);
+    // #endregion
     
     function clamp(min, val, max) {
         return Math.min(Math.max(min, val), max);
