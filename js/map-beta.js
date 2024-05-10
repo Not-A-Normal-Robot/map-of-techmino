@@ -67,8 +67,9 @@ import * as LANG from "./lang.js";
     init();
 
     function handleKeys(dt) {
+        if(!mapLoaded) return;
+
         if(heldKeyCodes.has("Escape")) {
-            console.log(modeInfoExpansionState); // DEBUG
             if(modeInfoExpansionState === "expanded") {
                 modeInfoCollapseToSmall();
             } else if(selected) {
@@ -161,14 +162,11 @@ import * as LANG from "./lang.js";
 
     function updateDebugInfo(dt) {
         const debugText =
-            `Time: ${(performance.now() - INIT_TIME).toFixed(1)}ms\n` +
-            `dt: ${dt.toFixed(1)}\n` +
-            `Camera: ${camX.toFixed(2)}, ${camY.toFixed(2)} @ ${camZoom.toFixed(5)}x\n` +
-            (
+            `FPS: ${
                 heldKeyCodes.size > 0 ?
-                    `Keys: {${Array.from(heldKeyCodes).join()}}\n` :
-                    `No keys held (update stopped)\n`
-            );
+                    (1000 / dt).toFixed(1) :
+                    "--"
+            }`;
         
         DEBUG_ELEMENT.innerText = debugText;
     }
@@ -375,6 +373,8 @@ import * as LANG from "./lang.js";
     }
 
     function moveMap(dx, dy) {
+        if(!mapLoaded) return;
+        
         camX += dx;
         camY += dy;
 
