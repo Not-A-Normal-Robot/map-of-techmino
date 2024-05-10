@@ -348,7 +348,10 @@ import * as LANG from "./lang.js";
 
     function modeInfoExpand() {
         const classes = MODE_INFO_ELEMENT.classList;
-        classes.add("expand", "expand-anim");
+        if(!classes.contains("expand")) {
+            classes.add("expand-anim");
+        }
+        classes.add("expand");
         classes.remove("expand-full", "expand-full-anim", "collapse-anim", "collapse-full-anim");
         modeInfoExpansionState = "open";
     }
