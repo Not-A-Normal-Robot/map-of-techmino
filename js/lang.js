@@ -19,7 +19,14 @@ export function getLanguageEntry(key, fallback) {
         scope = scope[keys[i]];
     }
     return scope;
-};
+}
+export function getModeFullName(mode) {
+    const langEntry = langEntries.modes[mode];
+    if(!langEntry) {
+        return `[${mode}]`;
+    }
+    return `${langEntry.title} ${langEntry.subtitle}`;
+}
 export function getLanguageEntries() {
     return langEntries;
 };

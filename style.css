@@ -5,7 +5,6 @@
 
 /* #region Body */
 body{
-    background-color: transparent;
     color: white;
     background-color: black;
     margin: 0;
@@ -342,9 +341,14 @@ details.question[open] table.compact {
 /* #endregion */
 
 /* #region Map content */
-canvas#map{
+iframe#map {
+    display: block;
+    overflow: hidden;
+    box-sizing: border-box;
+    border: 1px solid lime;
+    background: none;
     width: 100%;
-    border: 1px solid white;
+    height: 95vh;
 }
 small.description {
     display: block;

@@ -1,28 +1,188 @@
-import {getModeIconDrawFunction, getModeIconDrawFunctionMap} from "/js/modeicon.js";
-import {getLanguageEntry} from "/js/lang.js";
-
+"use strict";
+import * as LANG from "./lang.js";
 {
-    const mapCanvas = document.getElementById("map");
-    const mapContext = mapCanvas.getContext("2d");
+    const INIT_TIME = performance.now();
+    const DEBUG_MODE = true;
+    const IS_IN_IFRAME = window.self === window.top;
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const mapName = urlParams.get("m") ?? 'vanilla';
+    const ROOT = document.documentElement;
+    const BODY = document.body;
+    const MAIN = document.getElementById("main");
+    const DEBUG_ELEMENT = document.getElementById("debug-info");
+    const MAIN_ELEMENT = document.getElementById("main");
+    const EDGES_SVG = document.getElementById("edge-display");
+    const CROSSHAIR = document.getElementById("crosshair");
+    
+    const MODE_INFO_ELEMENT = document.getElementById("mode-info");
+    const MODE_INFO_TITLE = MODE_INFO_ELEMENT.querySelector(".title");
+    const MODE_INFO_SUBTITLE = MODE_INFO_ELEMENT.querySelector(".subtitle");
+    const MODE_INFO_VERSION = MODE_INFO_ELEMENT.querySelector(".version-info");
+    const MODE_INFO_DESCRIPTION = MODE_INFO_ELEMENT.querySelector(".description");
+    const MODE_INFO_NAME = MODE_INFO_ELEMENT.querySelector(".name");
+    const MODE_INFO_RANK_REQS = MODE_INFO_ELEMENT.querySelector(".rank-reqs");
+    const MODE_INFO_EXPAND_BUTTON = document.getElementById("expand-mode-info");
+    const MODE_INFO_CLOSE_BUTTON = document.getElementById("close-mode-info");
+    const MODE_INFO_COLLAPSE_BUTTON = document.getElementById("collapse-mode-info");
 
-    let camX = 0, camY = 0, camZoom = 1;
-    const MIN_ZOOM = 0.26;
-    const MAX_ZOOM = 2.6;
+    const MODE_ID_PREFIX = "mode_";
+    const MOVE_SPEED_MULT = 0.26;
+    const ZOOM_SPEED_MULT = 0.00262;
+    const ZOOM_SCROLL_MULT = -0.6;
+    const MIN_ZOOM = 0.126;
+    const MAX_ZOOM = 1.26;
+    const MAP_MARGIN = 62;
+    const DIAMOND_SVG =
+        `<svg class="border" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109">
+            <polygon points="100,50 50,100 0,50 50,0"stroke-width="5"/>
+        </svg>`;
+    const OCTAGON_SVG =
+        `<svg class="border" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109">
+            <polygon points="100,50 85.36,85.36 50,100 14.64,85.36 0,50 14.64,14.64 50,0 85.36,14.64"stroke-width="5"/>
+        </svg>`;
+
+    let camX = 0; let camY = 0; let camZoom = 1;
 
     let map = {};
-    let prevTimestamp = performance.now();
-    let keysDown = new Set();
+    let mapLoaded = false;
+    let heldKeyCodes = new Set();
     let selected = null;
-    let selectedLonger = null; // stores the last selected mode, even if it's not selected anymore
-    let modeSelectAnimation = 0;
-    const MODE_SELECT_ANIMATION_LENGTH = 300;
-    let focused = false;
-    let showCrosshair = false;
+    let isDragging = false;
+    let cancelNextModeSelect = false;
+    let pendingUnselect = false;
+    /**@type {"closed" | "open" | "expanded"}*/
+    let modeInfoExpansionState = "closed";
+
+    let isUpdateRunning = false;
+    let prevTime = performance.now();
+
+    function init() {
+        if(IS_IN_IFRAME) {
+            // for easier viewing if directly accessing the page
+            ROOT.style.backgroundColor = "black";
+
+            const bgCanvas = document.createElement("canvas");
+            bgCanvas.id = "bg";
+            BODY.appendChild(bgCanvas);
+
+            const bgScript = document.createElement("script");
+            bgScript.src = "/js/background.js";
+            BODY.appendChild(bgScript);
+        }
+        loadMapData();
+        onResize();
+        document.getElementById("init-error-message")?.remove();
+    }
+    init();
+
+    function handleKeys(dt) {
+        if(!mapLoaded) return;
+
+        if(heldKeyCodes.has("Escape")) {
+            if(modeInfoExpansionState === "expanded") {
+                modeInfoCollapseToSmall();
+            } else if(selected) {
+                unselectMode();
+            }
+            heldKeyCodes.delete("Escape");
+        }
+
+        if(heldKeyCodes.has("Enter")) {
+            if(modeInfoExpansionState === "open") {
+                modeInfoExpandFull();
+            }
+        }
+
+        if(modeInfoExpansionState === "expanded") return;
+
+        if(heldKeyCodes.has("ControlLeft") || heldKeyCodes.has("ControlRight")) {
+            // Zoom in/out
+            const zoomExp =
+                heldKeyCodes.has("ArrowUp")
+              + heldKeyCodes.has("ArrowRight")
+              - heldKeyCodes.has("ArrowLeft")
+              - heldKeyCodes.has("ArrowDown")
+              + heldKeyCodes.has("KeyW")
+              - heldKeyCodes.has("KeyA")
+              - heldKeyCodes.has("KeyS")
+              + heldKeyCodes.has("KeyD")
+            
+            const zoomMultiplier =
+                Math.exp(zoomExp * dt * ZOOM_SPEED_MULT);
+
+
+            if(zoomMultiplier !== 1) {
+                const oldZoom = camZoom;
+                camZoom *= zoomMultiplier;
+                
+                camZoom = clamp(MIN_ZOOM, camZoom, MAX_ZOOM);
+                onMapZoom(oldZoom, camZoom);
+
+                CROSSHAIR.style.display = "none";
+            }
+            
+        } else {
+            // Move
+            let dx =
+                heldKeyCodes.has("ArrowLeft")
+              - heldKeyCodes.has("ArrowRight")
+              + heldKeyCodes.has("KeyA")
+              - heldKeyCodes.has("KeyD");
+            
+            let dy =
+                heldKeyCodes.has("ArrowUp")
+              - heldKeyCodes.has("ArrowDown")
+              + heldKeyCodes.has("KeyW")
+              - heldKeyCodes.has("KeyS");
+
+            dx *= dt * MOVE_SPEED_MULT / camZoom;
+            dy *= dt * MOVE_SPEED_MULT / camZoom;
+
+            if(dx !== 0 || dy !== 0) {
+                CROSSHAIR.style.display = "block";
+                moveMap(dx, dy);
+                const modeAtCenter = getModeAtScreenCenter();
+                if(modeAtCenter) {
+                    selectMode(modeAtCenter.name);
+                }
+            }
+        }
+    }
+
+    function update(forceRun = false) {
+        if(isUpdateRunning && !forceRun) return;
+        isUpdateRunning = true;
+        let continueUpdate = heldKeyCodes.size > 0;
+
+        const dt = performance.now() - prevTime;
+        prevTime = performance.now();
+
+        handleKeys(dt);
+
+        if(DEBUG_MODE) {
+            updateDebugInfo(dt);
+        }
+
+        if(continueUpdate) {
+            return requestAnimationFrame(() => update(true));
+        }
+        isUpdateRunning = false;
+    }
+
+    function updateDebugInfo(dt) {
+        const debugText =
+            `FPS: ${
+                heldKeyCodes.size > 0 ?
+                    (1000 / dt).toFixed(1) :
+                    "--"
+            }`;
+        
+        DEBUG_ELEMENT.innerText = debugText;
+    }
 
     function loadMapData(){
+        const urlParams = new URLSearchParams(window.location.search);
+        const mapName = urlParams.get("m") ?? 'vanilla';
+
         let mapURL = "/data/map/" + mapName.replace(/-/g,"/") + ".json";
 
         fetch(mapURL)
@@ -32,534 +192,370 @@ import {getLanguageEntry} from "/js/lang.js";
             })
             .then(_map => {
                 map = _map;
-                prevTimestamp = performance.now();
-                requestAnimationFrame(update);
             })
             .catch(error => {
-                alert("Error loading map: \n" + error +
-                    "\nPress OK to return to home page.");
+                alert(`Error loading map: \n${error}\n\nPress OK to return to home page.`);
                 window.location.href = "/";
             })
-    }
-    loadMapData();
-
-    function getMapModeCoords(x, y, r) {
-        let scaleFactor = camZoom * mapCanvas.width / 1280;
-        // r *= 1.5;
-        x += camX; y += camY;
-        x -= r / 2; y -= r / 2;
-        x *= scaleFactor; y *= scaleFactor; r *= scaleFactor;
-        x += mapCanvas.width / 2; y += mapCanvas.height / 2;
-        return [x, y, r, r];
-    }
-    function getMapModeCenterCoords(x, y, r) {
-        let scaleFactor = camZoom * mapCanvas.width / 1280;
-        x += camX; y += camY;
-        x *= scaleFactor; y *= scaleFactor; r *= scaleFactor;
-        x += mapCanvas.width / 2; y += mapCanvas.height / 2;
-        return [x, y, r, r];
-    }
-    function isPointInMode(x, y, mode) {
-        let [modeX, modeY, modeSize] = getMapModeCenterCoords(mode.x, mode.y, mode.size);
-        
-        // early returns for optimization
-        const dx = Math.abs(x - modeX);
-        const dy = Math.abs(y - modeY);
-        const threshold = modeSize * 1.1;
-        if(dx > threshold) return false;
-        if(dy > threshold) return false;
-
-        switch(mode.shape) {
-            case 1: // square
-                return dx <= modeSize && dy <= modeSize;
-            case 2: // diamond
-                modeSize *= 1.062;
-                return dx + dy <= modeSize;
-            default: // circle
-                modeSize *= 1.062;
-                return dx * dx + dy * dy <= modeSize * modeSize;
-        }
-    }
-    function getModeAtPoint(x, y) {
-        for(let mode of Object.values(map.modes)){
-            if(isPointInMode(x, y, mode)) return mode;
-        }
-        return null;
-    }
-    function selectModeAtPoint(x, y, clearSelectedIfNone = true) {
-        const mode = getModeAtPoint(x, y);
-        if(clearSelectedIfNone){
-            selected = mode;
-        } else {
-            selected = mode ?? selected;
-        }
-        if(selected) selectedLonger = selected;
-        return selected;
-    }
-
-    // #region Mode draw functions
-    function drawDiamond(x, y, size) {
-        let [x2, y2, r] = getMapModeCoords(x, y, size * 1.125);
-        x2 += r/2; y2 += r/2;
-        mapContext.save();
-            mapContext.translate(x2, y2);
-            mapContext.beginPath();
-            mapContext.moveTo(r, 0);
-            mapContext.lineTo(0, r);
-            mapContext.lineTo(-r, 0);
-            mapContext.lineTo(0, -r);
-            mapContext.closePath();
-            mapContext.fill();
-            mapContext.stroke();
-        mapContext.restore();
-    }
-    const cos45 = Math.sqrt(2) / 2;
-    function drawOctagon(x, y, size) {
-        let [x2, y2, r] = getMapModeCoords(x, y, size * 1.125);
-        x2 += r/2; y2 += r/2;
-        mapContext.save();
-            mapContext.translate(x2, y2);
-            mapContext.beginPath();
-            mapContext.moveTo(r, 0);
-            mapContext.lineTo(r * cos45, r * cos45);
-            mapContext.lineTo(0, r);
-            mapContext.lineTo(-r * cos45, r * cos45);
-            mapContext.lineTo(-r, 0);
-            mapContext.lineTo(-r * cos45, -r * cos45);
-            mapContext.lineTo(0, -r);
-            mapContext.lineTo(r * cos45, -r * cos45);
-            mapContext.closePath();
-            mapContext.fill();
-            mapContext.stroke();
-        mapContext.restore();
+            .then(onMapLoad)
+            .catch(error => {
+                alert(`Error after loading map: \n${error}\n\nYou may experience issues if you continue.`);
+            });
     }
     
-    // background color of modes based on rank, from 0 to 5
-    const modeBackgroundColor = {
-        0: "#0000004F", // no rank
-        1: "#3366994F", // B rank
-        2: "#99D9A64F", // A rank
-        3: "#D9CC4D4F", // S rank
-        4: "#D980664F", // U rank
-        5: "#D94DCC4F", // X rank
-    }
-    function getModeBackgroundColor(rank) {
-        if(!rank || rank <= 5) return modeBackgroundColor[rank ?? 0]; // static color
-        else if(rank < 14) { // x rank + top 10
-            let t = Math.sin(performance.now() / 300) / 2 + 0.5;
-            const color1 = {r: 255, g: 0, b: 0}
-            const color2 = {r: 230, g: 0, b: 212}
-            return `rgba(${color1.r * (1-t) + color2.r * t}, ${color1.g * (1-t) + color2.g * t}, ${color1.b * (1-t) + color2.b * t}, 0.36)`;
-        } else { // x rank + world record
-            let t = performance.now() / 12 % 360;
-            mapContext.fillStyle = `hsla(${t}, 100%, 50%, 0.36)`;
-        }
-    }
-    const modeRankTextColor = {
-        0: "#0000", // no rank
-        1: "#CCDBE6", // B rank
-        2: "#99E6B3", // A rank
-        3: "#EDEDA6", // S rank
-        4: "#FF8066", // U rank
-        5: "#F280F2", // X rank
-    }
-    function getModeRankTextColor(rank) {
-        if(!rank || rank <= 5) return modeRankTextColor[rank ?? 0]; // static color
-        else if(rank < 14) { // x rank + top 10
-            let t = Math.sin(performance.now() / 300) / 2 + 0.5;
-            const color1 = {r: 255, g: 40, b: 50}
-            const color2 = {r: 220, g: 70, b: 220}
-            let r = color1.r * (1-t) + color2.r * t;
-            let g = color1.g * (1-t) + color2.g * t;
-            let b = color1.b * (1-t) + color2.b * t;
-            return `rgba(${r}, ${g}, ${b}, 0.8)`;
-        } else { // x rank + world record
-            let t = performance.now() / 12 % 360;
-            return `hsla(${t}, 100%, 75%, 0.8)`;
-        }
+    function onMapLoad() {
+        mapLoaded = true;
+        BODY.style.setProperty("--min-x", map.min_x);
+        BODY.style.setProperty("--max-x", map.max_x);
+        BODY.style.setProperty("--min-y", map.min_y);
+        BODY.style.setProperty("--max-y", map.max_y);
+        addMapToHtml();
+        generateEdgeSVG();
     }
 
-    function isModeOnScreen(x, y, size) {
-        let [x2, y2, r] = getMapModeCoords(x, y, size * 1.125);
-        r *= 2;
-        if(x2 + r < 0 || x2 - r > mapCanvas.width) return false;
-        if(y2 + r < 0 || y2 - r > mapCanvas.height) return false;
-        return true;
-    }
+    function addMapToHtml() {
+        for(const mode of Object.values(map.modes)) {
+            let modeElement = document.createElement("button");
 
-    // const RANK_OVERRIDE = 14; // DEBUG
-    function drawModeShape(x, y, size, shape, rank) {
-        // rank ??= RANK_OVERRIDE; // DEBUG
-        mapContext.fillStyle = getModeBackgroundColor(rank);
-
-        // Draw mode shape
-        mapContext.lineWidth = 8 * camZoom / (window.devicePixelRatio || 1);
-        switch(shape) {
-            case 1:
-                mapContext.fillRect(...getMapModeCoords(x, y, size * 2));
-                mapContext.strokeRect(...getMapModeCoords(x, y, size * 2));
-                break;
-            case 2:
-                drawDiamond(x, y, size);
-                break;
-            case 3:
-                drawOctagon(x, y, size);
-                break;
-            default:
-                mapContext.beginPath();
-                mapContext.arc(...getMapModeCoords(x, y, size), 0, 2 * Math.PI);
-                mapContext.fill();
-                mapContext.stroke();
-        }
-    }
-    function drawModeRankText(x, y, size, rank) {
-        // rank ??= RANK_OVERRIDE; // DEBUG
-        if(!rank || rank <= 0) return;
-
-        let [screenspace_x, screenspace_y, screenspace_size] = getMapModeCoords(x, y, size);
-        
-        let rankText;
-        switch(rank) {
-            case 1: rankText = "\u{F00B7}"; break; // B
-            case 2: rankText = "\u{F00B6}"; break; // A
-            case 3: rankText = "\u{F00C2}"; break; // S
-            case 4: rankText = "\u{F00B5}"; break; // U
-            case 5: rankText = "\u{F00B4}"; break; // X
-            default:
-                if(rank < 14) rankText = (15 - rank).toString();
-                else rankText = "WR";
-                break;
-        }
-        
-        {
-            screenspace_x += screenspace_size * 2;
-            screenspace_y += screenspace_size * 0.5;
-
-            mapContext.font = `bold ${screenspace_size * 2}px techmino-proportional`;
-            mapContext.textAlign = "right";
-            mapContext.fillStyle = "#292929CC";
-            mapContext.fillText(rankText, screenspace_x, screenspace_y);
-
-            screenspace_x += screenspace_size * 0.1;
-            screenspace_y -= screenspace_size * 0.1;
-
-            mapContext.fillStyle = getModeRankTextColor(rank);
-            mapContext.fillText(rankText, screenspace_x, screenspace_y);
-        }
-    }
-    // #endregion
-
-    // modified from https://stackoverflow.com/a/16599668
-    function getWrappedText(ctx, text, maxWidth) {
-        var words = text.split(" ");
-        var lines = [];
-        var currentLine = words[0];
-    
-        for (var i = 1; i < words.length; i++) {
-            var word = words[i];
-            var width = ctx.measureText(currentLine + " " + word).width;
-            if (width < maxWidth) {
-                currentLine += " " + word;
-            } else {
-                lines.push(currentLine);
-                currentLine = word;
-            }
-        }
-        lines.push(currentLine);
-        return lines;
-    }
-
-    function drawSelectedPane() {
-        if(!selected && !selectedLonger) return;
-
-        const t = modeSelectAnimation / MODE_SELECT_ANIMATION_LENGTH;
-
-        if(t <= 0) return;
-        
-        const smoothT = t * t * (3 - 2 * t); // smoothstep(t)
-        const panelWidth = mapCanvas.width * 0.3;
-        const panelX = mapCanvas.width - panelWidth * smoothT;
-        const title = getLanguageEntry(`modes.${selectedLonger.name}.title`, `[${selectedLonger.name}]`);
-        const subtitle = getLanguageEntry(`modes.${selectedLonger.name}.subtitle`, "");
-        let description = getLanguageEntry(`modes.${selectedLonger.name}.description`, "");
-        let version_info = getLanguageEntry(`modes.${selectedLonger.name}.version_info`, "");
-        if(version_info.length > 0) version_info = `(${version_info})`;
-
-        mapContext.save();
-            mapContext.fillStyle = "#9E9E9ECC";
-            mapContext.translate(panelX, 0);
-            mapContext.fillRect(0, 0, panelWidth, mapCanvas.height);
-            mapContext.font = `bold ${mapCanvas.height * 0.062}px techmino-proportional`;
-            mapContext.textAlign = "center";
-            mapContext.fillStyle = "white";
-            mapContext.fillText(title, panelWidth * 0.5, mapCanvas.height * 0.09);
-            mapContext.font = `bold ${mapCanvas.height * 0.042}px techmino-proportional`;
-            mapContext.fillText(subtitle, panelWidth * 0.5, mapCanvas.height * 0.145);
-            mapContext.font = `bold ${mapCanvas.height * 0.03}px techmino-proportional`;
-            mapContext.fillText(version_info, panelWidth * 0.5, mapCanvas.height * 0.2);
-            mapContext.font = `normal ${mapCanvas.height * 0.035}px techmino-proportional`;
-            description = getWrappedText(mapContext, description, panelWidth * 0.9);
-            for(let i = 0; i < description.length; i++){
-                mapContext.fillText(description[i], panelWidth * 0.5, mapCanvas.height * (0.24 + i * 0.036));
-            }
-        mapContext.restore();
-    }
-
-    function update(timestamp){
-        const dt = timestamp - prevTimestamp;
-        prevTimestamp = timestamp;
-
-        // #region Graphics
-        // Pre-draw
-        mapContext.clearRect(0, 0, mapCanvas.offsetWidth, mapCanvas.offsetHeight);
-        mapContext.textRendering = "optimizeSpeed";
-
-        if(mapCanvas.width !== mapCanvas.offsetWidth || mapCanvas.height !== mapCanvas.offsetHeight) {
-            mapCanvas.width = mapCanvas.offsetWidth - 2;
-            mapCanvas.height = mapCanvas.width * 0.5625;
-        }
-
-        // Draw modes
-        {
-            let modes = Object.values(map.modes);
-
-            // Draw connected mode lines
-            mapContext.lineWidth = 8 * camZoom / (window.devicePixelRatio || 1);
-            mapContext.strokeStyle = "#FFFFFF5F";
-            modes.forEach(mode => {
-                mode.unlock?.forEach(otherModeName => {
-                    const otherMode = map.modes[otherModeName];
-                    mapContext.beginPath();
-                    mapContext.moveTo(...getMapModeCenterCoords(mode.x, mode.y, mode.size));
-                    mapContext.lineTo(...getMapModeCenterCoords(otherMode.x, otherMode.y, otherMode.size));
-                    mapContext.stroke();
-                });
-            })
-
-            let visibleModes = modes.filter(mode => isModeOnScreen(mode.x, mode.y, mode.size));
-
-            // Draw mode shapes
-            visibleModes.forEach(mode => {
-                mapContext.strokeStyle = mode === selected ? "#CFCF03" : "#CCCCCC";
-                drawModeShape(mode.x, mode.y, mode.size, mode.shape);
-            });
-
-            // Draw mode icons
-            mapContext.strokeStyle = "#DBCFCE";
-            mapContext.fillStyle = "#DBCFCE";
-            visibleModes.forEach(mode => {
-                let [screenspace_x, screenspace_y, screenspace_size] = getMapModeCoords(mode.x, mode.y, mode.size);
-                getModeIconDrawFunction(mode.icon)(mapContext, screenspace_x, screenspace_y, screenspace_size);
-            });
-
-            // Draw mode rank text
-            visibleModes.forEach(mode => {
-                drawModeRankText(mode.x, mode.y, mode.size, mode.rank);
-            });
-        }
-
-        // Draw crosshair
-        if(showCrosshair){
-            mapContext.strokeStyle = "#FFFFFFDF";
-            mapContext.lineWidth = 5;
-            const crosshairLength = mapCanvas.height * 0.04;
+            modeElement.classList.add("mode");
+            modeElement.setAttribute("type", "button");
+            modeElement.id = MODE_ID_PREFIX + mode.name;
             
-            mapContext.save();
-                mapContext.translate(mapCanvas.width / 2, mapCanvas.height / 2);
-                mapContext.beginPath();
-                mapContext.moveTo(-crosshairLength, 0);
-                mapContext.lineTo(crosshairLength, 0);
-                mapContext.moveTo(0, -crosshairLength);
-                mapContext.lineTo(0, crosshairLength);
-                mapContext.stroke();
-            mapContext.restore();
-        }
-
-        if(selected) {
-            modeSelectAnimation = Math.min(modeSelectAnimation + dt, MODE_SELECT_ANIMATION_LENGTH);
-        } else {
-            modeSelectAnimation = Math.max(modeSelectAnimation - dt, 0);
-        }
-        drawSelectedPane();
-
-        // Draw "click here to focus" layer
-        if(!focused){
-            mapContext.fillStyle = "#0000008F";
-            mapContext.fillRect(0, 0, mapCanvas.width, mapCanvas.height);
-            mapContext.fillStyle = "#FFFFFFFF";
-            mapContext.font = `bold ${mapCanvas.height * 0.05}px techmino-proportional`;
-            mapContext.textAlign = "center";
-            mapContext.fillText(getLanguageEntry("map.unfocused"), mapCanvas.width * 0.5, mapCanvas.height * 0.5);
-        }
-        // #endregion
-
-        // #region Handle inputs
-        if(focused){
-            const speed = -0.35;
-            let dx = 0, dy = 0;
-
-            if (keysDown.has("a") || keysDown.has("A") || keysDown.has("ArrowLeft")) dx -= speed;
-            if (keysDown.has("d") || keysDown.has("D") || keysDown.has("ArrowRight")) dx += speed;
-            if (keysDown.has("w") || keysDown.has("W") || keysDown.has("ArrowUp")) dy -= speed;
-            if (keysDown.has("s") || keysDown.has("S") || keysDown.has("ArrowDown")) dy += speed;
-
-            if (dx !== 0 || dy !== 0) {
-                showCrosshair = true;
-                moveMap(dx * dt, dy * dt);
-                selectModeAtPoint(mapCanvas.width / 2, mapCanvas.height / 2, false);
-            }
-        }
-        // #endregion
-        
-        requestAnimationFrame(update);
-    }
-
-    // #region Controls
-    const margin = 50;
-    function moveMap(dx, dy){
-        if(typeof camX !== "number" || isNaN(camX)) camX = 0;
-        if(typeof camY !== "number" || isNaN(camY)) camY = 0;
-
-        // switched up min and max and negated them because of the way the map is drawn
-        const minX = map.min_x - margin;
-        const maxX = map.max_x + margin;
-        const minY = map.min_y - margin;
-        const maxY = map.max_y + margin;
-        camX = Math.min(Math.max(camX + (dx / camZoom), -maxX), -minX);
-        camY = Math.min(Math.max(camY + (dy / camZoom), -maxY), -minY);
-    }
-    function dragMap(dx, dy) {
-        const pixelRatio = (window.devicePixelRatio || 1);
-        moveMap(dx * pixelRatio, dy * pixelRatio);
-    }
-
-    function clampZoom(){
-        if(typeof camZoom !== "number" || isNaN(camZoom)) camZoom = 1;
-        camZoom = Math.min(Math.max(camZoom, MIN_ZOOM), MAX_ZOOM);
-    }
-    function zoomMapScroll(scrollAmount) {
-        camZoom += scrollAmount * camZoom; // multiplicative zoom for scrolling
-        clampZoom();
-    }
-    // #endregion
-
-    // #region Event listeners
-    { // Mouse events
-        mapCanvas.addEventListener('mousedown', function(event) {
-            if (focused) {
-                let startX = event.clientX;
-                let startY = event.clientY;
-    
-                function handleMouseMove(event) {
-                    const dx = event.clientX - startX;
-                    const dy = event.clientY - startY;
-                    startX = event.clientX;
-                    startY = event.clientY;
-                    dragMap(dx, dy);
-                }
-    
-                function handleMouseUp() {
-                    document.removeEventListener('mousemove', handleMouseMove);
-                    document.removeEventListener('mouseup', handleMouseUp);
-                }
-    
-                document.addEventListener('mousemove', handleMouseMove);
-                document.addEventListener('mouseup', handleMouseUp);
-                showCrosshair = false;
-            } else {
-                focused = true;
-            }
-        });
-        mapCanvas.addEventListener('click', function(event) {
-            if (focused) {
-                let rect = mapCanvas.getBoundingClientRect();
-                let x = event.clientX - rect.left;
-                let y = event.clientY - rect.top;
-                selectModeAtPoint(x, y);
-            }
-        });
-    
-        mapCanvas.addEventListener('wheel', function(event) {
-            if (focused) {
-                event.preventDefault(); // disable scrolling
-                const dZoom = event.deltaY * -0.001;
-                zoomMapScroll(dZoom);
-            }
-        });
-    }
-    { // Keyboard events
-        window.addEventListener('keydown', (event) => {
-            if(event.key === "Escape") {
-                if(selected) {
-                    selected = null;
-                } else {
-                    focused = false;
-                    keysDown.clear();
-                }
-                return;
-            }
-            if(!focused) return;
-
-            switch(event.key) {
-                case "Enter":
-                    selectModeAtPoint(mapCanvas.width / 2, mapCanvas.height / 2);
+            let shape;
+            switch(mode.shape) {
+                case 1:
+                    shape = "square";
+                    break;
+                case 2:
+                    shape = "diamond";
+                    break;
+                case 3:
+                    shape = "octagon";
                     break;
                 default:
-                    keysDown.add(event.key);
+                    shape = "circle";
                     break;
             }
-            if(event.key.startsWith("Arrow")) event.preventDefault();
-        });
-          
-        window.addEventListener('keyup', (event) => {
-            keysDown.delete(event.key);
-        });
-    }
-    { // Touch events
-        let touchPrevX = 0, touchPrevY = 0;
-        let touchStartDist = 1, touchStartZoom = 1;
 
-        mapCanvas.addEventListener('touchstart', function(event) {
-            if(!focused) focused = true;
-            if(event.touches.length === 1) {
-                touchPrevX = event.touches[0].clientX;
-                touchPrevY = event.touches[0].clientY;
-            } else if(event.touches.length === 2) {
-                touchStartDist = Math.hypot(
-                    event.touches[0].clientX - event.touches[1].clientX,
-                    event.touches[0].clientY - event.touches[1].clientY
-                );
+            modeElement.setAttribute("shape", shape);
+            modeElement.setAttribute("icon", mode.icon);
+            modeElement.setAttribute("title", LANG.getModeFullName(mode.name));
+            modeElement.style.setProperty("--mode-x", mode.x);
+            modeElement.style.setProperty("--mode-y", mode.y);
+            modeElement.style.setProperty("--mode-size", mode.size);
+
+            if(shape === "diamond") {
+                modeElement.innerHTML = DIAMOND_SVG;
+            } else if(shape === "octagon") {
+                modeElement.innerHTML = OCTAGON_SVG;
             }
-            touchStartZoom = camZoom;
-        });
-        mapCanvas.addEventListener('touchmove', function(event) {
-            if(!focused) return;
-            if(event.touches.length === 1) {
-                const dx = event.touches[0].clientX - touchPrevX;
-                const dy = event.touches[0].clientY - touchPrevY;
-                touchPrevX = event.touches[0].clientX;
-                touchPrevY = event.touches[0].clientY;
-                dragMap(dx, dy);
-            } else if(event.touches.length === 2) {
-                const dist = Math.hypot(
-                    event.touches[0].clientX - event.touches[1].clientX,
-                    event.touches[0].clientY - event.touches[1].clientY
-                );
-                const zoomMultipler = dist / touchStartDist;
-                camZoom = touchStartZoom * zoomMultipler;
-                clampZoom();
-            }
-            event.preventDefault();
-        });
-        mapCanvas.addEventListener('touchend', function(event) {
-            if(event.touches.length === 0) {
-                touchPrevX = 0;
-                touchPrevY = 0;
-            } else if(event.touches.length === 1) {
-                touchPrevX = event.touches[0].clientX;
-                touchPrevY = event.touches[0].clientY;
-            }
-        });
+
+            modeElement.addEventListener("click", () => onModeClicked(mode.name));
+
+            MAIN_ELEMENT.appendChild(modeElement);
+        }
     }
+
+    function generateEdgeSVG() {
+        EDGES_SVG.setAttribute("viewBox", `${map.min_x} ${map.min_y} ${map.max_x - map.min_x} ${map.max_y - map.min_y}`);
+
+        for(const mode of Object.values(map.modes)) {
+            for(const mode2Name of mode.unlock) {
+                const mode2 = map.modes[mode2Name];
+
+                const x1 = mode.x;  const y1 = mode.y;
+                const x2 = mode2.x; const y2 = mode2.y;
+
+                const edge = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                edge.setAttribute("x1", x1); edge.setAttribute("y1", y1);
+                edge.setAttribute("x2", x2); edge.setAttribute("y2", y2);
+
+                edge.style.setProperty("stroke-width", "8px");
+                edge.style.setProperty("stroke", "#FFFFFF5F");
+                edge.style.setProperty("stroke-linecap", "round");
+
+                EDGES_SVG.appendChild(edge);
+            }
+        }
+    }
+
+    function getScaleFactor() {
+        const viewportWidth = ROOT.clientWidth || 0;
+        const viewportHeight = ROOT.clientHeight || 0;
+        const viewportDimension = Math.sqrt(viewportWidth * viewportHeight);
+        
+        const targetDimension = Math.sqrt(1280 * 720);
+        return viewportDimension / targetDimension * (IS_IN_IFRAME ? 2.62 : 2.26);
+    }
+
+    function onResize() {
+        BODY.style.setProperty("--scale-factor", getScaleFactor());
+    }
+
+    function onMapZoom(oldZoom, newZoom = camZoom) {
+        camZoom = clamp(MIN_ZOOM, newZoom, MAX_ZOOM);
+        BODY.style.setProperty("--cam-zoom", camZoom);
+    }
+
+    function getModeAtScreenCenter() {
+        if(!mapLoaded) return;
+
+        const isSquareInCenter = (cx, cy, size) => {
+            const L = cx - size; const R = cx + size;
+            const U = cy - size; const D = cy + size;
+            
+            return (
+                L < camX && camX < R &&
+                U < camY && camY < D
+            );
+        }
+
+        const isCircleInCenter = (cx, cy, maxDist) => {
+            const maxDistSq = maxDist * maxDist;
+            const dx = cx - camX;
+            const dy = cy - camY;
+            const distSq = dx * dx + dy * dy;
+
+            return distSq < maxDistSq;
+        }
+
+        const isDiamondInCenter = (cx, cy, maxManhDist) => {
+            const dx = Math.abs(cx - camX);
+            const dy = Math.abs(cy - camY);
+
+            return dx + dy < maxManhDist;
+        }
+
+        const isModeInCenter = (mode) => {
+            if(typeof mode === "string") {
+                mode = map.modes[mode];
+            }
+
+            const x = -mode.x; const y = -mode.y;
+
+            switch(mode.shape) {
+                case 1:
+                    return isSquareInCenter(x, y, mode.size);
+                case 2:
+                    return isDiamondInCenter(x, y, mode.size);
+                default:
+                    return isCircleInCenter(x, y, mode.size);
+            }
+        }
+
+        // Small optimization if cursor only moved a little
+        if(selected) {
+            if(isModeInCenter(selected)) {
+                return map.modes[selected];
+            }
+        }
+
+        for(const mode of Object.values(map.modes)) {
+            if(isModeInCenter(mode)) {
+                return mode;
+            }
+        }
+
+        return null;
+    }
+
+    function onModeClicked(modeName) {
+        if(cancelNextModeSelect) {
+            cancelNextModeSelect = false;
+            return;
+        }
+        selectMode(modeName);
+    }
+
+    function selectMode(modeName) {
+        if(selected) {
+            document.getElementById(MODE_ID_PREFIX + selected)?.classList.remove("selected");
+        }
+        selected = modeName;
+        document.getElementById(MODE_ID_PREFIX + modeName)?.classList.add("selected");
+
+        modeInfoExpand();
+        updateModeInfo();
+    }
+
+    function updateModeInfo() {
+        if(!selected) return;
+        const mode = map.modes[selected];
+
+        MODE_INFO_TITLE.innerText = LANG.getLanguageEntry(`modes.${selected}.title`);
+        MODE_INFO_SUBTITLE.innerText = LANG.getLanguageEntry(`modes.${selected}.subtitle`, "");
+        MODE_INFO_DESCRIPTION.innerText = LANG.getLanguageEntry(`modes.${selected}.description`, "");
+        MODE_INFO_VERSION.innerText = LANG.getLanguageEntry(`modes.${selected}.version_info`, "");
+        MODE_INFO_NAME.innerText = LANG.getModeFullName(selected);
+    }
+
+    function unselectMode() {
+        if(selected) {
+            document.getElementById(MODE_ID_PREFIX + selected)?.classList.remove("selected");
+        }
+        selected = null;
+        modeInfoCollapseToNothing();
+    }
+
+    function modeInfoExpand() {
+        const classes = MODE_INFO_ELEMENT.classList;
+        if(!classes.contains("expand")) {
+            classes.add("expand-anim");
+        }
+        classes.add("expand");
+        classes.remove("expand-full", "expand-full-anim", "collapse-anim", "collapse-full-anim");
+        modeInfoExpansionState = "open";
+    }
+    function modeInfoExpandFull() {
+        const classes = MODE_INFO_ELEMENT.classList;
+        classes.add("expand-full", "expand-full-anim");
+        classes.remove("expand", "expand-anim", "collapse-anim", "collapse-full-anim");
+        modeInfoExpansionState = "expanded";
+    }
+    function modeInfoCollapseToNothing() {
+        const classes = MODE_INFO_ELEMENT.classList;
+        classes.add("collapse-anim");
+        classes.remove("expand", "expand-anim", "expand-full", "expand-full-anim", "collapse-full-anim");
+        modeInfoExpansionState = "closed";
+    }
+    function modeInfoCollapseToSmall() {
+        const classes = MODE_INFO_ELEMENT.classList;
+        classes.add("collapse-full-anim", "expand");
+        classes.remove("expand-anim", "expand-full", "expand-full-anim", "collapse-anim");
+        modeInfoExpansionState = "open";
+    }
+
+    function moveMap(dx, dy) {
+        if(!mapLoaded) return;
+
+        camX += dx;
+        camY += dy;
+
+        camX = clamp(-map.max_x - MAP_MARGIN, camX, -map.min_x + MAP_MARGIN);
+        camY = clamp(-map.max_y - MAP_MARGIN, camY, -map.min_y + MAP_MARGIN);
+
+        BODY.style.setProperty("--cam-x", camX);
+        BODY.style.setProperty("--cam-y", camY);
+    }
+
+    window.addEventListener("resize", onResize);
+
+    // #region Events
+    // Keyboard events
+    window.addEventListener("keydown", (event) => {
+        heldKeyCodes.add(event.code);
+
+        if(
+            (event.code.includes("Key") || event.code.includes("Arrow"))
+            && !(event.code == "KeyI" && event.ctrlKey && event.shiftKey)
+        ) {
+            event.preventDefault();
+        }
+
+        if(!isUpdateRunning) {
+            prevTime = performance.now();
+            update();
+        }
+    });
+    window.addEventListener("keyup", (event) => {
+        heldKeyCodes.delete(event.code);
+    });
+
+    // Mouse events
+    window.addEventListener("mousedown", (event) => {
+        if(event.button === 0 && !MODE_INFO_RANK_REQS.contains(event.target) && modeInfoExpansionState !== "expanded") {
+            isDragging = true;
+            CROSSHAIR.style.display = "none";
+        }
+        if(event.target === MAIN) {
+            pendingUnselect = true;
+        }
+        cancelNextModeSelect = false;
+    });
+    window.addEventListener("mousemove", (event) => {
+        if(isDragging) {
+            let scaleFactor = getScaleFactor();
+            let camScale = camZoom * scaleFactor;
+            moveMap(event.movementX / camScale, event.movementY / camScale);
+            cancelNextModeSelect = true;
+        }
+        pendingUnselect = false;
+    });
+    window.addEventListener("mouseup", (event) => {
+        if(pendingUnselect) {
+            pendingUnselect = false;
+            unselectMode();
+        }
+        isDragging = false;
+    });
+    window.addEventListener("wheel", (event) => {
+        if(MODE_INFO_RANK_REQS.contains(event.target) || modeInfoExpansionState === "expanded") return;
+
+        event.preventDefault();
+        
+        const dZoom = event.deltaY * ZOOM_SCROLL_MULT * ZOOM_SPEED_MULT * camZoom;
+        onMapZoom(camZoom, camZoom + dZoom);
+    }, {passive: false});
+
+    // Touch events
+    let prevTouches = [];
+    window.addEventListener("touchstart", (event) => {
+        if(event.touches.length === 1 && !MODE_INFO_RANK_REQS.contains(event.target) && modeInfoExpansionState !== "expanded") {
+            isDragging = true;
+            CROSSHAIR.style.display = "none";
+        }
+        if(event.target === MAIN && event.touches.length === 1) {
+            pendingUnselect = true;
+        }
+        cancelNextModeSelect = false;
+
+        prevTouches = event.touches;
+    });
+    window.addEventListener("touchmove", (event) => {
+        if(isDragging) {
+            let scaleFactor = getScaleFactor();
+            let camScale = camZoom * scaleFactor;
+            moveMap(event.touches[0].clientX / camScale, event.touches[0].clientY / camScale);
+            cancelNextModeSelect = true;
+        } else if(event.touches.length >= 2) {
+            event.preventDefault();
+            const prevTouchA = prevTouches[0];
+            const prevTouchB = prevTouches[1];
+            const touchA = event.touches[0];
+            const touchB = event.touches[1];
+
+            const prevTouchDist = 
+                Math.hypot(prevTouchA.clientX - prevTouchB.clientX,
+                    prevTouchA.clientY - prevTouchB.clientY);
+            
+            const touchDist =
+                Math.hypot(touchA.clientX - touchB.clientX,
+                    touchA.clientY - touchB.clientY);
+            
+            const zoomFactor = touchDist / prevTouchDist;
+            onMapZoom(camZoom, camZoom * zoomFactor);
+        }
+        pendingUnselect = false;
+
+        prevTouches = event.touches;
+    });
+    window.addEventListener("touchend", (event) => {
+        if(pendingUnselect) {
+            pendingUnselect = false;
+            unselectMode();
+        }
+        isDragging = false;
+
+        prevTouches = event.touches;
+    });
+
+    // Button events
+    MODE_INFO_CLOSE_BUTTON?.addEventListener("click", unselectMode);
+    MODE_INFO_EXPAND_BUTTON?.addEventListener("click", modeInfoExpandFull);
+    MODE_INFO_COLLAPSE_BUTTON?.addEventListener("click", modeInfoCollapseToSmall);
     // #endregion
+    
+    function clamp(min, val, max) {
+        return Math.min(Math.max(min, val), max);
+    }
 }
