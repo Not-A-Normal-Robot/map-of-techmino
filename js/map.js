@@ -299,19 +299,64 @@ import * as LANG from "./lang.js";
 
     function getModeAtScreenCenter() {
         if(!mapLoaded) return;
-        for(const mode of Object.values(map.modes)) {
-            const modeElement = document.getElementById(MODE_ID_PREFIX + mode.name);
-            const rect = modeElement.getBoundingClientRect();
-            const screenCenterX = window.innerWidth / 2;
-            const screenCenterY = window.innerHeight / 2;
 
-            if(
-                screenCenterX >= rect.left && screenCenterX <= rect.right &&
-                screenCenterY >= rect.top && screenCenterY <= rect.bottom
-            ) {
+        const isSquareInCenter = (cx, cy, size) => {
+            const L = cx - size; const R = cx + size;
+            const U = cy - size; const D = cy + size;
+            
+            return (
+                L < camX && camX < R &&
+                U < camY && camY < D
+            );
+        }
+
+        const isCircleInCenter = (cx, cy, maxDist) => {
+            const maxDistSq = maxDist * maxDist;
+            const dx = cx - camX;
+            const dy = cy - camY;
+            const distSq = dx * dx + dy * dy;
+
+            return distSq < maxDistSq;
+        }
+
+        const isDiamondInCenter = (cx, cy, maxManhDist) => {
+            const dx = Math.abs(cx - camX);
+            const dy = Math.abs(cy - camY);
+
+            return dx + dy < maxManhDist;
+        }
+
+        const isModeInCenter = (mode) => {
+            if(typeof mode === "string") {
+                mode = map.modes[mode];
+            }
+
+            const x = -mode.x; const y = -mode.y;
+
+            switch(mode.shape) {
+                case 1:
+                    return isSquareInCenter(x, y, mode.size);
+                case 2:
+                    return isDiamondInCenter(x, y, mode.size);
+                default:
+                    return isCircleInCenter(x, y, mode.size);
+            }
+        }
+
+        // Small optimization if cursor only moved a little
+        if(selected) {
+            if(isModeInCenter(selected)) {
+                return map.modes[selected];
+            }
+        }
+
+        for(const mode of Object.values(map.modes)) {
+            if(isModeInCenter(mode)) {
                 return mode;
             }
         }
+
+        return null;
     }
 
     function onModeClicked(modeName) {
