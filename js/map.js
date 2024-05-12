@@ -513,9 +513,11 @@ import * as LANG from "./lang.js";
     });
     window.addEventListener("touchmove", (event) => {
         if(isDragging) {
-            let scaleFactor = getScaleFactor();
-            let camScale = camZoom * scaleFactor;
-            moveMap(event.touches[0].clientX / camScale, event.touches[0].clientY / camScale);
+            const scaleFactor = getScaleFactor();
+            const camScale = camZoom * scaleFactor;
+            const dx = event.touches[0].clientX - prevTouches[0].clientX;
+            const dy = event.touches[0].clientY - prevTouches[0].clienty;
+            moveMap(dx / camScale, dy / camScale);
             cancelNextModeSelect = true;
         } else if(event.touches.length >= 2) {
             event.preventDefault();
