@@ -5,7 +5,6 @@
 
 /* #region Body */
 body{
-    background-color: transparent;
     color: white;
     background-color: black;
     margin: 0;
@@ -13,7 +12,7 @@ body{
     z-index: -2;
 }
 
-body code {
+code {
     font-family: "techmino-monospace";
 }
 /* #endregion */

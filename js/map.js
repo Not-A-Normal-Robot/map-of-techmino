@@ -59,6 +59,14 @@ import * as LANG from "./lang.js";
         if(IS_IN_IFRAME) {
             // for easier viewing if directly accessing the page
             ROOT.style.backgroundColor = "black";
+
+            const bgCanvas = document.createElement("canvas");
+            bgCanvas.id = "bg";
+            BODY.appendChild(bgCanvas);
+
+            const bgScript = document.createElement("script");
+            bgScript.src = "/js/background.js";
+            BODY.appendChild(bgScript);
         }
         loadMapData();
         onResize();

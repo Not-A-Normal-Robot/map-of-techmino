@@ -379,4 +379,14 @@ main {
     pointer-events: none;
     z-index: 9999;
 }
+
+canvas#bg{
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -999;
+    background-color: black;
+    opacity: 0.5;
+}
 /* #endregion */
