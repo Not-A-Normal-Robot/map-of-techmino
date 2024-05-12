@@ -495,7 +495,7 @@ import * as LANG from "./lang.js";
         
         const dZoom = event.deltaY * ZOOM_SCROLL_MULT * ZOOM_SPEED_MULT * camZoom;
         onMapZoom(camZoom, camZoom + dZoom);
-    });
+    }, {passive: false});
 
     // Touch events
     let prevTouches = [];
