@@ -129,34 +129,46 @@ main {
 }
 
 /* Mode icons */
-/* TODO: Add the missing vector icons */
 .mode[icon]::before { content: ""; }
-.mode[icon="attack"]::before     { background-image: url("/data/img/modeicons/attack.png") }
-.mode[icon="backfire"]::before   { background-image: url("/data/img/modeicons/backfire.png") }
-.mode[icon="bigbang"]::before    { background-image: url("/data/img/modeicons/bigbang.png") }
-.mode[icon="confusion"]::before  { background-image: url("/data/img/modeicons/confusion.png") }
-.mode[icon="defend"]::before     { background-image: url("/data/img/modeicons/defend.png") }
-.mode[icon="dig_eff"]::before    { background-image: url("/data/img/modeicons/dig_eff.png") }
-.mode[icon="dig_sprint"]::before { background-image: url("/data/img/modeicons/dig_sprint.png") }
-.mode[icon="dig"]::before        { background-image: url("/data/img/modeicons/dig.png") }
-.mode[icon="drought"]::before    { background-image: url("/data/img/modeicons/drought.png") }
-.mode[icon="hidden"]::before     { background-image: url("/data/img/modeicons/hidden.png") }
-.mode[icon="hidden2"]::before    { background-image: url("/data/img/modeicons/hidden2.png") }
-.mode[icon="hidden3"]::before    { background-image: url("/data/img/modeicons/hidden3.png") }
-.mode[icon="hidden4"]::before    { background-image: url("/data/img/modeicons/hidden4.png") }
-.mode[icon="hidden5"]::before    { background-image: url("/data/img/modeicons/hidden5.png") }
-.mode[icon="master_ex"]::before  { background-image: url("/data/img/modeicons/master_ex.png") }
-.mode[icon="master"]::before     { background-image: url("/data/img/modeicons/master.png") }
-.mode[icon="mess"]::before       { background-image: url("/data/img/modeicons/mess.png") }
-.mode[icon="pc"]::before         { background-image: url("/data/img/modeicons/pc.png") }
-.mode[icon="rhythm"]::before     { background-image: url("/data/img/modeicons/rhythm.png") }
-.mode[icon="round"]::before      { background-image: url("/data/img/modeicons/round.png") }
-.mode[icon="solo"]::before       { background-image: url("/data/img/modeicons/solo.png") }
-.mode[icon="sprint1"]::before    { background-image: url("/data/img/modeicons/sprint1.png") }
-.mode[icon="sprint2"]::before    { background-image: url("/data/img/modeicons/sprint2.png") }
-.mode[icon="sprint3"]::before    { background-image: url("/data/img/modeicons/sprint3.png") }
-.mode[icon="survivor"]::before   { background-image: url("/data/img/modeicons/survivor.png") }
-.mode[icon="zen"]::before        { background-image: url("/data/img/modeicons/zen.png") }
+.mode[icon="attack"]::before       { background-image: url("/data/img/modeicons/attack.png") }
+.mode[icon="backfire"]::before     { background-image: url("/data/img/modeicons/backfire.png") }
+.mode[icon="bigbang"]::before      { background-image: url("/data/img/modeicons/bigbang.png") }
+.mode[icon="confusion"]::before    { background-image: url("/data/img/modeicons/confusion.png") }
+.mode[icon="defend"]::before       { background-image: url("/data/img/modeicons/defend.png") }
+.mode[icon="dig_eff"]::before      { background-image: url("/data/img/modeicons/dig_eff.png") }
+.mode[icon="dig_sprint"]::before   { background-image: url("/data/img/modeicons/dig_sprint.png") }
+.mode[icon="dig"]::before          { background-image: url("/data/img/modeicons/dig.png") }
+.mode[icon="drought"]::before      { background-image: url("/data/img/modeicons/drought.png") }
+.mode[icon="hidden"]::before       { background-image: url("/data/img/modeicons/hidden.png") }
+.mode[icon="hidden2"]::before      { background-image: url("/data/img/modeicons/hidden2.png") }
+.mode[icon="hidden3"]::before      { background-image: url("/data/img/modeicons/hidden3.png") }
+.mode[icon="hidden4"]::before      { background-image: url("/data/img/modeicons/hidden4.png") }
+.mode[icon="hidden5"]::before      { background-image: url("/data/img/modeicons/hidden5.png") }
+.mode[icon="master_ex"]::before    { background-image: url("/data/img/modeicons/master_ex.png") }
+.mode[icon="master"]::before       { background-image: url("/data/img/modeicons/master.png") }
+.mode[icon="mess"]::before         { background-image: url("/data/img/modeicons/mess.png") }
+.mode[icon="pc"]::before           { background-image: url("/data/img/modeicons/pc.png") }
+.mode[icon="rhythm"]::before       { background-image: url("/data/img/modeicons/rhythm.png") }
+.mode[icon="round"]::before        { background-image: url("/data/img/modeicons/round.png") }
+.mode[icon="solo"]::before         { background-image: url("/data/img/modeicons/solo.png") }
+.mode[icon="sprint1"]::before      { background-image: url("/data/img/modeicons/sprint1.png") }
+.mode[icon="sprint2"]::before      { background-image: url("/data/img/modeicons/sprint2.png") }
+.mode[icon="sprint3"]::before      { background-image: url("/data/img/modeicons/sprint3.png") }
+.mode[icon="survivor"]::before     { background-image: url("/data/img/modeicons/survivor.png") }
+.mode[icon="zen"]::before          { background-image: url("/data/img/modeicons/zen.png") }
+.mode[icon="big"]::before          { background-image: url("/data/img/modeicons/big.svg") }
+.mode[icon="classic"]::before      { background-image: url("/data/img/modeicons/classic.svg") }
+.mode[icon="infinite"]::before     { background-image: url("/data/img/modeicons/infinite.svg") }
+.mode[icon="marathon"]::before     { background-image: url("/data/img/modeicons/marathon.svg") }
+.mode[icon="secret_grade"]::before { background-image: url("/data/img/modeicons/secret_grade.svg") }
+.mode[icon="sprint_pento"]::before { background-image: url("/data/img/modeicons/sprint_pento.svg") }
+.mode[icon="sprint_tri"]::before   { background-image: url("/data/img/modeicons/sprint_tri.svg") }
+.mode[icon="t49"]::before          { background-image: url("/data/img/modeicons/t49.svg") }
+.mode[icon="t99"]::before          { background-image: url("/data/img/modeicons/t99.svg") }
+.mode[icon="tech_plus"]::before    { background-image: url("/data/img/modeicons/tech_plus.svg") }
+.mode[icon="tech"]::before         { background-image: url("/data/img/modeicons/tech.svg") }
+.mode[icon="tsd"]::before          { background-image: url("/data/img/modeicons/tsd.svg") }
+.mode[icon="ultra"]::before        { background-image: url("/data/img/modeicons/ultra.svg") }
 
 /* Mode ranks */
 .mode[rank="1"] { --mode-bg-color: #3366994F; }
