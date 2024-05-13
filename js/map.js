@@ -172,6 +172,8 @@ import * as LANG from "./lang.js";
         if(!isFinite(camX)) list.push(`Cam. X is ${camX}`);
         if(!isFinite(camY)) list.push(`Cam. Y is ${camY}`);
         if(!isFinite(camZoom)) list.push(`Zoom is ${camZoom}`);
+        const scaleFactor = getScaleFactor();
+        if(!isFinite(scaleFactor)) list.push(`Scale factor is ${scaleFactor}`);
         if(!mapLoaded) list.push("Map data not loaded");
         if(
             modeInfoExpansionState !== "closed" &&
@@ -188,11 +190,11 @@ import * as LANG from "./lang.js";
         const invalidValues = getInvalidValueList();
         const debugText =
             `FPS: ${
-                heldKeyCodes.size > 0 ?
+                (heldKeyCodes.size > 0 && dt) ?
                     (1000 / dt).toFixed(1) :
                     "--"
             }` + (invalidValues.length > 0 ?
-                `\nERROR: Invalid values found: ${
+                `\nERROR: Invalid values found:\n${
                     invalidValues.map(v => `- ${v}`).join("\n")
                 }`
                 : "\nNo invalid values found."
@@ -538,7 +540,7 @@ import * as LANG from "./lang.js";
             const scaleFactor = getScaleFactor();
             const camScale = camZoom * scaleFactor;
             const dx = event.touches[0].clientX - prevTouches[0].clientX;
-            const dy = event.touches[0].clientY - prevTouches[0].clienty;
+            const dy = event.touches[0].clientY - prevTouches[0].clientY;
             moveMap(dx / camScale, dy / camScale);
             cancelNextModeSelect = true;
         } else if(event.touches.length >= 2) {
@@ -577,6 +579,9 @@ import * as LANG from "./lang.js";
     MODE_INFO_CLOSE_BUTTON?.addEventListener("click", unselectMode);
     MODE_INFO_EXPAND_BUTTON?.addEventListener("click", modeInfoExpandFull);
     MODE_INFO_COLLAPSE_BUTTON?.addEventListener("click", modeInfoCollapseToSmall);
+
+    // Timed events
+    setInterval(updateDebugInfo, 1000);
     // #endregion
     
     function clamp(min, val, max) {
