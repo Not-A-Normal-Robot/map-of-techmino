@@ -1,4 +1,5 @@
 let langEntries = {};
+let showdown;
 
 export function getCurrentLang() {
     return localStorage.getItem('lang') || 'en';
@@ -30,6 +31,22 @@ export function getModeFullName(mode) {
 export function getLanguageEntries() {
     return langEntries;
 };
+
+export async function getArticle(key, fallback) {
+    if(typeof key !== 'string') throw new Error("Key must be a string!");
+    
+    const result = await fetch(`/data/lang/articles/${getCurrentLang()}/${key}.html`);
+
+    if(!result.ok) {
+        if(fallback === undefined) {
+            throw new Error(`Failed to fetch article ${key}`);
+        }
+        return fallback;
+    }
+
+    return await result.text();
+}
+
 export async function setLanguage(lang){
     if(lang === localStorage.getItem('lang')) return;
     if(typeof lang !== 'string') throw new Error("Language must be a string!");
