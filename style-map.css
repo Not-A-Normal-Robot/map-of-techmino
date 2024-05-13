@@ -286,8 +286,6 @@ main {
 #mode-info .rank-reqs {
     display: flex;
     flex-direction: column;
-    position: absolute;
-    inset: 2em 1em 15vh 1em;
     background-color: #0000004F;
     border: 1px solid #CCCCCC88;
     border-radius: 0.5em;
@@ -296,6 +294,10 @@ main {
     overflow: scroll;
     list-style-type: none;
     pointer-events: auto !important;
+}
+#mode-info .align-bottom .rank-reqs {
+    position: absolute;
+    inset: 2em 1em 15vh 1em;
 }
 #mode-info .rank-reqs li:not(:last-child) {
     padding-bottom: 0.5em;
