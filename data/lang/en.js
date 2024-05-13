@@ -131,7 +131,8 @@ export default {
                 "19 lines (S9)",
                 "21 lines (GM+)",
                 "23 lines (TM+)"
-            ]
+            ],
+            featured_video: "https://www.youtube.com/embed/i31ku9TaV9w"
         },
         construct_checker: {
             title: "Construct",
@@ -157,7 +158,8 @@ export default {
                 "4 lines (Grade 6)",
                 "7 lines (Grade 3)",
                 "10 lines (Grade S1)"
-            ]
+            ],
+            featured_video: "https://www.youtube.com/embed/G4cRDeAYdUk"
         },
         dig_10l: {
             title: "Dig",
@@ -1080,7 +1082,8 @@ export default {
                 "26 PCs",
                 "42 PCs",
                 "50 PCs"
-            ]
+            ],
+            featured_video: "https://www.youtube.com/embed/XoNR8v6GL10"
         },
         pc_n: {
             title: "PC Challenge",
@@ -1249,7 +1252,8 @@ export default {
                 "15 TSDs",
                 "18 TSDs",
                 "20 TSDs"
-            ]
+            ],
+            featured_video: "https://www.youtube.com/embed/Dxh9WglgIiw"
         },
         tsd_h: {
             title: "TSD Challenge",
@@ -1275,7 +1279,8 @@ export default {
                 "16 TSDs",
                 "18 TSDs",
                 "20 TSDs"
-            ]
+            ],
+            featured_video: "https://www.youtube.com/embed/BWlD4Kzk7B4"
         },
         backfire_n: {
             title: "Backfire",
@@ -1379,7 +1384,8 @@ export default {
                 "26,000 score",
                 "50,000 score",
                 "62,000 score"
-            ]
+            ],
+            featured_video: "https://www.youtube.com/embed/6NHaGcdDqFo"
         },
         infinite: {
             title: "Infinite",
@@ -1748,7 +1754,8 @@ export default {
             title: "Stack (v4)",
             subtitle: "EASY",
             description: "Pack them!",
-            version_info: "v0.16.5 - v0.17.4"
+            version_info: "v0.16.5 - v0.17.4",
+            featured_video: "https://www.youtube.com/embed/gheifZQt6tk"
         },
         stack_v4_u: {
             title: "Stack (v4)",
