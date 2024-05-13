@@ -198,7 +198,7 @@ import * as LANG from "./lang.js";
                 : "\nNo invalid values found."
             );
         
-        DEBUG_ELEMENT?.innerText = debugText;
+        DEBUG_ELEMENT.innerText = debugText;
     }
 
     function loadMapData(){
