@@ -198,7 +198,7 @@ import * as LANG from "./lang.js";
                     invalidValues.map(v => `- ${v}`).join("\n")
                 }`
                 : "\nNo invalid values found."
-            );
+            ) + `\nTouch length: ${prevTouches.length}`;
         
         DEBUG_ELEMENT.innerText = debugText;
     }
@@ -531,6 +531,9 @@ import * as LANG from "./lang.js";
         if(event.target === MAIN && event.touches.length === 1) {
             pendingUnselect = true;
         }
+        if(event.touches.length > 1) {
+            isDragging = false;
+        }
         cancelNextModeSelect = false;
 
         prevTouches = event.touches;
@@ -570,7 +573,7 @@ import * as LANG from "./lang.js";
             pendingUnselect = false;
             unselectMode();
         }
-        isDragging = false;
+        isDragging = event.touches.length === 1;
 
         prevTouches = event.touches;
     });

@@ -9,6 +9,7 @@ body {
     font-family: techmino-proportional, sans-serif;
     background-color: transparent;
     color: white;
+    touch-action: none;
 
     --cam-x: 0; --cam-y: 0;
     --cam-zoom: 1;
@@ -25,6 +26,7 @@ main {
     width: 100vw;
     height: 100vh;
     overflow: hidden;
+    touch-action: none;
 }
 #edge-display {
     position: fixed;
