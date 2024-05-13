@@ -5,6 +5,15 @@ import * as LANG from "./lang.js";
     const DEBUG_MODE = true;
     const IS_IN_IFRAME = window.self === window.top;
 
+    const MODE_ID_PREFIX = "mode_";
+    const MODE_RANK_DISPLAY_CLASSES = ["q-req", "b-req", "a-req", "s-req", "u-req", "x-req"];
+    const MOVE_SPEED_MULT = 0.26;
+    const ZOOM_SPEED_MULT = 0.00262;
+    const ZOOM_SCROLL_MULT = -0.6;
+    const MIN_ZOOM = 0.126;
+    const MAX_ZOOM = 1.26;
+    const MAP_MARGIN = 62;
+
     const ROOT = document.documentElement;
     const BODY = document.body;
     const MAIN = document.getElementById("main");
@@ -19,17 +28,11 @@ import * as LANG from "./lang.js";
     const MODE_INFO_DESCRIPTION = MODE_INFO_ELEMENT.querySelector(".description");
     const MODE_INFO_NAME = MODE_INFO_ELEMENT.querySelector(".name");
     const MODE_INFO_RANK_REQS = MODE_INFO_ELEMENT.querySelector(".rank-reqs");
+    const MODE_INFO_RANK_REQ_ELEMENTS = MODE_RANK_DISPLAY_CLASSES.map(c => document.getElementsByClassName(c));
     const MODE_INFO_EXPAND_BUTTON = document.getElementById("expand-mode-info");
     const MODE_INFO_CLOSE_BUTTON = document.getElementById("close-mode-info");
     const MODE_INFO_COLLAPSE_BUTTON = document.getElementById("collapse-mode-info");
-
-    const MODE_ID_PREFIX = "mode_";
-    const MOVE_SPEED_MULT = 0.26;
-    const ZOOM_SPEED_MULT = 0.00262;
-    const ZOOM_SCROLL_MULT = -0.6;
-    const MIN_ZOOM = 0.126;
-    const MAX_ZOOM = 1.26;
-    const MAP_MARGIN = 62;
+    
     const DIAMOND_SVG =
         `<svg class="border" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109">
             <polygon points="100,50 50,100 0,50 50,0"stroke-width="5"/>
@@ -411,6 +414,13 @@ import * as LANG from "./lang.js";
         MODE_INFO_DESCRIPTION.innerText = LANG.getLanguageEntry(`modes.${selected}.description`, "");
         MODE_INFO_VERSION.innerText = LANG.getLanguageEntry(`modes.${selected}.version_info`, "");
         MODE_INFO_NAME.innerText = LANG.getModeFullName(selected);
+
+        for(let rank = 0; rank < MODE_INFO_RANK_REQ_ELEMENTS.length; rank++) {
+            const req = LANG.getLanguageEntry(`modes.${selected}.rank_reqs.${rank}`, "(impossible)");
+            for(let i = 0; i < MODE_INFO_RANK_REQ_ELEMENTS[rank].length; i++) {
+                MODE_INFO_RANK_REQ_ELEMENTS[rank][i].textContent = req;
+            }
+        }
     }
 
     function unselectMode() {
