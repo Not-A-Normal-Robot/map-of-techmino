@@ -9,7 +9,6 @@ import * as LANG from "./lang.js";
     const BODY = document.body;
     const MAIN = document.getElementById("main");
     const DEBUG_ELEMENT = document.getElementById("debug-info");
-    const MAIN_ELEMENT = document.getElementById("main");
     const EDGES_SVG = document.getElementById("edge-display");
     const CROSSHAIR = document.getElementById("crosshair");
     
@@ -168,15 +167,38 @@ import * as LANG from "./lang.js";
         isUpdateRunning = false;
     }
 
+    function getInvalidValueList() {
+        let list = [];
+        if(!isFinite(camX)) list.push(`Cam. X is ${camX}`);
+        if(!isFinite(camY)) list.push(`Cam. Y is ${camY}`);
+        if(!isFinite(camZoom)) list.push(`Zoom is ${camZoom}`);
+        if(!mapLoaded) list.push("Map data not loaded");
+        if(
+            modeInfoExpansionState !== "closed" &&
+            modeInfoExpansionState !== "expanded" &&
+            modeInfoExpansionState !== "open"
+        ) list.push(`Mode info exp. state: ${modeInfoExpansionState}`);
+        if(!MAIN) list.push("MAIN not found");
+        if(!EDGES_SVG) list.push("EDGES_SVG not found");
+        if(!CROSSHAIR) list.push("CROSSHAIR not found");
+        if(!MODE_INFO_ELEMENT) list.push("MODE_INFO_ELEMENT not found");
+        return list;
+    }
     function updateDebugInfo(dt) {
+        const invalidValues = getInvalidValueList();
         const debugText =
             `FPS: ${
                 heldKeyCodes.size > 0 ?
                     (1000 / dt).toFixed(1) :
                     "--"
-            }`;
+            }` + (invalidValues.length > 0 ?
+                `\nERROR: Invalid values found: ${
+                    invalidValues.map(v => `- ${v}`).join("\n")
+                }`
+                : "\nNo invalid values found."
+            );
         
-        DEBUG_ELEMENT.innerText = debugText;
+        DEBUG_ELEMENT?.innerText = debugText;
     }
 
     function loadMapData(){
@@ -252,7 +274,7 @@ import * as LANG from "./lang.js";
 
             modeElement.addEventListener("click", () => onModeClicked(mode.name));
 
-            MAIN_ELEMENT.appendChild(modeElement);
+            MAIN.appendChild(modeElement);
         }
     }
 
