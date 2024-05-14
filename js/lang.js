@@ -10,7 +10,7 @@ export function getLangFilePath(lang) {
 }
 export function getLanguageEntry(key, fallback) {
     if(typeof key !== 'string') throw new Error("Key must be a string!");
-    fallback ??= key;
+    if(fallback === undefined) fallback = key;
 
     let keys = key.split('.');
     let scope = langEntries;

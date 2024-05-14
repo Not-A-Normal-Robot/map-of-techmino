@@ -1,4 +1,3 @@
-<!-- Full-screen map utilizing HTML instead of canvas rendering. Things may break. -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -111,66 +110,88 @@
                     Uninitialized
                 </h1>
             </div>
-            <main id="ext-mode-info-main">
-                <menu id="mode-info-cards">
-
-                </menu>
-                <article id="mode-article">
-                    Loading article...
-                </article>
-            </main>
-            <aside id="ext-mode-info-side">
-                <ul class="rank-reqs">
-                    <li>
-                        <span class="rank text-color-rank-x" title="X rank">
-                            &#xF00B4;
-                        </span>
-                        <span class="content x-req">
-                            Uninitialized
-                        </span>
-                    </li>
-                    <li>
-                        <span class="rank text-color-rank-u" title="U rank">
-                            &#xF00B5;
-                        </span>
-                        <span class="content u-req">
-                            Uninitialized
-                        </span>
-                    </li>
-                    <li>
-                        <span class="rank text-color-rank-s" title="S rank">
-                            &#xF00C2;
-                        </span>
-                        <span class="content s-req">
-                            Uninitialized
-                        </span>
-                    </li>
-                    <li>
-                        <span class="rank text-color-rank-a" title="A rank">
-                            &#xF00B6;
-                        </span>
-                        <span class="content a-req">
-                            Uninitialized
-                        </span>
-                    </li>
-                    <li>
-                        <span class="rank text-color-rank-b" title="B rank (minimum to unlock other modes)">
-                            &#xF00B7;
-                        </span>
-                        <span class="content b-req">
-                            Uninitialized
-                        </span>
-                    </li>
-                    <li>
-                        <span class="rank" title="Qualification requirement (minimum needed for your score to be listed on the leaderboards)">
-                            &#xF0012;
-                        </span>
-                        <span class="content q-req">
-                            Uninitialized
-                        </span>
-                    </li>
-                </ul>
-            </aside>
+            <div class="bottom">
+                <main id="ext-mode-info-main">
+                    <menu id="mode-info-cards">
+                        <div class="mode-info-card" id="difficulty-card">
+                            <h2>Difficulty</h2> <br>
+                            <p id="difficulty-card-content">
+                                Unimplemented
+                            </p>
+                        </div>
+                        <div class="mode-info-card" id="length-card">
+                            <h2>Length</h2> <br>
+                            <p id="length-card-content">
+                                Unimplemented
+                            </p>
+                        </div>
+                        <div class="mode-info-card" id="version-card">
+                            <h2>Available in</h2> <br>
+                            <p id="version-card-content">
+                                latest version
+                            </p>
+                        </div>
+                    </menu>
+                    <article id="mode-article">
+                        Loading article...
+                    </article>
+                </main>
+                <aside id="ext-mode-info-side">
+                    <h3 id="featured-video-text">Featured Video</h3>
+                    <iframe id="featured-video" src="about:blank" frameborder="0"></iframe>
+                    <h3>Rank requirements</h3>
+                    <ul class="rank-reqs">
+                        <li>
+                            <span class="rank text-color-rank-x" title="X rank">
+                                &#xF00B4;
+                            </span>
+                            <span class="content x-req">
+                                Uninitialized
+                            </span>
+                        </li>
+                        <li>
+                            <span class="rank text-color-rank-u" title="U rank">
+                                &#xF00B5;
+                            </span>
+                            <span class="content u-req">
+                                Uninitialized
+                            </span>
+                        </li>
+                        <li>
+                            <span class="rank text-color-rank-s" title="S rank">
+                                &#xF00C2;
+                            </span>
+                            <span class="content s-req">
+                                Uninitialized
+                            </span>
+                        </li>
+                        <li>
+                            <span class="rank text-color-rank-a" title="A rank">
+                                &#xF00B6;
+                            </span>
+                            <span class="content a-req">
+                                Uninitialized
+                            </span>
+                        </li>
+                        <li>
+                            <span class="rank text-color-rank-b" title="B rank (minimum to unlock other modes)">
+                                &#xF00B7;
+                            </span>
+                            <span class="content b-req">
+                                Uninitialized
+                            </span>
+                        </li>
+                        <li>
+                            <span class="rank" title="Qualification requirement (minimum needed for your score to be listed on the leaderboards)">
+                                &#xF0012;
+                            </span>
+                            <span class="content q-req">
+                                Uninitialized
+                            </span>
+                        </li>
+                    </ul>
+                </aside>
+            </div>
         </div>
     </aside>
 

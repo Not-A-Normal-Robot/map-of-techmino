@@ -1,6 +1,7 @@
 export default {
     map: {
-        unfocused: "Unfocused - click here to focus",
+        latest_version: "latest version",
+        not_available: "N/A"
     },
     modes: {
         sprint_10l: {

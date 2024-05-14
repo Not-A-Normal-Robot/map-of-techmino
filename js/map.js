@@ -22,16 +22,31 @@ import * as LANG from "./lang.js";
     const CROSSHAIR = document.getElementById("crosshair");
     
     const MODE_INFO_ELEMENT = document.getElementById("mode-info");
-    const MODE_INFO_TITLE = MODE_INFO_ELEMENT.querySelector(".title");
-    const MODE_INFO_SUBTITLE = MODE_INFO_ELEMENT.querySelector(".subtitle");
-    const MODE_INFO_VERSION = MODE_INFO_ELEMENT.querySelector(".version-info");
-    const MODE_INFO_DESCRIPTION = MODE_INFO_ELEMENT.querySelector(".description");
-    const MODE_INFO_NAME = MODE_INFO_ELEMENT.querySelector(".name");
-    const MODE_INFO_RANK_REQS = MODE_INFO_ELEMENT.querySelector(".rank-reqs");
-    const MODE_INFO_RANK_REQ_ELEMENTS = MODE_RANK_DISPLAY_CLASSES.map(c => document.getElementsByClassName(c));
-    const MODE_INFO_EXPAND_BUTTON = document.getElementById("expand-mode-info");
-    const MODE_INFO_CLOSE_BUTTON = document.getElementById("close-mode-info");
-    const MODE_INFO_COLLAPSE_BUTTON = document.getElementById("collapse-mode-info");
+
+    const MODE_INFO_ELEMENTS = {
+        outer:              MODE_INFO_ELEMENT,
+        title:              MODE_INFO_ELEMENT.querySelector(".title"),
+        subtitle:           MODE_INFO_ELEMENT.querySelector(".subtitle"),
+        version:            MODE_INFO_ELEMENT.querySelector(".version-info"),
+        description:        MODE_INFO_ELEMENT.querySelector(".description"),
+        name:               MODE_INFO_ELEMENT.querySelector(".name"),
+        rankReqs:           MODE_INFO_ELEMENT.querySelector(".rank-reqs"),
+        rankReqElements:    MODE_RANK_DISPLAY_CLASSES.map(c => document.getElementsByClassName(c)),
+        expandButton:       document.getElementById("expand-mode-info"),
+        closeButton:        document.getElementById("close-mode-info"),
+        collapseButton:     document.getElementById("collapse-mode-info"),
+        article:            document.getElementById("mode-article"),
+        featuredVideo:      document.getElementById("featured-video"),
+        featuredVideoText:  document.getElementById("featured-video-text"),
+        cards: {
+            diff:           document.getElementById("difficulty-card"),
+            diffContent:    document.getElementById("difficulty-card-content"),
+            length:         document.getElementById("length-card"),
+            lengthContent:  document.getElementById("length-card-content"),
+            version:        document.getElementById("version-card"),
+            versionContent: document.getElementById("version-card-content")
+        }
+    }
     
     const DIAMOND_SVG =
         `<svg class="border" xmlns="http://www.w3.org/2000/svg" viewBox="-4.5 -4.5 109 109">
@@ -409,18 +424,57 @@ import * as LANG from "./lang.js";
         if(!selected) return;
         const mode = map.modes[selected];
 
-        MODE_INFO_TITLE.innerText = LANG.getLanguageEntry(`modes.${selected}.title`);
-        MODE_INFO_SUBTITLE.innerText = LANG.getLanguageEntry(`modes.${selected}.subtitle`, "");
-        MODE_INFO_DESCRIPTION.innerText = LANG.getLanguageEntry(`modes.${selected}.description`, "");
-        MODE_INFO_VERSION.innerText = LANG.getLanguageEntry(`modes.${selected}.version_info`, "");
-        MODE_INFO_NAME.innerText = LANG.getModeFullName(selected);
+        MODE_INFO_ELEMENTS.title.innerText = LANG.getLanguageEntry(`modes.${selected}.title`);
+        MODE_INFO_ELEMENTS.subtitle.innerText = LANG.getLanguageEntry(`modes.${selected}.subtitle`, "");
+        MODE_INFO_ELEMENTS.description.innerText = LANG.getLanguageEntry(`modes.${selected}.description`, "");
+        MODE_INFO_ELEMENTS.version.innerText = LANG.getLanguageEntry(`modes.${selected}.version_info`, "");
+        MODE_INFO_ELEMENTS.name.innerText = LANG.getModeFullName(selected);
 
-        for(let rank = 0; rank < MODE_INFO_RANK_REQ_ELEMENTS.length; rank++) {
+        for(let rank = 0; rank < MODE_INFO_ELEMENTS.rankReqElements.length; rank++) {
             const req = LANG.getLanguageEntry(`modes.${selected}.rank_reqs.${rank}`, "(impossible)");
-            for(let i = 0; i < MODE_INFO_RANK_REQ_ELEMENTS[rank].length; i++) {
-                MODE_INFO_RANK_REQ_ELEMENTS[rank][i].textContent = req;
+            for(let i = 0; i < MODE_INFO_ELEMENTS.rankReqElements[rank].length; i++) {
+                MODE_INFO_ELEMENTS.rankReqElements[rank][i].textContent = req;
             }
         }
+    }
+    function updateExpandedModeInfo() {
+        LANG.getArticle(`modes.${selected}`, "Article unavailable")
+            .then(article => {
+                MODE_INFO_ELEMENTS.article.innerHTML = article;
+            })
+            .catch(err => {
+                const errMsg = `Error loading article 'modes.${selected}': `
+                console.error(errMsg, err);
+                alert(errMsg + "\n" + err);
+            });
+        
+        const vid = LANG.getLanguageEntry(`modes.${selected}.featured_video`, false);
+        const vidElement = MODE_INFO_ELEMENTS.featuredVideo,
+              vidText = MODE_INFO_ELEMENTS.featuredVideoText;
+
+        if(vid) {
+            vidElement.classList.remove("hide-important");
+            vidText.classList.remove("hide-important");
+            vidElement.src = vid;
+        } else {
+            vidElement.classList.add("hide-important");
+            vidText.classList.add("hide-important");
+        }
+
+        const cards = MODE_INFO_ELEMENTS.cards;
+
+        let diff = LANG.getLanguageEntry(`modes.${selected}.diff`, null) ??
+            LANG.getLanguageEntry(`map.not_available`);
+        
+        let length = LANG.getLanguageEntry(`modes.${selected}.length`, null) ??
+            LANG.getLanguageEntry(`map.not_available`);
+        
+        let version = LANG.getLanguageEntry(`modes.${selected}.version_info`, null) ??
+            LANG.getLanguageEntry(`map.latest_version`);
+        
+        cards.diffContent.textContent = diff;
+        cards.lengthContent.textContent = length;
+        cards.versionContent.textContent = version;
     }
 
     function unselectMode() {
@@ -445,6 +499,7 @@ import * as LANG from "./lang.js";
         classes.add("expand-full", "expand-full-anim");
         classes.remove("expand", "expand-anim", "collapse-anim", "collapse-full-anim");
         modeInfoExpansionState = "expanded";
+        updateExpandedModeInfo();
     }
     function modeInfoCollapseToNothing() {
         const classes = MODE_INFO_ELEMENT.classList;
@@ -497,7 +552,7 @@ import * as LANG from "./lang.js";
 
     // Mouse events
     window.addEventListener("mousedown", (event) => {
-        if(event.button === 0 && !MODE_INFO_RANK_REQS.contains(event.target) && modeInfoExpansionState !== "expanded") {
+        if(event.button === 0 && !MODE_INFO_ELEMENTS.rankReqs.contains(event.target) && modeInfoExpansionState !== "expanded") {
             isDragging = true;
             CROSSHAIR.style.display = "none";
         }
@@ -523,7 +578,7 @@ import * as LANG from "./lang.js";
         isDragging = false;
     });
     window.addEventListener("wheel", (event) => {
-        if(MODE_INFO_RANK_REQS.contains(event.target) || modeInfoExpansionState === "expanded") return;
+        if(MODE_INFO_ELEMENTS.rankReqs.contains(event.target) || modeInfoExpansionState === "expanded") return;
 
         event.preventDefault();
         
@@ -534,7 +589,7 @@ import * as LANG from "./lang.js";
     // Touch events
     let prevTouches = [];
     window.addEventListener("touchstart", (event) => {
-        if(event.touches.length === 1 && !MODE_INFO_RANK_REQS.contains(event.target) && modeInfoExpansionState !== "expanded") {
+        if(event.touches.length === 1 && !MODE_INFO_ELEMENTS.rankReqs.contains(event.target) && modeInfoExpansionState !== "expanded") {
             isDragging = true;
             CROSSHAIR.style.display = "none";
         }
@@ -589,9 +644,9 @@ import * as LANG from "./lang.js";
     });
 
     // Button events
-    MODE_INFO_CLOSE_BUTTON?.addEventListener("click", unselectMode);
-    MODE_INFO_EXPAND_BUTTON?.addEventListener("click", modeInfoExpandFull);
-    MODE_INFO_COLLAPSE_BUTTON?.addEventListener("click", modeInfoCollapseToSmall);
+    MODE_INFO_ELEMENTS.closeButton?.addEventListener("click", unselectMode);
+    MODE_INFO_ELEMENTS.expandButton?.addEventListener("click", modeInfoExpandFull);
+    MODE_INFO_ELEMENTS.collapseButton?.addEventListener("click", modeInfoCollapseToSmall);
 
     // Timed events
     setInterval(updateDebugInfo, 1000);

@@ -33,7 +33,7 @@ body {
     --min-x: 0; --max-x: 0;
     --min-y: 0; --max-y: 0;
 }
-main {
+main#main {
     position: fixed;
     top: 0;
     left: 0;
@@ -195,20 +195,20 @@ main {
 /* #endregion */
 /* #region Mode info */
 @keyframes mode-info-slide {
-    0% { left: 100vw; }
-    100% { left: 70vw; }
+    0% { transform: translateX(0) }
+    100% { transform: translateX(-30vw) }
 }
 @keyframes mode-info-full-slide {
-    0% { left: 70vw; }
-    100% { left: -30vw; }
+    0% { transform: translateX(-30vw) }
+    100% { transform: translateX(-130vw) }
 }
 @keyframes mode-info-slide-reverse {
-    0% { left: 70vw; }
-    100% { left: 100vw; }
+    0% { transform: translateX(-30vw) }
+    100% { transform: translateX(0) }
 }
 @keyframes mode-info-full-slide-reverse {
-    0% { left: -30vw; }
-    100% { left: 70vw; }
+    0% { transform: translateX(-130vw) }
+    100% { transform: translateX(-30vw) }
 }
 #mode-info {
     position: fixed;
@@ -219,16 +219,17 @@ main {
     color: white;
     z-index: 5;
     font-size: calc(var(--scale-factor) * 0.426em);
+    will-change: transform;
 }
 #mode-info.expand {
-    left: 70vw;
+    transform: translateX(-30vw);
 }
 
 #mode-info.expand-anim {
     animation: mode-info-slide 250ms;
 }
 #mode-info.expand-full {
-    left: -30vw;
+    transform: translateX(-130vw);
 }
 #mode-info.expand-full-anim {
     animation: mode-info-full-slide 650ms;
@@ -266,6 +267,7 @@ main {
 
 #mode-info *:not(button) {
     pointer-events: none;
+    -webkit-user-select: none;
     user-select: none;
 }
 #mode-info * {
@@ -291,13 +293,13 @@ main {
     border-radius: 0.5em;
     padding: 0.5em;
     gap: 0.5em;
-    overflow: scroll;
     list-style-type: none;
     pointer-events: auto !important;
 }
 #mode-info .align-bottom .rank-reqs {
     position: absolute;
     inset: 2em 1em 15vh 1em;
+    overflow: auto;
 }
 #mode-info .rank-reqs li:not(:last-child) {
     padding-bottom: 0.5em;
@@ -350,12 +352,20 @@ main {
     box-shadow: 0 0 0.5em 0.25em #FFFFFF22;
 }
 
+#mode-info .full {
+    display: flex;
+    flex-direction: column;
+}
+#mode-info .full * {
+    user-select: text;
+    pointer-events: auto;
+}
 #mode-info .full .top {
     display: flex;
     flex-direction: row;
     gap: 2em;
     padding-bottom: 1em;
-    border-bottom: 1px solid #CCCCCC88;
+    border-bottom: 2px solid #CCCCCC88;
 }
 #mode-info .full #collapse-mode-info {
     position: absolute;
@@ -365,6 +375,88 @@ main {
 #mode-info .full .name {
     font-size: 2em;
     margin: auto;
+}
+#mode-info .full .bottom {
+    display: flex;
+}
+#mode-info .full .bottom main {
+    display: flex;
+    flex-direction: column;
+    margin: 1em;
+}
+#mode-info .full .bottom main #mode-info-cards {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    justify-content: space-evenly;
+    padding: 0 0 1em 0;
+}
+#mode-info .full .bottom main .mode-info-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0.8em 1.5em;
+    background-color: #CCCCCC44;
+    border: 1px solid #CCCCCC88;
+    border-radius: 1em;
+    align-items: center;
+}
+#mode-info .full .bottom main article {
+    text-align: start;
+    border-top: 1px dotted #FFFFFF44;
+    padding-top: 1em;
+}
+article h1, article h2, article h3, article h4, article h5, article h6 {
+    text-align: start !important;
+    margin: 1em 0 !important;
+}
+article table {
+    width: 100%;
+    border-collapse: collapse;
+}
+article th {
+    text-align: start;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+article table, article th, article td {
+    border: 1px solid white;
+}
+article th, article td {
+    padding: 0.5em 1em;
+}
+#mode-info .full .bottom aside iframe {
+    width: 100%;
+    height: 15em;
+    margin: 1em 0;
+    padding-bottom: 1em;
+    border-bottom: 1px dotted #FFFFFF44;
+}
+#mode-info .full .bottom aside .rank-reqs {
+    margin-top: 1em;
+}
+@media (min-aspect-ratio: 4/3) {
+    #mode-info .full .bottom {
+        flex-direction: row;
+        height: 100%;
+    }
+    #mode-info .full .bottom main {
+        width: 57.5%;
+        padding-inline-end: 2.5%;
+        border-inline-end: 2px solid #CCCCCC88;
+        margin-inline-end: 2.5%;
+        overflow-y: auto;
+    }
+    #mode-info .full .bottom aside {
+        width: 37.5%;
+        padding: 1em 0;
+        overflow-y: auto;
+    }
+}
+@media (max-aspect-ratio: 4/3) {
+    #mode-info .full .bottom {
+        flex-direction: column-reverse;
+        overflow-y: auto;
+    }
 }
 /* #endregion */
 /* #region Rank colors */
