@@ -411,6 +411,11 @@ import * as LANG from "./lang.js";
     }
 
     function selectMode(modeName) {
+        if(selected === modeName) {
+            modeInfoExpandFull();
+            return;
+        }
+        
         if(selected) {
             document.getElementById(MODE_ID_PREFIX + selected)?.classList.remove("selected");
         }
@@ -418,7 +423,6 @@ import * as LANG from "./lang.js";
         document.getElementById(MODE_ID_PREFIX + modeName)?.classList.add("selected");
 
         modeInfoExpand();
-        updateModeInfo();
     }
 
     function updateModeInfo() {
@@ -507,6 +511,7 @@ import * as LANG from "./lang.js";
         classes.add("expand");
         classes.remove("expand-full", "expand-full-anim", "collapse-anim", "collapse-full-anim");
         modeInfoExpansionState = "open";
+        updateModeInfo();
     }
     function modeInfoExpandFull() {
         const classes = MODE_INFO_ELEMENT.classList;
