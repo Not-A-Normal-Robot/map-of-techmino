@@ -38,13 +38,14 @@ import * as LANG from "./lang.js";
         article:            document.getElementById("mode-article"),
         featuredVideo:      document.getElementById("featured-video"),
         featuredVideoText:  document.getElementById("featured-video-text"),
-        cards: {
-            diff:           document.getElementById("difficulty-card"),
-            diffContent:    document.getElementById("difficulty-card-content"),
-            length:         document.getElementById("length-card"),
-            lengthContent:  document.getElementById("length-card-content"),
-            version:        document.getElementById("version-card"),
-            versionContent: document.getElementById("version-card-content")
+        entries: {
+            difficulty:     document.getElementById("difficulty-entry"),
+            diffContent:    document.getElementById("difficulty-entry-content"),
+            length:         document.getElementById("length-entry"),
+            lengthContent:  document.getElementById("length-entry-content"),
+            version:        document.getElementById("version-entry"),
+            versionContent: document.getElementById("version-entry-content"),
+            sourceLink:     document.getElementById("src-entry")
         }
     }
     
@@ -461,20 +462,33 @@ import * as LANG from "./lang.js";
             vidText.classList.add("hide-important");
         }
 
-        const cards = MODE_INFO_ELEMENTS.cards;
+        const entries = MODE_INFO_ELEMENTS.entries;
 
-        let diff = LANG.getLanguageEntry(`modes.${selected}.diff`, null) ??
+        let difficulty = LANG.getLanguageEntry(`modes.${selected}.difficulty`, null) ??
             LANG.getLanguageEntry(`map.not_available`);
         
         let length = LANG.getLanguageEntry(`modes.${selected}.length`, null) ??
             LANG.getLanguageEntry(`map.not_available`);
         
-        let version = LANG.getLanguageEntry(`modes.${selected}.version_info`, null) ??
-            LANG.getLanguageEntry(`map.latest_version`);
+        let version = LANG.getLanguageEntry(`modes.${selected}.version_info`, null);
         
-        cards.diffContent.textContent = diff;
-        cards.lengthContent.textContent = length;
-        cards.versionContent.textContent = version;
+        entries.diffContent.textContent = difficulty;
+        entries.lengthContent.textContent = length;
+        if(version) {
+            entries.versionContent.textContent = version;
+            entries.version.classList.remove("hide-important");
+        } else {
+            entries.version.classList.add("hide-important");
+        }
+
+        let src = map.modes[selected].source ?? null;
+
+        if(src) {
+            entries.sourceLink.href = src;
+            entries.sourceLink.classList.remove("hide-important");
+        } else {
+            entries.sourceLink.classList.add("hide-important");
+        }
     }
 
     function unselectMode() {
