@@ -159,7 +159,7 @@ import * as LANG from "./lang.js";
                 CROSSHAIR.style.display = "block";
                 moveMap(dx, dy);
                 const modeAtCenter = getModeAtScreenCenter();
-                if(modeAtCenter && selected !== modeAtCenter) {
+                if(modeAtCenter && selected !== modeAtCenter.name) {
                     selectMode(modeAtCenter.name);
                 }
             }
