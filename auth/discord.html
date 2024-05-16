@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Techmino Hub - logging in...</title>
+</head>
+<body style="background:#000;color:#FFF">
+    <h1 id="txt">
+        <noscript>You cannot login with JavaScript disabled.</noscript>
+        Loading...
+    </h1>
+    <script type="module">
+        import { SUPABASE } from '/js/db.js';
+
+        document.getElementById("txt").textContent = "Logging in...";
+
+        const session = SUPABASE.auth.getSession();
+
+        if(session) {
+            document.getElementById("txt").textContent = "You are now logged in! Redirecting...";
+        } else {
+            document.getElementById("txt").textContent = "Login failed. Redirecting...";
+        }
+            window.location.href = "/index.html";
+    </script>
+</body>
+</html>
