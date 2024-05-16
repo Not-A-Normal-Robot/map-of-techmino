@@ -15,6 +15,7 @@
         document.getElementById("txt").textContent = "Logging in...";
 
         const session = SUPABASE.auth.getSession();
+        console.log(session); debugger;
 
         if(session) {
             document.getElementById("txt").textContent = "You are now logged in! Redirecting...";
