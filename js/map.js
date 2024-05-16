@@ -159,7 +159,7 @@ import * as LANG from "./lang.js";
                 CROSSHAIR.style.display = "block";
                 moveMap(dx, dy);
                 const modeAtCenter = getModeAtScreenCenter();
-                if(modeAtCenter) {
+                if(modeAtCenter && selected !== modeAtCenter) {
                     selectMode(modeAtCenter.name);
                 }
             }
@@ -415,7 +415,7 @@ import * as LANG from "./lang.js";
             modeInfoExpandFull();
             return;
         }
-        
+
         if(selected) {
             document.getElementById(MODE_ID_PREFIX + selected)?.classList.remove("selected");
         }
