@@ -15,7 +15,9 @@ export default {
                 "25 sec",
                 "10 sec",
                 "7 sec"
-            ]
+            ],
+            difficulty: "Very Easy",
+            length: "Very short (<1 min)"
         },
         sprint_20l: {
             title: "Sprint",
@@ -28,7 +30,9 @@ export default {
                 "32.6 sec",
                 "18 sec",
                 "13 sec"
-            ]
+            ],
+            difficulty: "Very Easy",
+            length: "Short (1 min)"
         },
         sprint_40l: {
             title: "Sprint",
@@ -41,7 +45,9 @@ export default {
                 "52.6 sec",
                 "36 sec",
                 "26 sec"
-            ]
+            ],
+            difficulty: "Very Easy",
+            length: "Short (2 min)"
         },
         sprint_100l: {
             title: "Sprint",
@@ -54,7 +60,9 @@ export default {
                 "2′06″",
                 "1′30″",
                 "1′10″"
-            ]
+            ],
+            difficulty: "Easy",
+            length: "Medium (4 min)"
         },
         sprint_400l: {
             title: "Sprint",
@@ -67,7 +75,9 @@ export default {
                 "8′20″",
                 "6′20″",
                 "6′00″"
-            ]
+            ],
+            difficulty: "Easy",
+            length: "Long (12 min)"
         },
         sprint_1000l: {
             title: "Sprint",
@@ -80,7 +90,9 @@ export default {
                 "21′00″",
                 "15′00″",
                 "12′30″",
-            ]
+            ],
+            difficulty: "Easy",
+            length: "Very long (30 min)"
         },
         sprintPenta: {
             title: "Sprint",
@@ -93,7 +105,9 @@ export default {
                 "2′30″",
                 "1′30″",
                 "1′16″",
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (6 min)"
         },
         sprintMPH: {
             title: "Sprint",
@@ -106,7 +120,9 @@ export default {
                 "1′30″",
                 "1′10″",
                 "1′00″",
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Short (2 min)"
         },
         sprint123: {
             title: "Sprint",
@@ -119,7 +135,9 @@ export default {
                 "1′44″",
                 "1′02″",
                 "42 sec",
-            ]
+            ],
+            difficulty: "Trivial",
+            length: "Short (2 min)"
         },
         construct_sg: {
             title: "Construct",
@@ -133,6 +151,8 @@ export default {
                 "21 lines (GM+)",
                 "23 lines (TM+)"
             ],
+            difficulty: "Tricky",
+            length: "Medium (~6 min)",
             featured_video: "https://www.youtube.com/embed/i31ku9TaV9w"
         },
         construct_checker: {
@@ -146,7 +166,9 @@ export default {
                 "4 lines (Grade 6)",
                 "6 lines (Grade 4)",
                 "8 lines (Grade 2)"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Long (~15 min)"
         },
         construct_invsg: {
             title: "Construct",
@@ -160,6 +182,8 @@ export default {
                 "7 lines (Grade 3)",
                 "10 lines (Grade S1)"
             ],
+            difficulty: "Very Tricky",
+            length: "Very Long (~30 min)",
             featured_video: "https://www.youtube.com/embed/G4cRDeAYdUk"
         },
         dig_10l: {
@@ -173,7 +197,9 @@ export default {
                 "20 sec",
                 "12 sec",
                 "7 sec",
-            ]
+            ],
+            difficulty: "Very Easy",
+            length: "Very short (<1 min)"
         },
         dig_40l: {
             title: "Dig",
@@ -186,7 +212,9 @@ export default {
                 "1′30″",
                 "1′10″",
                 "50 sec",
-            ]
+            ],
+            difficulty: "Easy",
+            length: "Short (2 min)"
         },
         dig_100l: {
             title: "Dig",
@@ -199,7 +227,9 @@ export default {
                 "4′00″",
                 "2′40″",
                 "2′00″",
-            ]
+            ],
+            difficulty: "Easy",
+            length: "Medium (5 min)"
         },
         dig_400l: {
             title: "Dig",
@@ -212,7 +242,9 @@ export default {
                 "16′00″",
                 "12′00″",
                 "9′00″",
-            ]
+            ],
+            difficulty: "Easy",
+            length: "Long (20 min)"
         },
         dig_eff_10l: {
             title: "Dig",
@@ -225,7 +257,9 @@ export default {
                 "25 pieces",
                 "20 pieces",
                 "14 pieces"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (2 min)"
         },
         dig_eff_40l: {
             title: "Dig",
@@ -238,7 +272,9 @@ export default {
                 "130 pieces",
                 "115 pieces",
                 "95 pieces"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Medium (10 min)"
         },
         dig_eff_100l: {
             title: "Dig",
@@ -251,7 +287,9 @@ export default {
                 "370 pieces",
                 "300 pieces",
                 "250 pieces"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Long (20 min)"
         },
         dig_eff_400l: {
             title: "Dig",
@@ -264,7 +302,9 @@ export default {
                 "1440 pieces",
                 "1280 pieces",
                 "1120 pieces"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Very Long (40 min)"
         },
         dig_quad_10l: {
             title: "Dig",
@@ -277,7 +317,9 @@ export default {
                 "5 lines",
                 "7 lines",
                 "10 lines"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Long (15 min)"
         },
         drought_n: {
             title: "Drought",
@@ -290,7 +332,9 @@ export default {
                 "100 lines in 2′30″",
                 "100 lines in 1′40″",
                 "100 lines in 1′20″"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (5 min)"
         },
         drought_l: {
             title: "Drought+",
@@ -303,7 +347,9 @@ export default {
                 "100 lines in 2′40″",
                 "100 lines in 2′06″",
                 "100 lines in 1′50″"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Medium (6 min)"
         },
         marathon_n: {
             title: "Marathon",
@@ -316,7 +362,9 @@ export default {
                 "200 lines",
                 "200 lines in 6′00″",
                 "200 lines in 4′00″"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (10 min)"
         },
         marathon_h: {
             title: "Marathon",
@@ -329,7 +377,9 @@ export default {
                 "200 lines",
                 "200 lines in 6′00″",
                 "200 lines in 4′00″"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Medium (10 min)"
         },
         solo_e: {
             title: "Battle",
@@ -342,7 +392,9 @@ export default {
                 "Win in 2′00″",
                 "Win in 1′20″",
                 "Win in 50 sec"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Short (4 min)"
         },
         solo_n: {
             title: "Battle",
@@ -355,7 +407,9 @@ export default {
                 "Win in 2′00″",
                 "Win in 1′20″",
                 "Win in 50 sec"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (5 min)"
         },
         solo_h: {
             title: "Battle",
@@ -368,7 +422,9 @@ export default {
                 "Win in 2′00″",
                 "Win in 1′20″",
                 "Win in 50 sec"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Medium (6 min)"
         },
         solo_l: {
             title: "Battle",
@@ -381,7 +437,9 @@ export default {
                 "Win the battle",
                 "Win with 1 life remaining",
                 "Win without losing any lives"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (10 min)"
         },
         solo_u: {
             title: "Battle",
@@ -394,7 +452,9 @@ export default {
                 "Win the battle",
                 "Win with 1 life remaining",
                 "Win without losing any lives"
-            ]
+            ],
+            difficulty: "Extreme",
+            length: "Long (15 min)"
         },
         techmino49_e: {
             title: "Tech VS 49",
@@ -407,7 +467,9 @@ export default {
                 "Get 5th place",
                 "Get 3rd place",
                 "Get 1st place"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Long (15 min)"
         },
         techmino49_h: {
             title: "Tech VS 49",
@@ -420,7 +482,9 @@ export default {
                 "Get 4th place",
                 "Get 2nd place",
                 "Get 1st place"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Long (15 min)"
         },
         techmino49_u: {
             title: "Tech VS 49",
@@ -433,7 +497,9 @@ export default {
                 "Get 3rd place",
                 "Get 2nd place",
                 "Get 1st place"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Long (15 min)"
         },
         techmino99_e: {
             title: "Tech VS 99",
@@ -446,7 +512,9 @@ export default {
                 "Get 6th place",
                 "Get 3rd place",
                 "Get 1st place"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Long (20 min)"
         },
         techmino99_h: {
             title: "Tech VS 99",
@@ -459,7 +527,9 @@ export default {
                 "Get 6th place",
                 "Get 3rd place",
                 "Get 1st place"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Long (20 min)"
         },
         techmino99_u: {
             title: "Tech VS 99",
@@ -472,7 +542,9 @@ export default {
                 "Get 3rd place",
                 "Get 2nd place",
                 "Get 1st place"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Long (20 min)"
         },
         round_e: {
             title: "Turn-Based",
@@ -485,7 +557,9 @@ export default {
                 "Win in 126 pieces",
                 "Win in 91 pieces",
                 "Win in 70 pieces",
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (5 min)"
         },
         round_n: {
             title: "Turn-Based",
@@ -498,7 +572,9 @@ export default {
                 "Win in 126 pieces",
                 "Win in 91 pieces",
                 "Win in 70 pieces",
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (5 min)"
         },
         round_h: {
             title: "Turn-Based",
@@ -511,7 +587,9 @@ export default {
                 "Win in 126 pieces",
                 "Win in 91 pieces",
                 "Win in 70 pieces",
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Medium (5 min)"
         },
         round_l: {
             title: "Turn-Based",
@@ -524,7 +602,9 @@ export default {
                 "Win in 126 pieces",
                 "Win in 91 pieces",
                 "Win in 70 pieces",
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Medium (5 min)"
         },
         round_u: {
             title: "Turn-Based",
@@ -537,7 +617,9 @@ export default {
                 "Win in 126 pieces",
                 "Win in 91 pieces",
                 "Win in 70 pieces",
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Medium (5 min)"
         },
         big_n: {
             title: "Big",
@@ -550,7 +632,9 @@ export default {
                 "200 lines",
                 "200 lines in 3′00″",
                 "200 lines in 2′00″"
-            ]
+            ],
+            difficulty: "Easy",
+            length: "Medium (5 min)"
         },
         big_h: {
             title: "Big",
@@ -563,7 +647,9 @@ export default {
                 "200 lines",
                 "200 lines in 3′00″",
                 "200 lines in 2′00″"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (5 min)"
         },
         master_n: {
             title: "Master",
@@ -576,7 +662,9 @@ export default {
                 "Level 500",
                 "Level 800",
                 "Level 1000"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (8 min)"
         },
         master_h: {
             title: "Master",
@@ -589,7 +677,9 @@ export default {
                 "Level 500",
                 "Level 800",
                 "Level 1000"
-            ]
+            ],
+            difficulty: "Extreme",
+            length: "Medium (6 min)"
         },
         master_m: {
             title: "Master",
@@ -602,7 +692,9 @@ export default {
                 "100 lines",
                 "140 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Extreme",
+            length: "Short (4 min)"
         },
         master_final: {
             title: "Master",
@@ -615,7 +707,10 @@ export default {
                 "Level 600",
                 "Level 800",
                 "Level 1000"
-            ]
+            ],
+            difficulty: "Insane",
+            length: "Medium (5 min)",
+            featured_video: "https://www.youtube.com/embed/xdhs0WA4A4k"
         },
         master_ph: {
             title: "Master",
@@ -628,7 +723,10 @@ export default {
                 "162 pts. (Clear stage 6)",
                 "226 pts. (Clear stage 7)",
                 "260 pts. (Clear stage 9)"
-            ]
+            ],
+            difficulty: "Insane",
+            length: "Medium (7 min)",
+            featured_video: "https://www.youtube.com/embed/9pLw_LqAErg"
         },
         master_g: {
             title: "Master",
@@ -641,7 +739,9 @@ export default {
                 "m8",
                 "MM-",
                 "TM+"
-            ]
+            ],
+            difficulty: "Variable (Hard ~ Insane)",
+            length: "Medium (8 min)"
         },
         master_ex: {
             title: "GrandMaster",
@@ -654,7 +754,9 @@ export default {
                 "8.0 (High S+ grade)",
                 "11.0 (Low U grade)",
                 "14.0 (X+ grade)"
-            ]
+            ],
+            difficulty: "Insane",
+            length: "Constant, Short (60 sec)"
         },
         master_instinct: {
             title: "Master",
@@ -667,7 +769,9 @@ export default {
                 "Level 500",
                 "Level 800",
                 "Level 1000"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (10 min)"
         },
         strategy_e: {
             title: "Strategy",
@@ -680,7 +784,9 @@ export default {
                 "150 lines",
                 "170 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (10 min)"
         },
         strategy_h: {
             title: "Strategy",
@@ -693,7 +799,9 @@ export default {
                 "120 lines",
                 "160 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (5 min)"
         },
         strategy_u: {
             title: "Strategy",
@@ -706,7 +814,9 @@ export default {
                 "80 lines",
                 "150 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Extreme",
+            length: "Short (4 min)"
         },
         strategy_e_plus: {
             title: "Strategy",
@@ -719,7 +829,9 @@ export default {
                 "150 lines",
                 "170 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (9 min)"
         },
         strategy_h_plus: {
             title: "Strategy",
@@ -732,7 +844,9 @@ export default {
                 "120 lines",
                 "160 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (5 min)"
         },
         strategy_u_plus: {
             title: "Strategy",
@@ -745,7 +859,9 @@ export default {
                 "80 lines",
                 "150 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Short (4 min)"
         },
         blind_e: {
             title: "Invisible",
@@ -758,7 +874,9 @@ export default {
                 "150 lines",
                 "200 lines in 3′20″",
                 "200 lines in 2′20″"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (6 min)"
         },
         blind_n: {
             title: "Invisible",
@@ -771,7 +889,9 @@ export default {
                 "126 lines",
                 "200 lines in 3′40″",
                 "200 lines in 3′00″"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Medium (6 min)"
         },
         blind_h: {
             title: "Invisible",
@@ -784,7 +904,9 @@ export default {
                 "150 lines",
                 "200 lines in 4′00″",
                 "200 lines in 3′00″"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Medium (6 min)"
         },
         blind_l: {
             title: "Invisible",
@@ -797,7 +919,9 @@ export default {
                 "150 lines",
                 "200 lines in 4′10″",
                 "200 lines in 3′20″"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Medium (7 min)"
         },
         blind_u: {
             title: "Invisible",
@@ -810,7 +934,9 @@ export default {
                 "50 lines",
                 "75 lines",
                 "100 lines"
-            ]
+            ],
+            difficulty: "Extremely Tricky",
+            length: "Medium (10 min)"
         },
         blind_wtf: {
             title: "Invisible",
@@ -823,7 +949,9 @@ export default {
                 "20 lines",
                 "30 lines",
                 "40 lines"
-            ]
+            ],
+            difficulty: "Insanely Tricky",
+            length: "Medium (10 min)"
         },
         classic_e: {
             title: "Classic",
@@ -836,7 +964,9 @@ export default {
                 "100 lines",
                 "140 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Long (15 min)"
         },
         classic_n: {
             title: "Classic",
@@ -850,7 +980,9 @@ export default {
                 "50 lines",
                 "80 lines",
                 "110 lines"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Medium (10 min)"
         },
         classic_h: {
             title: "Classic",
@@ -863,7 +995,9 @@ export default {
                 "100 lines",
                 "140 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Long (12 min)"
         },
         classic_l: {
             title: "Classic",
@@ -876,7 +1010,9 @@ export default {
                 "100 lines",
                 "140 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Extreme",
+            length: "Medium (10 min)"
         },
         classic_u: {
             title: "Classic",
@@ -888,7 +1024,9 @@ export default {
                 "6 lines",
                 "10 lines",
                 "15 lines"
-            ]
+            ],
+            difficulty: "Insane",
+            length: "Short (2 min)"
         },
         survivor_e: {
             title: "Survival",
@@ -901,7 +1039,9 @@ export default {
                 "45 waves",
                 "60 waves",
                 "100 waves"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (10 min)"
         },
         survivor_n: {
             title: "Survival",
@@ -914,7 +1054,9 @@ export default {
                 "45 waves",
                 "55 waves",
                 "80 waves"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (8 min)"
         },
         survivor_h: {
             title: "Survival",
@@ -927,7 +1069,9 @@ export default {
                 "45 waves",
                 "60 waves",
                 "90 waves"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Medium (7 min)"
         },
         survivor_l: {
             title: "Survival",
@@ -940,7 +1084,9 @@ export default {
                 "55 waves",
                 "80 waves",
                 "110 waves"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (8 min)"
         },
         survivor_u: {
             title: "Survival",
@@ -953,7 +1099,9 @@ export default {
                 "20 waves",
                 "26 waves",
                 "35 waves"
-            ]
+            ],
+            difficulty: "Extreme",
+            length: "Medium (6 min)"
         },
         attacker_h: {
             title: "Attacker",
@@ -966,7 +1114,9 @@ export default {
                 "30 waves",
                 "40 waves",
                 "50 waves"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Medium (8 min)"
         },
         attacker_u: {
             title: "Attacker",
@@ -979,7 +1129,9 @@ export default {
                 "30 waves",
                 "40 waves",
                 "50 waves"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (8 min)"
         },
         defender_n: {
             title: "Defender",
@@ -992,7 +1144,9 @@ export default {
                 "70 waves",
                 "100 waves",
                 "120 waves"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Medium (10 min)"
         },
         defender_l: {
             title: "Defender",
@@ -1005,7 +1159,9 @@ export default {
                 "55 waves",
                 "80 waves",
                 "100 waves"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (10 min)"
         },
         dig_h: {
             title: "Driller",
@@ -1018,7 +1174,9 @@ export default {
                 "80 waves",
                 "110 waves",
                 "150 waves"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Short (4 min)"
         },
         dig_u: {
             title: "Driller",
@@ -1031,7 +1189,9 @@ export default {
                 "80 waves",
                 "110 waves",
                 "150 waves"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Short (3 min)"
         },
         c4wtrain_n: {
             title: "C4W Training",
@@ -1044,7 +1204,9 @@ export default {
                 "100 lines in 1′20″",
                 "100 lines in 50 sec",
                 "100 lines in 32 sec"
-            ]
+            ],
+            difficulty: "Easy",
+            length: "Short (2 min)"
         },
         c4wtrain_l: {
             title: "C4W Training",
@@ -1057,7 +1219,9 @@ export default {
                 "70 lines",
                 "100 lines in 1′00″",
                 "100 lines in 40 sec"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Short (2 min)"
         },
         pctrain_n: {
             title: "PC Training",
@@ -1070,7 +1234,9 @@ export default {
                 "26 PCs",
                 "42 PCs",
                 "60 PCs"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Long (12 min)"
         },
         pctrain_l: {
             title: "PC Training",
@@ -1084,6 +1250,8 @@ export default {
                 "42 PCs",
                 "50 PCs"
             ],
+            difficulty: "Very Tricky",
+            length: "Medium (10 min)",
             featured_video: "https://www.youtube.com/embed/XoNR8v6GL10"
         },
         pc_n: {
@@ -1097,7 +1265,9 @@ export default {
                 "16 PCs",
                 "20 PCs",
                 "24 PCs"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Medium (10 min)"
         },
         pc_h: {
             title: "PC Challenge",
@@ -1110,7 +1280,9 @@ export default {
                 "16 PCs",
                 "20 PCs",
                 "24 PCs"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Medium (10 min)"
         },
         pc_l: {
             title: "PC Challenge",
@@ -1123,7 +1295,9 @@ export default {
                 "16 PCs",
                 "20 PCs",
                 "24 PCs"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Medium (10 min)"
         },
         pc_inf: {
             title: "PC Challenge",
@@ -1136,7 +1310,9 @@ export default {
                 "30 PCs",
                 "40 PCs",
                 "50 PCs"
-            ]
+            ],
+            difficulty: "Extremely Tricky",
+            length: "Unbounded, usually long (~15 min)"
         },
         tech_n: {
             title: "Tech B2B",
@@ -1149,7 +1325,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (3 min)"
         },
         tech_n_plus: {
             title: "Tech B2B",
@@ -1162,7 +1340,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Short (3 min)"
         },
         tech_h: {
             title: "Tech B2B",
@@ -1175,7 +1355,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (3 min)"
         },
         tech_h_plus: {
             title: "Tech B2B",
@@ -1188,7 +1370,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Short (3 min)"
         },
         tech_l: {
             title: "Tech B2B",
@@ -1201,7 +1385,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (3 min)"
         },
         tech_l_plus: {
             title: "Tech B2B",
@@ -1214,7 +1400,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Short (3 min)"
         },
         tech_finesse: {
             title: "Tech Finesse",
@@ -1227,7 +1415,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (3 min)"
         },
         tech_finesse_f: {
             title: "Tech Finesse",
@@ -1240,7 +1430,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Short (3 min)"
         },
         tsd_e: {
             title: "TSD Challenge",
@@ -1254,6 +1446,8 @@ export default {
                 "18 TSDs",
                 "20 TSDs"
             ],
+            difficulty: "Tricky",
+            length: "Medium (5 min)",
             featured_video: "https://www.youtube.com/embed/Dxh9WglgIiw"
         },
         tsd_h: {
@@ -1267,7 +1461,9 @@ export default {
                 "15 TSDs",
                 "18 TSDs",
                 "20 TSDs"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Medium (5 min)"
         },
         tsd_u: {
             title: "TSD Challenge",
@@ -1281,6 +1477,8 @@ export default {
                 "18 TSDs",
                 "20 TSDs"
             ],
+            difficulty: "Extremely Tricky",
+            length: "Medium (5 min)",
             featured_video: "https://www.youtube.com/embed/BWlD4Kzk7B4"
         },
         backfire_n: {
@@ -1294,7 +1492,9 @@ export default {
                 "Send 100 lines in 1′30″",
                 "Send 100 lines in 1′00″",
                 "Send 100 lines in 45 sec"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Short (3 min)"
         },
         backfire_h: {
             title: "Backfire",
@@ -1307,7 +1507,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′05″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (3 min)"
         },
         backfire_l: {
             title: "Backfire",
@@ -1320,7 +1522,9 @@ export default {
                 "Send 100 lines in 1′50″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 55 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (3 min)"
         },
         backfire_u: {
             title: "Backfire",
@@ -1333,7 +1537,9 @@ export default {
                 "Send 100 lines in 2′00″",
                 "Send 100 lines in 1′20″",
                 "Send 100 lines in 1′00″"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Short (3 min)"
         },
         sprintAtk: {
             title: "Sprint",
@@ -1346,7 +1552,9 @@ export default {
                 "1′10″",
                 "50 sec",
                 "40 sec"
-            ]
+            ],
+            difficulty: "Easy",
+            length: "Short (3 min)"
         },
         sprintEff: {
             title: "Sprint",
@@ -1359,7 +1567,9 @@ export default {
                 "3 atk/line (~1.2 APP)",
                 "4 atk/line (~1.6 APP)",
                 "5 atk/line (~2.0 APP)"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Short (3 min)"
         },
         zen: {
             title: "Zen",
@@ -1372,7 +1582,9 @@ export default {
                 "60,000 score",
                 "100,000 score",
                 "126,000 score"
-            ]
+            ],
+            difficulty: "Easy to clear, very tricky to master",
+            length: "Medium (10 min)"
         },
         ultra: {
             title: "Ultra",
@@ -1386,17 +1598,23 @@ export default {
                 "50,000 score",
                 "62,000 score"
             ],
+            difficulty: "Easy to clear, very hard to master",
+            length: "Constant, Short (120 sec)",
             featured_video: "https://www.youtube.com/embed/6NHaGcdDqFo"
         },
         infinite: {
             title: "Infinite",
             subtitle: "",
-            description: "Just a sandbox"
+            description: "Just a sandbox",
+            difficulty: "N/A: No objectives",
+            length: "Unbounded"
         },
         infinite_dig: {
             title: "Infinite",
             subtitle: "DIG",
-            description: "Dig-diggin'-dug"
+            description: "Dig-diggin'-dug",
+            difficulty: "N/A: No objectives",
+            length: "Unbounded"
         },
         marathon_inf: {
             title: "Marathon",
@@ -1409,7 +1627,9 @@ export default {
                 "(impossible)",
                 "(impossible)",
                 "(impossible)",
-            ]
+            ],
+            difficulty: "Variable (Easy ~ Impossible)",
+            length: "Unbounded, usually very long (30 min)"
         },
         
         // Extra modes
@@ -1424,7 +1644,9 @@ export default {
                 "40 lines",
                 "40 lines in 7′00″",
                 "40 lines in 4′20″"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Medium (10 min)"
         },
         sprintLock: {
             title: "Sprint",
@@ -1437,7 +1659,9 @@ export default {
                 "24 lines",
                 "32 lines",
                 "40 lines"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Medium (10 min)"
         },
         sprintSmooth: {
             title: "Sprint",
@@ -1450,7 +1674,9 @@ export default {
                 "1′00″",
                 "45 sec",
                 "30 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (3 min)"
         },
         sprintSym: {
             title: "Sprint",
@@ -1463,7 +1689,9 @@ export default {
                 "2′00″",
                 "1′30″",
                 "1′00″"
-            ]
+            ],
+            difficulty: "Extremely Tricky",
+            length: "Medium (10 min)"
         },
         sprintMD: {
             title: "Sprint",
@@ -1476,7 +1704,9 @@ export default {
                 "1′40″",
                 "1′00″",
                 "42 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (5 min)"
         },
         marathon_bfmax: {
             title: "Marathon",
@@ -1489,7 +1719,9 @@ export default {
                 "200 lines",
                 "200 lines in 10′00″",
                 "200 lines in 6′40″"
-            ]
+            ],
+            difficulty: "Extremely Tricky",
+            length: "Long (15 min)"
         },
         clear_rush: {
             title: "Clear Rush",
@@ -1503,7 +1735,9 @@ export default {
                 "(impossible)",
                 "(impossible)",
                 "(impossible)"
-            ]
+            ],
+            difficulty: "Extremely Trivial",
+            length: "Near-instant (1 sec)"
         },
         rhythm_e: {
             title: "Rhythm",
@@ -1517,7 +1751,9 @@ export default {
                 "140 lines",
                 "170 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Medium (8 min)"
         },
         rhythm_h: {
             title: "Rhythm",
@@ -1531,7 +1767,9 @@ export default {
                 "140 lines",
                 "170 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (6 min)"
         },
         rhythm_u: {
             title: "Rhythm",
@@ -1545,7 +1783,9 @@ export default {
                 "140 lines",
                 "170 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Extreme",
+            length: "Short (5 min)"
         },
         techrash_n: {
             title: "Techrash",
@@ -1554,11 +1794,13 @@ export default {
             rank_reqs: [
                 "5 Techrashes",
                 "15 Techrashes",
-                "Exactly 30 Techrashes (bug?)",
+                "Exactly 30 Techrashes",
                 "50 Techrashes",
                 "75 Techrashes",
                 "100 Techrashes"
-            ]
+            ],
+            difficulty: "Hard",
+            length: "Very Long (30 min)"
         },
         techrash_u: {
             title: "Techrash",
@@ -1571,7 +1813,9 @@ export default {
                 "12 Techrashes",
                 "16 Techrashes",
                 "20 Techrashes"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (10 min)"
         },
 
         // Outdated modes
@@ -1609,7 +1853,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (3 min)"
         },
         tech_finesse_lock_plus: { // removed due to unportability
             title: "Tech Finesse",
@@ -1623,7 +1869,9 @@ export default {
                 "Send 100 lines in 1′40″",
                 "Send 100 lines in 1′10″",
                 "Send 100 lines in 50 sec"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Short (3 min)"
         },
         stack_v1_20l: {
             title: "Stack (v1)",
@@ -1637,7 +1885,9 @@ export default {
                 "49 pieces",
                 "52 pieces",
                 "55 pieces",
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Short (1 min)"
         },
         stack_v1_40l: {
             title: "Stack (v1)",
@@ -1651,7 +1901,9 @@ export default {
                 "83 pieces",
                 "87 pieces",
                 "90 pieces",
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Short (2 min)"
         },
         stack_v1_100l: {
             title: "Stack (v1)",
@@ -1665,7 +1917,9 @@ export default {
                 "200 pieces",
                 "208 pieces",
                 "215 pieces"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Short (5 min)"
         },
         stack_v2_e: {
             title: "Stack (v2)",
@@ -1679,7 +1933,9 @@ export default {
                 "2 holes or less",
                 "1 hole or less",
                 "No holes"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Short (1 min)"
         },
         stack_v2_h: {
             title: "Stack (v2)",
@@ -1693,7 +1949,9 @@ export default {
                 "4 holes or less",
                 "2 holes or less",
                 "No holes"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (2 min)"
         },
         stack_v2_u: {
             title: "Stack (v2)",
@@ -1707,7 +1965,9 @@ export default {
                 "10 holes or less",
                 "5 holes or less",
                 "2 holes or less"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Short (4 min)"
         },
         stack_v3_e: {
             title: "Stack (v3)",
@@ -1721,7 +1981,9 @@ export default {
                 "150 lines",
                 "175 lines",
                 "200 lines"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Medium (8 min)"
         },
         stack_v3_h: {
             title: "Stack (v3)",
@@ -1735,7 +1997,9 @@ export default {
                 "60 lines",
                 "70 lines",
                 "80 lines"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (5 min)"
         },
         stack_v3_u: {
             title: "Stack (v3)",
@@ -1749,32 +2013,42 @@ export default {
                 "45 lines",
                 "50 lines",
                 "60 lines"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Short (5 min)"
         },
         stack_v4_e: {
             title: "Stack (v4)",
             subtitle: "EASY",
             description: "Pack them!",
             version_info: "v0.16.5 - v0.17.4",
-            featured_video: "https://www.youtube.com/embed/gheifZQt6tk"
+            featured_video: "https://www.youtube.com/embed/gheifZQt6tk",
+            difficulty: "Medium",
+            length: "Unbounded, usually medium (~10 min)"
         },
         stack_v4_u: {
             title: "Stack (v4)",
             subtitle: "ULTIMATE",
             description: "Pack them!",
-            version_info: "v0.16.5 - v0.17.4"
+            version_info: "v0.16.5 - v0.17.4",
+            difficulty: "Very Tricky",
+            length: "Unbounded, usually short (~5 min)"
         },
         stack_e: {
             title: "Stack (v5)",
             subtitle: "EASY",
             description: "Pack them!",
-            version_info: "v0.17.5+"
+            version_info: "v0.17.5+",
+            difficulty: "Medium",
+            length: "Unbounded, usually medium (~10 min)"
         },
         stack_u: {
             title: "Stack (v5)",
             subtitle: "ULTIMATE",
             description: "Pack them!",
-            version_info: "v0.17.5+"
+            version_info: "v0.17.5+",
+            difficulty: "Very Tricky",
+            length: "Unbounded, usually short (~5 min)"
         },
 
         // Techmino UE modes
@@ -1791,7 +2065,9 @@ export default {
                 "Level 500",
                 "Level 1000",
                 "Level 1000 in 6′06″"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Medium (8 min)"
         },
         master_phantom: { // not to be confused with Master PHANTASM
             title: "Master",
@@ -1805,7 +2081,9 @@ export default {
                 "level 500",
                 "Level 800",
                 "Level 1000"
-            ]
+            ],
+            difficulty: "Insane",
+            length: "Medium (8 min)"
         },
 
         // Techmino WTF modes
@@ -1822,7 +2100,9 @@ export default {
                 "1′50″",
                 "1′35″",
                 "1′20″"
-            ]
+            ],
+            difficulty: "Medium",
+            length: "Short (3 min)"
         },
         wtf: {
             title: "wtf",
@@ -1836,7 +2116,9 @@ export default {
                 "3 Rank",
                 "4 Rank",
                 "5 Rank"
-            ]
+            ],
+            difficulty: "Very Hard",
+            length: "Short (4 min)"
         },
         wtfv2: {
             title: "wtf",
@@ -1850,7 +2132,9 @@ export default {
                 "3 Rank",
                 "4 Rank",
                 "5 Rank"
-            ]
+            ],
+            difficulty: "Extreme",
+            length: "Short (5 min)"
         },
         stack_wtf: {
             title: "Stack",
@@ -1864,7 +2148,9 @@ export default {
                 "105 lines",
                 "132 lines",
                 "160 lines"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Medium (10 min)"
         },
         lockout: {
             title: "Lockout",
@@ -1878,7 +2164,9 @@ export default {
                 "1′15″",
                 "1′00″",
                 "50 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (5 min)"
         },
         round_wtf: {
             title: "Turn-Based",
@@ -1892,7 +2180,9 @@ export default {
                 "Win the battle in 126 pieces",
                 "Win the battle in 91 pieces",
                 "Win the battle in 70 pieces"
-            ]
+            ],
+            difficulty: "Extremely Tricky",
+            length: "Medium (10 min)"
         },
         scanner_l: {
             title: "Scanner",
@@ -1906,7 +2196,9 @@ export default {
                 "Clear 40 lines in 50 sec",
                 "Clear 40 lines in 45 sec",
                 "Clear 40 lines in 40 sec"
-            ]
+            ],
+            difficulty: "Tricky",
+            length: "Short (2 min)"
         },
         solo_wtf: {
             title: "Battle",
@@ -1920,7 +2212,9 @@ export default {
                 "Send 75 lines",
                 "Send 90 lines",
                 "Send 100 lines"
-            ]
+            ],
+            difficulty: "Extremely Tricky",
+            length: "Short (1 min)"
         },
         backfire_wtf: {
             title: "Backfire",
@@ -1934,19 +2228,25 @@ export default {
                 "Send 100 lines in 2′00″",
                 "Send 100 lines in 1′20″",
                 "Send 100 lines in 1′00″"
-            ]
+            ],
+            difficulty: "Very Tricky",
+            length: "Short (5 min)"
         },
         confusion: {
             title: "Confusion",
             subtitle: "",
             description: "?????",
-            version_info: "Techmino WTF mod"
+            version_info: "Techmino WTF mod",
+            difficulty: "Very Hard",
+            length: "Unbounded, usually short (~3 min)"
         },
         cascade: {
             title: "Cascade",
             subtitle: "",
             description: "On death, individual minos fall!",
-            version_info: "Techmino WTF mod"
+            version_info: "Techmino WTF mod",
+            difficulty: "Medium",
+            length: "Unbounded, usually short (~3 min)"
         },
 
         // Unused modes

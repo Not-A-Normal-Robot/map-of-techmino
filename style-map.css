@@ -398,11 +398,14 @@ main#main {
     justify-content: space-between;
     color: white;
     text-decoration: none;
-    border-radius: 1em;
     align-items: center;
+}
+#mode-info .full .bottom main .mode-info-entry:not(:last-child) {
+    border-bottom: 1px dotted lime;
 }
 #mode-info .full .bottom main a.mode-info-entry {
     display: inline-block;
+    border-radius: 5em;
     color: lime;
     border: 1px solid lime;
 }
