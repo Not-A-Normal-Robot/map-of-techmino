@@ -28,12 +28,47 @@
             <a class="navlink" href="https://discord.gg/f9pUvkh">Discord</a>
         </nav>
         
-        <section class="content">
-            <h1>Under Construction</h1>
+        <noscript>
+            <section class="content">
+                <h1>Set up your profile</h1>
+                <p>
+                    You cannot set up your profile with JavaScript disabled. <br>
+                    Please enable JavaScript to continue.
+                    <!--
+                        There is no accessibility risk in asking the user to enable JavaScript here.
+                        You'd need JavaScript enabled to access Discord to even sign up in the first place.
+                    -->
+                </p>
+            </section>
+        </noscript>
+
+        <section class="content hide-no-script">
+            <h1 class="center-text">Set up your profile</h1>
+            <br>
+            <form id="profile-setup">
+                <label for="pfp-input">Profile Picture</label>
+                <menu class="pfp">
+                    <img alt="Profile picture preview" class="" id="pfp-preview">
+                    <input type="file" id="pfp-input" name="pfp">
+                </menu>
+                <br>
+                <label for="username">
+                    Username <span class="required" title="Required">*</span>
+                </label>
+                <input type="text" id="username" name="username" required maxlength="30" placeholder="Username">
+                <span class="char-count" for="username"></span>
+                <label for="bio">Bio</label>
+                <textarea class="" id="bio" name="bio" maxlength="400" placeholder="Write some text about yourself"></textarea>
+                <span class="char-count" for="bio"></span>
+                <button type="submit">
+                    Confirm
+                </button>
+            </form>
         </section>
     </div>
     
     
     <script src="/js/background.js"></script>
+    <script src="/js/profile-setup.js"></script>
 </body>
 </html>
