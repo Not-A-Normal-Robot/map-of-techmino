@@ -1554,7 +1554,7 @@ export default {
                 "50 sec",
                 "40 sec"
             ],
-            difficulty: "Easy",
+            difficulty: "Medium",
             length: "Short (3 min)"
         },
         sprintEff: {
