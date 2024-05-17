@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="darkreader-lock">
     <title>Techmino Hub - logging in...</title>
 </head>
 <body style="background:#000;color:#FFF">
@@ -19,10 +20,11 @@
 
         if(session) {
             document.getElementById("txt").textContent = "You are now logged in! Redirecting...";
+            window.location.href = "/auth/profile-setup.html";
         } else {
             document.getElementById("txt").textContent = "Login failed. Redirecting...";
-        }
             window.location.href = "/index.html";
+        }
     </script>
 </body>
 </html>
