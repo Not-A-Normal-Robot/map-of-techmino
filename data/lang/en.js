@@ -1019,6 +1019,7 @@ export default {
             subtitle: "ULTIMATE",
             description: "An extreme-speed recreation of the game from the 80s",
             rank_reqs: [
+                null,
                 "1 line",
                 "3 lines",
                 "6 lines",
