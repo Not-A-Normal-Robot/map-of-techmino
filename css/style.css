@@ -1,6 +1,6 @@
 /* #region Fonts */
-@font-face { font-family: "techmino-proportional"; src: url('/fonts/proportional.otf') }
-@font-face { font-family: "techmino-monospace"   ; src: url('/fonts/monospaced.otf') }
+@font-face { font-family: "techmino-proportional"; src: url('../fonts/proportional.otf') }
+@font-face { font-family: "techmino-monospace"   ; src: url('../fonts/monospaced.otf') }
 /* #endregion */
 
 /* #region Body */

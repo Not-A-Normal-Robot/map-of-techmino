@@ -15,5 +15,15 @@
     <button id="login">Test button</button>
 
     <script type="module" src="/js/db.js"></script>
+    <script type="module">
+        document.getElementById("login").addEventListener("click", async () => 
+            await SUPABASE.auth.signInWithOAuth({
+                provider: "discord",
+                options: {
+                    redirectTo: "https://techmino-hub.github.io/auth/discord_callback.html"
+                }
+            })
+        );
+    </script>
 </body>
 </html>
