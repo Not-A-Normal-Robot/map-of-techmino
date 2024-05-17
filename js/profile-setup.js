@@ -1,3 +1,5 @@
+import { SUPABASE } from "./db";
+
 { // Counter for character count
     for(const counter of document.getElementsByClassName('char-count')) {
         const associatedId = counter.getAttribute('for');
