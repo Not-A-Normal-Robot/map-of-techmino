@@ -14,19 +14,10 @@
 
     <button id="login">Test button</button>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.43.2/dist/umd/supabase.min.js"></script>
     <script type="module">
-        import { SUPABASE } from '/js/db.js';
-
-        SUPABASE.auth.getUser().then(console.log).catch(console.error); // DEBUG
-
-        document.getElementById("login").addEventListener("click", async () => 
-            await SUPABASE.auth.signInWithOAuth({
-                provider: "discord",
-                options: {
-                    redirectTo: "https://techmino-hub.github.io/auth/discord_callback.html"
-                }
-            })
-        );
+        import { SUPABASE_URL, SUPABASE_ANON_KEY } from '/js/db.js';
+        window.supabaseInstance = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     </script>
 </body>
 </html>
