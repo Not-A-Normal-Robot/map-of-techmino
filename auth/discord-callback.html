@@ -17,21 +17,22 @@
 
         document.getElementById("txt").textContent = "Logging in...";
 
-        let params = new URLSearchParams(window.location.search);
+        function getSession() {
+            let params = new URLSearchParams(window.location.search);
 
-        if(params.get("error")) {
-            return onError(
-                `${params.get("error")} (${params.get("error_code")}): ${params.get("error_description")}.`
-            );
+            if(params.get("error")) {
+                return onError(
+                    `${params.get("error")} (${params.get("error_code")}): ${params.get("error_description")}.`
+                );
+            }
+
+            if(!params.get("code")) {
+                return onError("Auth code not found in URL.");
+            }
+
+            const session = SUPABASE.auth.exchangeCodeForSession(params.get("code"));
+            console.log(session);
         }
-
-        if(!params.get("code")) {
-            return onError("Auth code not found in URL.");
-        }
-
-        const session = SUPABASE.auth.exchangeCodeForSession(params.get("code"));
-
-        // console.log(session); debugger;
 
         function onSuccess() {
             document.getElementById("txt").textContent = "You are now logged in! Redirecting...";
@@ -39,8 +40,11 @@
         }
         function onError(msg) {
             document.getElementById("txt").textContent = `Login failed:\n${msg}\nYou will be redirected to the main page.`;
+            console.error(msg); debugger;
             setTimeout(() => window.location.href = "/index.html", 5000);
         }
+        
+        getSession();
     </script>
 </body>
 
