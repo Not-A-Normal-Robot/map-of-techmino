@@ -1,4 +1,4 @@
-import { SUPABASE } from "./db";
+import { SUPABASE } from "./db.js";
 
 { // Counter for character count
     for(const counter of document.getElementsByClassName('char-count')) {
