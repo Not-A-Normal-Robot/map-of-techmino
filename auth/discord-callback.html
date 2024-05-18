@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="darkreader-lock">
     <title>Techmino Hub - logging in...</title>
 </head>
+
 <body style="background:#000;color:#FFF">
     <h1 id="txt">
         <noscript>You cannot login with JavaScript disabled.</noscript>
@@ -15,16 +17,31 @@
 
         document.getElementById("txt").textContent = "Logging in...";
 
-        const session = await SUPABASE.auth.getSession();
-        console.log(session); debugger;
+        let params = new URLSearchParams(window.location.search);
 
-        if(session) {
+        if(params.get("error")) {
+            return onError(
+                `${params.get("error")} (${params.get("error_code")}): ${params.get("error_description")}.`
+            );
+        }
+
+        if(!params.get("code")) {
+            return onError("Auth code not found in URL.");
+        }
+
+        const session = SUPABASE.auth.exchangeCodeForSession(params.get("code"));
+
+        // console.log(session); debugger;
+
+        function onSuccess() {
             document.getElementById("txt").textContent = "You are now logged in! Redirecting...";
             window.location.href = "/auth/profile-setup.html";
-        } else {
-            document.getElementById("txt").textContent = "Login failed. Redirecting...";
-            window.location.href = "/index.html";
+        }
+        function onError(msg) {
+            document.getElementById("txt").textContent = `Login failed:\n${msg}\nYou will be redirected to the main page.`;
+            setTimeout(() => window.location.href = "/index.html", 5000);
         }
     </script>
 </body>
+
 </html>
