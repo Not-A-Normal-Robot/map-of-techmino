@@ -25,13 +25,6 @@
                     `${params.get("error")} (${params.get("error_code")}): ${params.get("error_description")}.`
                 );
             }
-
-            if(!params.get("code")) {
-                return onError("Auth code not found in URL.");
-            }
-
-            const session = SUPABASE.auth.exchangeCodeForSession(params.get("code"));
-            console.log(session);
         }
 
         function onSuccess() {
