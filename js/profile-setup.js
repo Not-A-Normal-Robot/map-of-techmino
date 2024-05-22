@@ -1,6 +1,4 @@
 import { SUPABASE } from "./db.js";
-import * as nsfwjs from "https://cdn.jsdelivr.net/npm/nsfwjs@4.1.0/+esm";
-import "https://cdn.jsdelivr.net/npm/models/mobilenet_v2/model.min.js";
 
 let NSFWJSInstance = null;
 

@@ -55,10 +55,10 @@
                 <label for="username">
                     Username <span class="required" title="Required">*</span>
                 </label>
-                <input type="text" id="username" name="username" required maxlength="30" placeholder="Username">
+                <input type="text" id="username" name="username" required maxlength="40" placeholder="Username">
                 <span class="char-count" for="username"></span>
                 <label for="bio">Bio</label>
-                <textarea class="" id="bio" name="bio" maxlength="400" placeholder="Write some text about yourself"></textarea>
+                <textarea class="" id="bio" name="bio" maxlength="250" placeholder="Write some text about yourself"></textarea>
                 <span class="char-count" for="bio"></span>
                 <button type="submit">
                     Confirm
@@ -67,8 +67,18 @@
         </section>
     </div>
     
+    <!-- Scripts -->
     
+    <!-- Background -->
     <script src="/js/background.js"></script>
+
+    <!-- NSFWJS stuff -->
+    <script src="https://unpkg.com/@tensorflow/tfjs@4"></script>
+    <script src="https://unpkg.com/nsfwjs@4/dist/browser/nsfwjs.min.js"></script>
+    <script src="https://unpkg.com/nsfwjs@4/dist/models/mobilenet_v2/model.min.js"></script>
+    <script src="https://unpkg.com/nsfwjs@4/dist/models/mobilenet_v2/group1-shard1of1.min.js"></script>
+
+    <!-- Profile setup script -->
     <script src="/js/profile-setup.js" type="module"></script>
 </body>
 </html>
