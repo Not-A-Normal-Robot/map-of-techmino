@@ -13,15 +13,23 @@
     </h1>
     <script src="/js/db.js"></script>
     <script type="module">
+        import { SUPABASE } from "/js/db.js";
+
         document.getElementById("txt").textContent = "Logging in...";
 
-        function getSession() {
+        async function getSession() {
             let params = new URLSearchParams(window.location.search);
 
             if(params.get("error")) {
                 return onError(
-                    `${params.get("error")} (${params.get("error_code")}): ${params.get("error_description")}.`
+                    `${params.get("error")} (${params.get("error_code")}): ${params.get("error_description")}`
                 );
+            }
+
+            const session = await SUPABASE.auth.getSession();
+
+            if(!session) {
+                return onError("Session is null!");
             }
 
             onSuccess();
@@ -29,7 +37,7 @@
 
         function onSuccess() {
             document.getElementById("txt").textContent = "You are now logged in! Redirecting...";
-            setTimeout(() => window.location.href = "/auth/profile-setup.html", 2500);
+            window.location.href = "/auth/profile-setup.html";
         }
         function onError(msg) {
             document.getElementById("txt").textContent = `Login failed:\n${msg}\nYou will be redirected to the main page in 10 seconds.`;
