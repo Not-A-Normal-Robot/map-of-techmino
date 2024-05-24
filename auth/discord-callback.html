@@ -31,12 +31,12 @@
 
         function onSuccess() {
             document.getElementById("txt").textContent = "You are now logged in! Redirecting...";
-            window.location.href = "/auth/profile-setup.html";
+            setTimeout(() => window.location.href = "/auth/profile-setup.html", 2500);
         }
         function onError(msg) {
-            document.getElementById("txt").textContent = `Login failed:\n${msg}\nYou will be redirected to the main page.`;
+            document.getElementById("txt").textContent = `Login failed:\n${msg}\nYou will be redirected to the main page in 10 seconds.`;
             console.error(msg); debugger;
-            setTimeout(() => window.location.href = "/index.html", 5000);
+            setTimeout(() => window.location.href = "/index.html", 10000);
         }
         
         getSession();
