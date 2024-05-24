@@ -6,15 +6,13 @@
     <meta name="darkreader-lock">
     <title>Techmino Hub - logging in...</title>
 </head>
-
 <body style="background:#000;color:#FFF">
     <h1 id="txt">
         <noscript>You cannot login with JavaScript disabled.</noscript>
         Loading...
     </h1>
+    <script src="/js/db.js"></script>
     <script type="module">
-        import { SUPABASE } from '/js/db.js';
-
         document.getElementById("txt").textContent = "Logging in...";
 
         function getSession() {
