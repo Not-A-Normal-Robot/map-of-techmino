@@ -22,16 +22,28 @@
     let height = bgCanvas.offsetHeight;
 
     let lastTimestamp = performance.now();
+
+    /**
+     * @typedef Star
+     * @property {number} size
+     * @property {number} x
+     * @property {number} y
+     * @property {number} dx
+     * @property {number} dy
+     */
+
+    /** @type {Star[]} */
     let stars = [];
 
+    /** @param {number} min @param {number} max @returns {number} */
     function random(min, max){ return Math.random() * (min - max) + max }
 
     function resize(){
-        width = bgCanvas.offsetWidth;
-        height = bgCanvas.offsetHeight;
+        width = bgCanvas?.offsetWidth;
+        height = bgCanvas?.offsetHeight;
 
-        bgCanvas.width = width;
-        bgCanvas.height = height;
+        bgCanvas?.width = width;
+        bgCanvas?.height = height;
 
         let starCount = Math.floor(width * height * 6e-4)
         stars = new Array(starCount);
@@ -65,8 +77,8 @@
             const star = stars[i];
             star.x += (star.dx * dt)
             star.y += (star.dy * dt)
-            star.x %= width  + 10
-            star.y %= height + 10
+            star.x %= width
+            star.y %= height
         }
 
         // draw stars

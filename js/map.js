@@ -1,5 +1,24 @@
 "use strict";
 import * as LANG from "./lang.js";
+
+/**
+ * @typedef {{
+ *   name: string,
+ *   shape: number,
+ *   unlock: string[],
+ *   size: number,
+ *   x: number, y: number,
+ *   icon: string,
+ *   source: string
+ * }} Mode
+ * 
+ * @typedef {{
+ *   modes: {[name: string]: Mode},
+ *   min_x: number, max_x: number,
+ *   min_y: number, max_y: number,
+ *   starting_mode: string
+ * }} Map
+ */
 {
     const INIT_TIME = performance.now();
     const DEBUG_MODE = true;
@@ -23,6 +42,33 @@ import * as LANG from "./lang.js";
     
     const MODE_INFO_ELEMENT = document.getElementById("mode-info");
 
+    /**
+     * @type {{
+     * outer: HTMLElement,
+     * title: HTMLElement,
+     * subtitle: HTMLElement,
+     * version: HTMLElement,
+     * description: HTMLElement,
+     * name: HTMLElement,
+     * rankReqs: HTMLElement,
+     * rankReqElements: HTMLCollectionOf<HTMLCollectionOf<HTMLElement>>,
+     * expandButton: HTMLElement,
+     * closeButton: HTMLElement,
+     * collapseButton: HTMLElement,
+     * article: HTMLElement,
+     * featuredVideo: HTMLVideoElement,
+     * featuredVideoText: HTMLElement,
+     * entries: {
+     *      difficulty: HTMLElement,
+     *      diffContent: HTMLElement,
+     *      length: HTMLElement,
+     *      lengthContent: HTMLElement,
+     *      version: HTMLElement,
+     *      versionContent: HTMLElement,
+     *      sourceLink: HTMLAnchorElement
+     * }
+     * }} MODE_INFO_ELEMENTS
+     */
     const MODE_INFO_ELEMENTS = {
         outer:              MODE_INFO_ELEMENT,
         title:              MODE_INFO_ELEMENT.querySelector(".title"),
@@ -60,6 +106,7 @@ import * as LANG from "./lang.js";
 
     let camX = 0; let camY = 0; let camZoom = 1;
 
+    /** @type {Map} */
     let map = {};
     let mapLoaded = false;
     let heldKeyCodes = new Set();
