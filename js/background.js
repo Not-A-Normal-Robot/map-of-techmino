@@ -42,8 +42,8 @@
         width = bgCanvas?.offsetWidth;
         height = bgCanvas?.offsetHeight;
 
-        bgCanvas?.width = width;
-        bgCanvas?.height = height;
+        bgCanvas.width = width;
+        bgCanvas.height = height;
 
         let starCount = Math.floor(width * height * 6e-4)
         stars = new Array(starCount);
