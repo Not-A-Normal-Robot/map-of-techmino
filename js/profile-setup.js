@@ -1,4 +1,4 @@
-import { SUPABASE } from "./db.js";
+import * as DB from "./db.js";
 
 let NSFWJSInstance = null;
 {
@@ -46,7 +46,10 @@ let NSFWJSInstance = null;
                 const currentChars = associatedInput.value.length;
                 counter.textContent = `${currentChars} / ${maxChars}`;
             });
-            updateCounter(counter);
+
+            const maxChars = Number(associatedInput.getAttribute('maxlength') ?? Infinity);
+            const currentChars = associatedInput.value.length;
+            counter.textContent = `${currentChars} / ${maxChars}`;
         }
     }
     // #endregion

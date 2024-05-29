@@ -1,7 +1,8 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 export const SUPABASE_URL = "https://fohgyexhzptaxjqrrrfd.supabase.co";
 export const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZvaGd5ZXhoenB0YXhqcXJycmZkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDUwMjQxNTcsImV4cCI6MjAyMDYwMDE1N30.fa7XvwiBbWSe2MLIR6Wkh_OC95uV7UXxt7_25PlyAlc"
-export default SUPABASE = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const SUPABASE = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export default SUPABASE;
 window.SUPABASE = SUPABASE;
 
 // #region Type definitions
@@ -104,6 +105,13 @@ export async function editProfile(id, newProfileData) {
     if(error) throw new Error(error.message);
     return data;
 }
+
+// Scary!
+export async function deleteAccount() {
+    const { error } = await SUPABASE.rpc('delete_account');
+    if(error) throw new Error(error.message);
+    return "Account deleted successfully!";
+}
 // #endregion
 
 // #region Submission table functions
@@ -124,12 +132,28 @@ export async function getSubmissionById(id) {
     if(error) throw new Error(error.message);
     return data[0];
 }
-export async function getSubmissionByUserId(userId, limit = 10, offset = 0) {
+export async function getSubmissionWithReplayById(id) {
+    const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
+        .select('*, replays(replay_data)')
+        .eq('id', id);
+
+    if(error) throw new Error(error.message);
+    return data[0];
+}
+export async function getSubmissionsByUserId(userId, limit = 10, offset = 0) {
     const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
         .select('*')
         .eq('submitted_by', userId)
         .range(offset, limit);
 
+    if(error) throw new Error(error.message);
+    return data;
+}
+export async function getSubmissionsWithReplaysByUserId(userId, limit = 10, offset = 0) {
+    const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
+        .select('*, replays(replay_data)')
+        .eq('submitted_by', userId)
+        .range(offset, limit);
     if(error) throw new Error(error.message);
     return data;
 }
@@ -162,26 +186,51 @@ export async function deleteSubmission(id) {
 // #region Replay table functions
 export async function getReplayDataBySubmissionId(submissionId) {
     const { data, error } = await SUPABASE.from(TABLES.REPLAYS)
-        .select('*')
+        .select(1)
         .eq('submission_id', submissionId);
 
     if(error) throw new Error(error.message);
     return data[0];
 }
-
-export async function createReplayData(replayData) {
+export async function createReplay(submission_id, replayData) {
     const { data, error } = await SUPABASE.from(TABLES.REPLAYS)
-        .insert(replayData);
+        .insert({ submission_id: submission_id, replay_data: replayData });
 
     if(error) throw new Error(error.message);
     return data;
 }
-export async function deleteReplayData(submissionId) {
+export async function deleteReplay(submissionId) {
     const { data, error } = await SUPABASE.from(TABLES.REPLAYS)
         .delete()
         .eq('submission_id', submissionId);
 
     if(error) throw new Error(error.message);
     return data;
+}
+// #endregion
+// #region Download all data
+// This is an open-source project, why not let users backup everything in case something terrible happens?
+
+export async function getAllDataBySelf() {
+    const { data, error } = await SUPABASE.auth.getUser();
+    if(error) throw new Error(error.message);
+    const userId = data.user.id;
+
+    const profile = await getProfileById(userId);
+    const submissions = await getSubmissionsWithReplaysByUserId(userId);
+    return {
+        profile: profile,
+        submissions: submissions
+    }
+}
+export async function getAllData() {
+    const profiles = await getAllProfiles();
+    const submissions = await SUPABASE.from(TABLES.SUBMISSIONS).select('*');
+    const replays = await SUPABASE.from(TABLES.REPLAYS).select('*');
+    return {
+        profiles: profiles,
+        submissions: submissions,
+        replays: replays
+    }
 }
 // #endregion
