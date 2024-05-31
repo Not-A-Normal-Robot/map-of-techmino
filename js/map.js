@@ -21,7 +21,6 @@ import * as LANG from "./lang.js";
  */
 {
     const INIT_TIME = performance.now();
-    const DEBUG_MODE = true;
     const IS_IN_IFRAME = window.self === window.top;
 
     const MODE_ID_PREFIX = "mode_";
@@ -36,7 +35,6 @@ import * as LANG from "./lang.js";
     const ROOT = document.documentElement;
     const BODY = document.body;
     const MAIN = document.getElementById("main");
-    const DEBUG_ELEMENT = document.getElementById("debug-info");
     const EDGES_SVG = document.getElementById("edge-display");
     const CROSSHAIR = document.getElementById("crosshair");
     
@@ -223,10 +221,6 @@ import * as LANG from "./lang.js";
 
         handleKeys(dt);
 
-        if(DEBUG_MODE) {
-            updateDebugInfo(dt);
-        }
-
         if(continueUpdate) {
             return requestAnimationFrame(() => update(true));
         }
@@ -251,22 +245,6 @@ import * as LANG from "./lang.js";
         if(!CROSSHAIR) list.push("CROSSHAIR not found");
         if(!MODE_INFO_ELEMENT) list.push("MODE_INFO_ELEMENT not found");
         return list;
-    }
-    function updateDebugInfo(dt) {
-        const invalidValues = getInvalidValueList();
-        const debugText =
-            `FPS: ${
-                (heldKeyCodes.size > 0 && dt) ?
-                    (1000 / dt).toFixed(1) :
-                    "--"
-            }` + (invalidValues.length > 0 ?
-                `\nERROR: Invalid values found:\n${
-                    invalidValues.map(v => `- ${v}`).join("\n")
-                }`
-                : "\nNo invalid values found."
-            ) + `\nTouch length: ${prevTouches.length}`;
-        
-        DEBUG_ELEMENT.innerText = debugText;
     }
 
     function loadMapData(){
@@ -713,9 +691,6 @@ import * as LANG from "./lang.js";
     MODE_INFO_ELEMENTS.closeButton?.addEventListener("click", unselectMode);
     MODE_INFO_ELEMENTS.expandButton?.addEventListener("click", modeInfoExpandFull);
     MODE_INFO_ELEMENTS.collapseButton?.addEventListener("click", modeInfoCollapseToSmall);
-
-    // Timed events
-    setInterval(updateDebugInfo, 1000);
     // #endregion
     
     function clamp(min, val, max) {

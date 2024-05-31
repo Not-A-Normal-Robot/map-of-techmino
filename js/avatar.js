@@ -1,8 +1,37 @@
 import * as DB from "./db.js";
 {
-    const DEFAULT_AVATAR_PATHS = [
+    const DEFAULT_AVATAR_PATHS = [];
 
-    ].map(s => `"/data/img/avatars/"${s}`);
+    { // Generate default avatar paths
+        const MIN_CHAR = 0xF0040;
+        const MAX_CHAR = 0xF005C;
+
+        function generateHexStrings(min, max) {
+            const hexStrings = [];
+            for(let i = min; i <= max; i++) {
+                hexStrings.push(i.toString(16));
+            }
+            return hexStrings;
+        }
+
+        function getAvatarWithChar(hexCharCode) {
+            return `
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <rect width="100" height="100" fill="black" />
+                <text font-family="techmino-proportional" fill="white" text-anchor="middle" transform="rotate(-11.46 50 50)">
+                    <tspan x="50%" y="50%" dy="0.3em" font-size="50">&#x${hexCharCode}</tspan>
+                </text>
+            </svg>`;
+        }
+
+        function toDataURI(svgString) {
+            return `data:image/svg+xml;base64,${btoa(svgString)}`;
+        }
+
+        for(const hexString of generateHexStrings(MIN_CHAR, MAX_CHAR)) {
+            DEFAULT_AVATAR_PATHS.push(toDataURI(getAvatarWithChar(hexString)));
+        }
+    }
 
     /** @param {string} id The user's UID */
     function getDefaultAvatarPath(id) {

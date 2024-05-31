@@ -17,8 +17,6 @@
     <script type="module">
         import { SUPABASE } from '/js/db.js';
 
-        SUPABASE.auth.getUser().then(console.log).catch(console.error); // DEBUG
-
         document.getElementById("login").addEventListener("click", async () => 
             await SUPABASE.auth.signInWithOAuth({
                 provider: "discord",
