@@ -26,13 +26,13 @@ window.SUPABASE = SUPABASE;
  * @property {string} submitted_by
  * @property {SubmissionValidity} validity
  * @property {string?} proof
- * @property {string | undefined} replay_data - Base64 encoded replay data, may be undefined if not requested
+ * @property {string | undefined} replay_data Base64 encoded replay data, may be undefined if not requested
  */
 
 /**
  * @typedef {Object} ReplayData
  * @property {string} submission_id
- * @property {string} replay_data - Base64 encoded replay data
+ * @property {string} replay_data Base64 encoded replay data
  */
 
 /**
@@ -71,6 +71,10 @@ export const TABLES = {
     PROFILES: "profiles",
     SUBMISSIONS: "submissions",
     REPLAYS: "replays",
+}
+
+export const STORAGES = {
+    AVATARS: "avatars"
 }
 
 // #region Profile table functions
@@ -306,6 +310,42 @@ export async function deleteReplay(submissionId) {
 
     if(error) throw new Error(error.message);
     return data;
+}
+// #endregion
+// #region Avatars/Profile Pictures
+// Profile pictures are stored in Supabase Storage, and the name of the file is the user's ID.
+
+/**
+ * @param {string} id The user's ID
+ * @returns {Promise<Blob>} The user's profile picture
+ * @throws {Error}
+ */
+export async function getAvatarById(id = SUPABASE.auth.getUser().data.user.id) {
+    const { data, error } = await SUPABASE.storage.from(STORAGES.AVATARS).download(id);
+    if(error) throw new Error(error.message);
+    return data;
+}
+
+/**
+ * @param {File} file
+ * @param {string} id The user's ID
+ * @returns {Promise<{path: string}>}
+ * @throws {Error}
+ */
+export async function updateAvatar(file, id = SUPABASE.auth.getUser().data.user.id) {
+    const { data, error } = await SUPABASE.storage.from(STORAGES.AVATARS).upload(id, file, {upsert: true});
+    if(error) throw new Error(error.message);
+    return data;
+}
+
+/**
+ * @param {string} id The user's ID
+ * @returns {Promise<any[]>}
+ */
+export async function deleteAvatar(id = SUPABASE.auth.getUser().data.user.id) {
+    const { error } = await SUPABASE.storage.from(STORAGES.AVATARS).remove([id]);
+    if(error) throw new Error(error.message);
+    return []; // Supabase returns an empty array on success
 }
 // #endregion
 // #region Download all (table) data
