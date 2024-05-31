@@ -50,6 +50,7 @@
                 <menu class="pfp">
                     <img alt="Profile picture preview" class="" id="pfp-preview">
                     <input type="file" id="pfp-input" name="pfp">
+                    <button type="button" onclick="document.getElementById('pfp-input').click();" class="browse">Browse...</button>
                 </menu>
                 <br>
                 <label for="username">
@@ -60,9 +61,10 @@
                 <label for="bio">Bio</label>
                 <textarea class="" id="bio" name="bio" maxlength="250" placeholder="Write some text about yourself"></textarea>
                 <span class="char-count" for="bio"></span>
-                <button type="submit">
+                <button type="submit" id="submit-button">
                     Confirm
                 </button>
+                <span id="progress"></span>
             </form>
         </section>
     </div>

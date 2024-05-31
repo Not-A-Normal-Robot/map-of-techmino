@@ -374,6 +374,8 @@ form#profile-setup {
 form#profile-setup menu.pfp {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    padding-left: 0;
     gap: 0.5em;
     justify-content: space-evenly;
     align-items: center;
@@ -382,6 +384,32 @@ form#profile-setup menu.pfp img {
     width: 10em;
     height: 10em;
     border: 1px solid lime;
+}
+form#profile-setup menu.pfp input[type="file"] {
+    display: none;
+}
+form#profile-setup menu.pfp button.browse {
+    padding: 0.5em;
+    box-shadow: 0 0 1em 0.2em rgba(0,255,0,0.1);
+    border: 0.125em solid lime;
+    border-radius: 0.5em;
+    background-color: rgba(0,100,0,0.5);
+    color: white;
+    transition: all 250ms;
+    font-family: techmino-proportional, sans-serif;
+    font-size: 1em;
+    cursor: pointer;
+    transition: all 250ms;
+}
+form#profile-setup menu.pfp button.browse:hover {
+    background-color: rgba(100,100,0,0.8);
+    border-color: yellow;
+    box-shadow: 0 0 1em 0.2em rgba(255,255,0,0.3);
+}
+form#profile-setup menu.pfp button.browse:focus {
+    background-color: rgba(100,60,0,0.8);
+    border-color: orange;
+    box-shadow: 0 0 3em 0.3em rgba(255,165,0,0.3);
 }
 
 form#profile-setup input[type="text"] {

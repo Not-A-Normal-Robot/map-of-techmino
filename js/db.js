@@ -6,8 +6,9 @@ export default SUPABASE;
 window.SUPABASE = SUPABASE;
 
 // #region Type definitions
+// Also includes: a peek into the database's structure!
 /**
- * @typedef {Object} User
+ * @typedef {Object} Profile
  * @property {string} id
  * @property {string} username
  * @property {AccountState} account_state
@@ -25,6 +26,7 @@ window.SUPABASE = SUPABASE;
  * @property {string} submitted_by
  * @property {SubmissionValidity} validity
  * @property {string?} proof
+ * @property {string | undefined} replay_data - Base64 encoded replay data, may be undefined if not requested
  */
 
 /**
@@ -72,6 +74,12 @@ export const TABLES = {
 }
 
 // #region Profile table functions
+/**
+ * @param {number} limit
+ * @param {number} offset
+ * @returns {Promise<Profile[]>}
+ * @throws {Error}
+ */
 export async function getAllProfiles(limit = 10, offset = 0) {
     const { data, error } = await SUPABASE.from(TABLES.PROFILES)
         .select('*')
@@ -80,6 +88,12 @@ export async function getAllProfiles(limit = 10, offset = 0) {
     if(error) throw new Error(error.message);
     return data;
 }
+
+/**
+ * @param {string} id 
+ * @returns {Promise<Profile>}
+ * @throws {Error}
+ */
 export async function getProfileById(id) {
     const { data, error } = await SUPABASE.from(TABLES.PROFILES)
         .select(1)
@@ -88,6 +102,12 @@ export async function getProfileById(id) {
     if(error) throw new Error(error.message);
     return data[0];
 }
+
+/**
+ * @param {string} username
+ * @returns {Promise<Profile>}
+ * @throws {Error}
+ */
 export async function getProfileByUsername(username) {
     const { data, error } = await SUPABASE.from(TABLES.PROFILES)
         .select(1)
@@ -97,6 +117,12 @@ export async function getProfileByUsername(username) {
     return data[0];
 }
 
+/**
+ * @param {string} id
+ * @param {Partial<Profile>} newProfileData
+ * @returns {Promise<Profile>}
+ * @throws {Error}
+ */
 export async function editProfile(id, newProfileData) {
     const { data, error } = await SUPABASE.from(TABLES.PROFILES)
         .update(newProfileData)
@@ -107,6 +133,11 @@ export async function editProfile(id, newProfileData) {
 }
 
 // Scary!
+/**
+ * @param {string} id
+ * @returns {Promise<string>}
+ * @throws {Error}
+ */
 export async function deleteAccount() {
     const { error } = await SUPABASE.rpc('delete_account');
     if(error) throw new Error(error.message);
@@ -115,6 +146,13 @@ export async function deleteAccount() {
 // #endregion
 
 // #region Submission table functions
+/**
+ * @param {string} gameMode
+ * @param {number} limit
+ * @param {number} offset
+ * @returns {Promise<Submission[]>}
+ * @throws {Error}
+ */
 export async function getSubmissionsByGameMode(gameMode, limit = 10, offset = 0) {
     const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
         .select('*')
@@ -124,6 +162,12 @@ export async function getSubmissionsByGameMode(gameMode, limit = 10, offset = 0)
     if(error) throw new Error(error.message);
     return data;
 }
+
+/**
+ * @param {string} id
+ * @returns {Promise<Submission>}
+ * @throws {Error}
+ */
 export async function getSubmissionById(id) {
     const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
         .select(1)
@@ -132,6 +176,12 @@ export async function getSubmissionById(id) {
     if(error) throw new Error(error.message);
     return data[0];
 }
+
+/**
+ * @param {string} id
+ * @returns {Promise<Submission>}
+ * @throws {Error}
+ */
 export async function getSubmissionWithReplayById(id) {
     const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
         .select('*, replays(replay_data)')
@@ -140,6 +190,14 @@ export async function getSubmissionWithReplayById(id) {
     if(error) throw new Error(error.message);
     return data[0];
 }
+
+/**
+ * @param {string} userId 
+ * @param {number} limit 
+ * @param {number} offset 
+ * @returns {Promise<Submission[]>}
+ * @throws {Error}
+ */
 export async function getSubmissionsByUserId(userId, limit = 10, offset = 0) {
     const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
         .select('*')
@@ -149,6 +207,14 @@ export async function getSubmissionsByUserId(userId, limit = 10, offset = 0) {
     if(error) throw new Error(error.message);
     return data;
 }
+
+/**
+ * @param {string} userId 
+ * @param {number} limit 
+ * @param {number} offset 
+ * @returns {Promise<Submission[]>}
+ * @throws {Error}
+ */
 export async function getSubmissionsWithReplaysByUserId(userId, limit = 10, offset = 0) {
     const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
         .select('*, replays(replay_data)')
@@ -158,6 +224,11 @@ export async function getSubmissionsWithReplaysByUserId(userId, limit = 10, offs
     return data;
 }
 
+/**
+ * @param {Submission} submissionData 
+ * @returns {Promise<Submission>}
+ * @throws {Error}
+ */
 export async function createSubmission(submissionData) {
     const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
         .insert(submissionData);
@@ -165,6 +236,12 @@ export async function createSubmission(submissionData) {
     if(error) throw new Error(error.message);
     return data;
 }
+
+/**
+ * @param {string} id
+ * @param {Partial<Submission>} newSubmissionData
+ * @returns {Promise<Submission>}
+ */
 export async function editSubmission(id, newSubmissionData) {
     const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
         .update(newSubmissionData)
@@ -173,6 +250,12 @@ export async function editSubmission(id, newSubmissionData) {
     if(error) throw new Error(error.message);
     return data;
 }
+
+/**
+ * @param {string} id
+ * @returns {Promise<Submission>}
+ * @throws {Error}
+ */
 export async function deleteSubmission(id) {
     const { data, error } = await SUPABASE.from(TABLES.SUBMISSIONS)
         .delete()
@@ -184,6 +267,11 @@ export async function deleteSubmission(id) {
 // #endregion
 
 // #region Replay table functions
+/**
+ * @param {string} submissionId
+ * @returns {Promise<ReplayData>}
+ * @throws {Error}
+ */
 export async function getReplayDataBySubmissionId(submissionId) {
     const { data, error } = await SUPABASE.from(TABLES.REPLAYS)
         .select(1)
@@ -192,6 +280,12 @@ export async function getReplayDataBySubmissionId(submissionId) {
     if(error) throw new Error(error.message);
     return data[0];
 }
+
+/**
+ * @param {string} submission_id 
+ * @param {string} replayData 
+ * @returns {Promise<ReplayData>}
+ */
 export async function createReplay(submission_id, replayData) {
     const { data, error } = await SUPABASE.from(TABLES.REPLAYS)
         .insert({ submission_id: submission_id, replay_data: replayData });
@@ -199,6 +293,12 @@ export async function createReplay(submission_id, replayData) {
     if(error) throw new Error(error.message);
     return data;
 }
+
+/**
+ * @param {string} submissionId
+ * @returns {Promise<ReplayData>}
+ * @throws {Error}
+ */
 export async function deleteReplay(submissionId) {
     const { data, error } = await SUPABASE.from(TABLES.REPLAYS)
         .delete()
@@ -208,9 +308,17 @@ export async function deleteReplay(submissionId) {
     return data;
 }
 // #endregion
-// #region Download all data
+// #region Download all (table) data
 // This is an open-source project, why not let users backup everything in case something terrible happens?
+// Note: profile pictures will not be scraped, as they are stored in a different location.
+// Besides, it'd probably take up a lot of space.
 
+/**
+ * @returns {Promise<{
+ *  profile: Profile,
+ *  submissions: Submission[]
+ * }>}
+ */
 export async function getAllDataBySelf() {
     const { data, error } = await SUPABASE.auth.getUser();
     if(error) throw new Error(error.message);
@@ -223,6 +331,15 @@ export async function getAllDataBySelf() {
         submissions: submissions
     }
 }
+
+/**
+ * 
+ * @returns {Promise<{
+ *  profiles: Profile[],
+ *  submissions: Submission[],
+ *  replays: ReplayData[]
+ * }>}
+ */
 export async function getAllData() {
     const profiles = await getAllProfiles();
     const submissions = await SUPABASE.from(TABLES.SUBMISSIONS).select('*');
