@@ -12,19 +12,17 @@
     <a href="/index.html">Click here to return to the main page.</a>
     <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br> <br>
 
-    <button id="login">Test button</button>
+    <div id="avatars" style="display: flex; flex-direction: column; width: 128px;">
+
+    </div>
 
     <script type="module">
-        import { SUPABASE } from '/js/db.js';
+        import { DEFAULT_AVATAR_SVGS } from '/js/avatar.js';
 
-        document.getElementById("login").addEventListener("click", async () => 
-            await SUPABASE.auth.signInWithOAuth({
-                provider: "discord",
-                options: {
-                    redirectTo: "https://techmino-hub.github.io/auth/discord-callback.html"
-                }
-            })
-        );
+        document.getElementById("avatars").innerHTML = DEFAULT_AVATAR_SVGS.join("");
     </script>
+    <style>
+        @font-face { font-family: "techmino-proportional"; src: url('/fonts/proportional.otf') }
+    </style>
 </body>
 </html>
