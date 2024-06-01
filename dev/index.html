@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TH Dev - Index</title>
+    <link rel="stylesheet" href="/css/bare.css">
+</head>
+<body>
+    <h1>
+        Techmino Hub Dev Page
+    </h1>
+    <i>Unpolished? Maybe. Functional? Yes.</i> <br> <br>
+    <em>This page has some tools to aid development.</em> <br>
+    Tools: <br>
+    <ul>
+        <li>
+            "SUPABASE" global var
+        </li>
+        <li>
+            ...more to come
+        </li>
+    </ul>
+
+    
+    
+
+    <div id="avatars">
+
+    </div>
+    <h3>
+        Techmino character list
+    </h3>
+    <ul id="characters">
+
+    </ul>
+
+    <script type="module">
+        import { DEFAULT_AVATAR_SVGS } from '/js/avatar.js';
+        import { CHARACTER_MAP } from '/js/data.js';
+
+        document.getElementById("avatars").innerHTML = DEFAULT_AVATAR_SVGS.join("");
+        Object.entries(CHARACTER_MAP).forEach(([groupName, group]) => {
+            Object.entries(group).forEach(([characterName, character]) => {
+                document.getElementById("characters").innerHTML += `<li>${groupName}.${characterName}: ${character} <button onclick="navigator.clipboard.writeText('${character}')">Copy</button></li>`;
+            });
+        });
+    </script>
+    <style>
+        @font-face { font-family: "techmino-proportional"; src: url('/fonts/proportional.otf') }
+        #avatars {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        #avatars * {
+            width: 100px;
+            height: 100px;
+            border: 1px solid white;
+        }
+        #characters {
+            font-family: techmino-proportional;
+        }
+    </style>
+</body>
+</html>

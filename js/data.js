@@ -9,9 +9,9 @@
  * @property {number[][]} shape
  */
 
-/** @type {Object<string, Polyomino>} */
-export const POLYOMINO_OBJMAP = {
-    Z: {
+/** @type {Map<string, Polyomino>} */
+export const POLYOMINO_MAP = new Map([
+    ["Z", {
         name: "Z",
         mino_count: 4,
         width: 3,
@@ -20,8 +20,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1, 0],
             [0, 1, 1]
         ]
-    },
-    S: {
+    }],
+    ["S", {
         name: "S",
         mino_count: 4,
         width: 3,
@@ -30,8 +30,8 @@ export const POLYOMINO_OBJMAP = {
             [0, 1, 1],
             [1, 1, 0]
         ]
-    },
-    J: {
+    }],
+    ["J", {
         name: "J",
         mino_count: 4,
         width: 3,
@@ -40,8 +40,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 0, 0],
             [1, 1, 1]
         ]
-    },
-    L: {
+    }],
+    ["L", {
         name: "L",
         mino_count: 4,
         width: 3,
@@ -50,8 +50,8 @@ export const POLYOMINO_OBJMAP = {
             [0, 0, 1],
             [1, 1, 1]
         ]
-    },
-    T: {
+    }],
+    ["T", {
         name: "T",
         mino_count: 4,
         width: 3,
@@ -60,8 +60,8 @@ export const POLYOMINO_OBJMAP = {
             [0, 1, 0],
             [1, 1, 1]
         ]
-    },
-    O: {
+    }],
+    ["O", {
         name: "O",
         mino_count: 4,
         width: 2,
@@ -70,8 +70,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1],
             [1, 1]
         ]
-    },
-    I: {
+    }],
+    ["I", {
         name: "I",
         mino_count: 4,
         width: 4,
@@ -79,8 +79,8 @@ export const POLYOMINO_OBJMAP = {
         shape: [
             [1, 1, 1, 1]
         ]
-    },
-    Z5: {
+    }],
+    ["Z5", {
         name: "Z5",
         mino_count: 5,
         width: 3,
@@ -90,8 +90,8 @@ export const POLYOMINO_OBJMAP = {
             [0, 1, 0],
             [0, 1, 1]
         ]
-    },
-    S5: {
+    }],
+    ["S5", {
         name: "S5",
         mino_count: 5,
         width: 3,
@@ -101,8 +101,8 @@ export const POLYOMINO_OBJMAP = {
             [0, 1, 0],
             [1, 1, 0]
         ]
-    },
-    P: {
+    }],
+    ["P", {
         name: "P",
         mino_count: 5,
         width: 3,
@@ -111,8 +111,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1, 0],
             [1, 1, 1]
         ]
-    },
-    Q: {
+    }],
+    ["Q", {
         name: "Q",
         mino_count: 5,
         width: 3,
@@ -121,8 +121,8 @@ export const POLYOMINO_OBJMAP = {
             [0, 1, 1],
             [1, 1, 1]
         ]
-    },
-    F: {
+    }],
+    ["F", {
         name: "F",
         mino_count: 5,
         width: 3,
@@ -132,8 +132,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1, 1],
             [0, 1, 0]
         ]
-    },
-    E: {
+    }],
+    ["E", {
         name: "E",
         mino_count: 5,
         width: 3,
@@ -143,8 +143,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1, 1],
             [0, 1, 0]
         ]
-    },
-    T5: {
+    }],
+    ["T5", {
         name: "T5",
         mino_count: 5,
         width: 3,
@@ -154,8 +154,8 @@ export const POLYOMINO_OBJMAP = {
             [0, 1, 0],
             [1, 1, 1]
         ]
-    },
-    U: {
+    }],
+    ["U", {
         name: "U",
         mino_count: 5,
         width: 3,
@@ -164,8 +164,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 0, 1],
             [1, 1, 1]
         ]
-    },
-    V: {
+    }],
+    ["V", {
         name: "V",
         mino_count: 5,
         width: 3,
@@ -175,8 +175,8 @@ export const POLYOMINO_OBJMAP = {
             [0, 0, 1],
             [1, 1, 1]
         ]
-    },
-    W: {
+    }],
+    ["W", {
         name: "W",
         mino_count: 5,
         width: 3,
@@ -186,8 +186,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1, 0],
             [0, 1, 1]
         ]
-    },
-    X: {
+    }],
+    ["X", {
         name: "X",
         mino_count: 5,
         width: 3,
@@ -197,8 +197,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1, 1],
             [0, 1, 0]
         ]
-    },
-    J5: {
+    }],
+    ["J5", {
         name: "J5",
         mino_count: 5,
         width: 4,
@@ -207,8 +207,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 0, 0, 0],
             [1, 1, 1, 1]
         ]
-    },
-    L5: {
+    }],
+    ["L5", {
         name: "L5",
         mino_count: 5,
         width: 4,
@@ -217,8 +217,8 @@ export const POLYOMINO_OBJMAP = {
             [0, 0, 0, 1],
             [1, 1, 1, 1]
         ]
-    },
-    R: {
+    }],
+    ["R", {
         name: "R",
         mino_count: 5,
         width: 4,
@@ -227,8 +227,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1, 1, 1],
             [0, 1, 0, 0]
         ]
-    },
-    Y: {
+    }],
+    ["Y", {
         name: "Y",
         mino_count: 5,
         width: 4,
@@ -237,8 +237,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1, 1, 1],
             [0, 0, 1, 0]
         ]
-    },
-    N: {
+    }],
+    ["N", {
         name: "N",
         mino_count: 5,
         width: 4,
@@ -247,8 +247,8 @@ export const POLYOMINO_OBJMAP = {
             [0, 1, 1, 1],
             [1, 1, 0, 0]
         ]
-    },
-    H: {
+    }],
+    ["H", {
         name: "H",
         mino_count: 5,
         width: 4,
@@ -257,8 +257,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1, 1, 0],
             [0, 0, 1, 1]
         ]
-    },
-    I5: {
+    }],
+    ["I5", {
         name: "I5",
         mino_count: 5,
         width: 5,
@@ -266,8 +266,8 @@ export const POLYOMINO_OBJMAP = {
         shape: [
             [1, 1, 1, 1, 1]
         ]
-    },
-    I3: {
+    }],
+    ["I3", {
         name: "I3",
         mino_count: 3,
         width: 3,
@@ -275,8 +275,8 @@ export const POLYOMINO_OBJMAP = {
         shape: [
             [1, 1, 1]
         ]
-    },
-    C: {
+    }],
+    ["C", {
         name: "C",
         mino_count: 3,
         width: 2,
@@ -285,8 +285,8 @@ export const POLYOMINO_OBJMAP = {
             [1, 1],
             [0, 1]
         ]
-    },
-    I2: {
+    }],
+    ["I2", {
         name: "I2",
         mino_count: 2,
         width: 2,
@@ -294,8 +294,8 @@ export const POLYOMINO_OBJMAP = {
         shape: [
             [1, 1]
         ]
-    },
-    O1: {
+    }],
+    ["O1", {
         name: "O1",
         mino_count: 1,
         width: 1,
@@ -303,11 +303,11 @@ export const POLYOMINO_OBJMAP = {
         shape: [
             [1]
         ]
-    }
-}
+    }]
+]);
 
 /** @type {Polyomino[]} */
-export const POLYOMINO_LIST = POLYOMINO_OBJMAP.values();
+export const POLYOMINO_LIST = POLYOMINO_MAP.values();
 
 export const CHARCODE_MAP = {
     zChan: {
