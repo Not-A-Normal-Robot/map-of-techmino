@@ -256,14 +256,6 @@ main#main {
     flex-direction: column;
     inset: 40vh 0 0 0;
 }
-#mode-info > .full {
-    position: absolute;
-    top: 0; bottom: 0;
-    left: 30vw; right: 0;
-    padding: 1.5em;
-    display: flex;
-    flex-direction: column;
-}
 
 #mode-info *:not(button) {
     pointer-events: none;
@@ -353,6 +345,11 @@ main#main {
 }
 
 #mode-info .full {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: 30vw; right: 0;
+    padding: 1.5em;
+    padding-bottom: 0;
     display: flex;
     flex-direction: column;
 }
@@ -383,6 +380,8 @@ main#main {
     display: flex;
     flex-direction: column;
     margin: 1em;
+    bottom: -1em;
+    overflow: hidden auto;
 }
 #mode-info .full .bottom main #mode-info-list {
     display: flex;
@@ -391,6 +390,7 @@ main#main {
     justify-content: space-evenly;
     padding: 0 0 1em 0;
     overflow-x: auto;
+    flex-shrink: 0;
 }
 #mode-info .full .bottom main .mode-info-entry {
     display: flex;
@@ -419,8 +419,10 @@ article h1, article h2, article h3, article h4, article h5, article h6 {
     margin: 1em 0 !important;
 }
 article table {
-    width: 100%;
+    display: block;
+    max-width: fit-content;
     border-collapse: collapse;
+    overflow-x: auto;
 }
 article th {
     text-align: start;
@@ -433,12 +435,19 @@ article table, article th, article td {
 article th, article td {
     padding: 0.5em 1em;
 }
-#mode-info .full .bottom aside iframe {
+#mode-info .full .bottom aside .video-outer {
+    position: relative;
     width: 100%;
-    height: 15em;
+    height: 0;
     margin: 1em 0;
-    padding-bottom: 1em;
+    padding-bottom: 56.25%;
     border-bottom: 1px dotted #FFFFFF44;
+}
+#mode-info .full .bottom aside .video-outer iframe {
+    position: absolute;
+    inset: 0 0 1em 0;
+    width: 100%;
+    height: calc(100% - 1em);
 }
 #mode-info .full .bottom aside .rank-reqs {
     margin-top: 1em;
@@ -446,7 +455,7 @@ article th, article td {
 @media (min-aspect-ratio: 4/3) {
     #mode-info .full .bottom {
         flex-direction: row;
-        height: 100%;
+        min-height: 0;
     }
     #mode-info .full .bottom main {
         width: 57.5%;
@@ -465,6 +474,10 @@ article th, article td {
     #mode-info .full .bottom {
         flex-direction: column-reverse;
         overflow-y: auto;
+    }
+    #mode-info .full .bottom main {
+        flex-shrink: 0;
+        overflow-y: hidden;
     }
 }
 /* #endregion */
