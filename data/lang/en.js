@@ -1,7 +1,8 @@
 export default {
     map: {
         latest_version: "latest version",
-        not_available: "N/A"
+        not_available: "N/A",
+        impossible: "(impossible)",
     },
     modes: {
         sprint_10l: {
@@ -168,7 +169,8 @@ export default {
                 "8 lines (Grade 2)"
             ],
             difficulty: "Tricky",
-            length: "Long (~15 min)"
+            length: "Long (~15 min)",
+            featured_video: "https://www.youtube.com/embed/3hgPj0jnsIU"
         },
         construct_invsg: {
             title: "Construct",
@@ -184,7 +186,7 @@ export default {
             ],
             difficulty: "Very Tricky",
             length: "Very Long (~30 min)",
-            featured_video: "https://www.youtube.com/embed/G4cRDeAYdUk"
+            featured_video: "https://www.youtube.com/embed/dUGELBQ-tp4"
         },
         dig_10l: {
             title: "Dig",
@@ -771,7 +773,8 @@ export default {
                 "Level 1000"
             ],
             difficulty: "Medium",
-            length: "Medium (10 min)"
+            length: "Medium (10 min)",
+            featured_video: "https://www.youtube.com/embed/oaglL91j0DY"
         },
         strategy_e: {
             title: "Strategy",
