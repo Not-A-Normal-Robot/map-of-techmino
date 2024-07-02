@@ -1,0 +1,1 @@
+//m={'/faq.html':'/faq','/map.html':'/map','/map-display.html':'/map-full'};s="https://techmino-hub.vercel.app";l=window.location;if(!new URLSearchParams(l.search).has('noredirect'))l.href=s+(m[l.pathname]??'/')

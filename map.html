@@ -11,12 +11,13 @@
     </noscript>
 </head>
 <body>
+    <script src="/js/redirect.js"></script>
     <canvas id="bg"></canvas>
 
     <div class="inner">
         <header>
             <h1>
-                <a href="/">Techmino Hub</a>
+                <a href="/?noredirect">Techmino Hub</a>
             </h1>
             <div class="bg-toggle">
                 <input type="checkbox" id="bg-toggle" checked>
@@ -24,18 +25,18 @@
             </div>
         </header>
         <nav class="navbar">
-            <a class="navlink" href="/faq.html">FAQ</a> |
-            <a class="navlink" href="/map.html">Map</a> |
+            <a class="navlink" href="/faq.html?noredirect">FAQ</a> |
+            <a class="navlink" href="/map.html?noredirect">Map</a> |
             <a class="navlink" href="https://discord.gg/f9pUvkh">Discord</a>
         </nav>
         
         <section class="content">
             <h1 class="center-text">Map</h1>
             <h1>(in development!)</h1>
-            <a href="/map-display.html">fullscreen webpage</a>
+            <a href="/map-display.html?noredirect">fullscreen webpage</a>
             <noscript><h1>This page requires JavaScript to function properly.</h1></noscript>
             <hr>
-            <iframe src="/map-display.html" frameborder="0" id="map"></iframe>
+            <iframe src="/map-display.html?noredirect" frameborder="0" id="map"></iframe>
             <small class="description">
                 Use WASD or drag to move the map. <br>
                 Use your scroll wheel to zoom.
